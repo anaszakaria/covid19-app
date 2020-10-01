@@ -1,0 +1,26 @@
+* {
+    text-transform: none !important;
+}
+
+// GENERAL CLASSES
+.pointer {
+    cursor: pointer !important;
+}
+
+// ROUTER VIEW TRANSITION
+.slide-enter-active {
+    transition: all 0.3s;
+}
+
+.slide-enter {
+    margin-top: 24px;
+    opacity: 0;
+}
+
+.slide-leave-active {
+    display: none;
+}
+
+.slide-leave-to {
+    display: none;
+}
