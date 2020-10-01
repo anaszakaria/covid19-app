@@ -1,46 +1,77 @@
 <template>
     <v-app>
-        <v-app-bar app color="primary" dark>
-            <div class="d-flex align-center">
-                <v-img
-                    alt="Vuetify Logo"
-                    class="shrink mr-2"
-                    contain
-                    src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-                    transition="scale-transition"
-                    width="40"
-                />
-            </div>
-
+        <!-- APP HEADER -->
+        <v-app-bar app clipped-left clipped-right color="blue-grey" dark>
+            <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+            <v-toolbar-title>COVID-19 Stats and Monitoring App</v-toolbar-title>
             <v-spacer></v-spacer>
-
-            <v-btn @click="toggletheme">
-                <span class="mr-2">Toggle Theme</span>
-                <v-icon>mdi-eject</v-icon>
-            </v-btn>
+            <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight"></v-app-bar-nav-icon>
         </v-app-bar>
 
+        <!-- LEFT PANEL -->
+        <v-navigation-drawer clipped v-model="drawer" app>
+            <v-list dense>
+                <v-list-item @click.stop="left = !left">
+                    <v-list-item-action>
+                        <v-icon>mdi-exit-to-app</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Open Temporary Drawer</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+        </v-navigation-drawer>
+
+        <!-- RIGHT PANEL -->
+        <v-navigation-drawer v-model="drawerRight" app clipped right>
+            <v-list dense>
+                <v-list-item @click.stop="right = !right">
+                    <v-list-item-action>
+                        <v-icon>mdi-exit-to-app</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title>Open Temporary Drawer</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+        </v-navigation-drawer>
+
+        <!-- FIXED PANEL -->
+        <v-navigation-drawer v-model="left" fixed temporary></v-navigation-drawer>
+        <v-navigation-drawer v-model="right" fixed right temporary></v-navigation-drawer>
+
+        <!-- CONTENT AREA -->
         <v-main>
-            <HelloWorld />
+            <transition name="slide">
+                <router-view></router-view>
+            </transition>
         </v-main>
+
+        <!-- APP FOOTER -->
+        <v-footer app color="blue-grey" class="white--text">
+            <span>Vuetify</span>
+            <v-spacer></v-spacer>
+            <span>&copy; {{ new Date().getFullYear() }}</span>
+        </v-footer>
     </v-app>
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
     name: 'App',
     components: {
-        HelloWorld
+        // AppHeader
     },
-    data() {
-        return {}
-    },
+    data: () => ({
+        drawer: null,
+        drawerRight: null,
+        right: false,
+        left: false
+    }),
     methods: {
-        toggletheme() {
-            this.$vuetify.theme.isDark = !this.$vuetify.theme.isDark
-        }
+        // toggletheme() {
+        //     this.$vuetify.theme.isDark = !this.$vuetify.theme.isDark
+        // }
     }
 }
 </script>
