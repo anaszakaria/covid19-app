@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import AuthGuard from './auth-guard'
 
 Vue.use(VueRouter)
 
@@ -13,6 +14,18 @@ const routes = [
         path: '/about',
         name: 'About',
         component: () => import('@/views/About.vue')
+    },
+    // TEST
+    {
+        path: '/test',
+        name: 'Test Page',
+        component: () => import('@/views/Test')
+    },
+    // UNIDENTIFIED PAGE REQUEST
+    {
+        path: '*',
+        name: 'Error404',
+        component: () => import('@/views/Error404.vue')
     }
 ]
 
