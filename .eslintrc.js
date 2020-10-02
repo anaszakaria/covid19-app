@@ -20,7 +20,8 @@ module.exports = {
         'arrow-body-style': ['error', 'as-needed'],
         'max-len': [2, { code: 120, tabWidth: 4, ignoreUrls: true }],
         'no-restricted-syntax': 'off',
-        'no-unused-vars': 'off'
+        'no-unused-vars': 'off',
+        'import/extensions': ['error', 'never', { vue: 'never', js: 'never' }]
     },
     overrides: [
         {
