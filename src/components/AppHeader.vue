@@ -2,7 +2,9 @@
 <template>
     <v-app-bar app dense flat color="primary" clipped-right clipped-left>
         <v-app-bar-nav-icon v-if="userIsAuthenticated" color="white" @click.stop="toggleLeftPanel"></v-app-bar-nav-icon>
-        <v-toolbar-title class="white--text text--darken-4 font-weight-500 pointer hidden-xs-only pointer"
+        <v-toolbar-title
+            class="white--text text--darken-4 font-weight-500 pointer hidden-xs-only pointer"
+            @click="gotoPage('/')"
             >COVID-19 Stats and Monitoring App</v-toolbar-title
         >
         <v-spacer></v-spacer>
