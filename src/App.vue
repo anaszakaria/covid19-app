@@ -1,19 +1,14 @@
 <template>
     <v-app>
         <!-- APP HEADER -->
-        <app-header v-on:toggleLeftPanel="toggleLeftPanel"></app-header>
+        <app-header
+            v-on:toggleLeftPanel="toggleLeftPanel"
+            v-on:toggleFixedRightPanel="toggleFixedRightPanel"
+        ></app-header>
 
         <!-- LEFT PANEL -->
         <v-navigation-drawer clipped v-model="leftPanel" app>
             <v-list dense>
-                <v-list-item @click.stop="rightPanelFixed = !rightPanelFixed">
-                    <v-list-item-action>
-                        <v-icon>mdi-exit-to-app</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>Open Fixed Right Panel Drawer</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
                 <v-list-item @click.stop="toggleTheme">
                     <v-list-item-action>
                         <v-icon>mdi-exit-to-app</v-icon>
@@ -26,8 +21,7 @@
         </v-navigation-drawer>
 
         <!-- FIXED PANEL -->
-        <v-navigation-drawer v-model="leftPanelFixed" fixed temporary></v-navigation-drawer>
-        <v-navigation-drawer v-model="rightPanelFixed" fixed right temporary></v-navigation-drawer>
+        <v-navigation-drawer v-model="fixedRightPanel" fixed right temporary></v-navigation-drawer>
 
         <!-- CONTENT AREA -->
         <v-main>
@@ -55,15 +49,14 @@ export default {
     },
     data: () => ({
         leftPanel: null,
-        leftPanelFixed: false,
-        rightPanelFixed: false
+        fixedRightPanel: false
     }),
     methods: {
         toggleLeftPanel() {
             this.leftPanel = !this.leftPanel
         },
-        toggleRightPanelFixed() {
-            this.rightPanelFixed = !this.rightPanelFixed
+        toggleFixedRightPanel() {
+            this.fixedRightPanel = !this.fixedRightPanel
         },
         toggleTheme() {
             this.$vuetify.theme.isDark = !this.$vuetify.theme.isDark

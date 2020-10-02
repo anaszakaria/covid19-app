@@ -11,7 +11,7 @@
         <template v-if="userIsAuthenticated">
             <v-tooltip v-for="list in menuLists" :key="list.toolTipText" bottom nudge-bottom="-10">
                 <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on" @click="gotoPage(list.url)">
+                    <v-btn icon v-on="on" @click="appBarAction(list.url, list.icon)">
                         <v-icon color="white">{{ list.icon }}</v-icon>
                     </v-btn>
                 </template>
@@ -72,7 +72,7 @@ export default {
                 { tooltipText: 'Map Viewer', icon: 'mdi-map', url: '/' },
                 { tooltipText: 'Digital Library', icon: 'mdi-library-books', url: '/digitallibrary/trainingmodules' },
                 { tooltipText: 'Data Management', icon: 'mdi-file', url: '/datamanagement/facilitylist' },
-                { tooltipText: 'System Admin', icon: 'mdi-settings', url: '/admin/usermanagement' }
+                { tooltipText: 'Settings', icon: 'mdi-settings', url: null }
             ]
         }
     },
@@ -85,8 +85,12 @@ export default {
         toggleLeftPanel() {
             this.$emit('toggleLeftPanel')
         },
-        toggleRightPanelFixed() {
-            this.$emit('toggleRightPanelFixed')
+        toggleFixedRightPanel() {
+            this.$emit('toggleFixedRightPanel')
+        },
+        appBarAction(url, icon) {
+            if (icon === 'mdi-settings') this.toggleFixedRightPanel()
+            else this.gotoPage(url)
         }
     },
     computed: {
