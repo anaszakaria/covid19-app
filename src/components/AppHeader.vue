@@ -1,26 +1,16 @@
 <!-- eslint-disable max-len -->
-<template lang="html">
-    <v-app-bar dense id="app-header" flat color="primaryDarkGrey" dark fixed clipped-right clipped-left>
-        <div>
-            <v-app-bar dense id="app-header-left" flat color="white" app clipped-left clipped-right>
-                <v-app-bar-nav-icon
-                    v-if="userIsAuthenticated"
-                    color="grey darken-4"
-                    @click.stop="toggleLeftPanel"
-                ></v-app-bar-nav-icon>
-                <v-toolbar-title
-                    class="display-1 grey--text text--darken-4 font-weight-bold pointer hidden-xs-only pointer"
-                    @click="gotoPage('/')"
-                    >CMIS</v-toolbar-title
-                >
-            </v-app-bar>
-        </div>
+<template>
+    <v-app-bar app dense flat color="primary" clipped-right clipped-left>
+        <v-app-bar-nav-icon v-if="userIsAuthenticated" color="white" @click.stop="toggleLeftPanel"></v-app-bar-nav-icon>
+        <v-toolbar-title class="white--text text--darken-4 font-weight-500 pointer hidden-xs-only pointer"
+            >COVID-19 Stats and Monitoring App</v-toolbar-title
+        >
         <v-spacer></v-spacer>
         <template v-if="userIsAuthenticated">
-            <v-tooltip v-for="list in menuLists" :key="list" bottom nudge-bottom="-10">
+            <v-tooltip v-for="list in menuLists" :key="list.toolTipText" bottom nudge-bottom="-10">
                 <template v-slot:activator="{ on }">
-                    <v-btn v-if="checkUserRole(list.icon)" icon v-on="on" @click="gotoPage(list.url)">
-                        <v-icon>{{ list.icon }}</v-icon>
+                    <v-btn icon v-on="on" @click="gotoPage(list.url)">
+                        <v-icon color="white">{{ list.icon }}</v-icon>
                     </v-btn>
                 </template>
                 <span>{{ list.tooltipText }}</span>
@@ -31,7 +21,7 @@
                 <v-tooltip bottom nudge-bottom="-10">
                     <template #activator="{ on: tooltip }">
                         <v-btn icon v-on="{ ...tooltip, ...menu }">
-                            <v-icon>mdi-account</v-icon>
+                            <v-icon color="white">mdi-account</v-icon>
                         </v-btn>
                     </template>
                     <span>Sign Out</span>
@@ -40,16 +30,19 @@
             <v-card>
                 <v-list>
                     <v-list-item>
-                        <v-list-item-avatar v-if="$store.getters.user.userInfos.imgURL">
+                        <!-- <v-list-item-avatar v-if="$store.getters.user.userInfos.imgURL">
                             <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
                         </v-list-item-avatar>
                         <v-list-item-avatar v-else>
                             <v-icon>mdi-account</v-icon>
+                        </v-list-item-avatar> -->
+                        <v-list-item-avatar>
+                            <v-icon>mdi-account</v-icon>
                         </v-list-item-avatar>
-                        <v-list-item-content>
+                        <!-- <v-list-item-content>
                             <v-list-item-title>{{ user.userInfos.name }}</v-list-item-title>
                             <v-list-item-subtitle>{{ user.userAccesses.permission }}</v-list-item-subtitle>
-                        </v-list-item-content>
+                        </v-list-item-content> -->
                         <v-list-item-action>
                             <v-btn class="primaryGreen--text" icon>
                                 <v-icon>mdi-earth</v-icon>
@@ -75,7 +68,6 @@ export default {
         return {
             menuLists: [
                 { tooltipText: 'Map Viewer', icon: 'mdi-map', url: '/' },
-                { tooltipText: 'Digital Tools', icon: 'mdi-tools', url: '/digitaltools/foamcalculator' },
                 { tooltipText: 'Digital Library', icon: 'mdi-library-books', url: '/digitallibrary/trainingmodules' },
                 { tooltipText: 'Data Management', icon: 'mdi-file', url: '/datamanagement/facilitylist' },
                 { tooltipText: 'System Admin', icon: 'mdi-settings', url: '/admin/usermanagement' }
@@ -89,10 +81,10 @@ export default {
             this.$store.dispatch('signOut')
         },
         toggleLeftPanel() {
-            EventBus.$emit('toggleLeftPanel')
+            this.$emit('toggleLeftPanel')
         },
-        toggleRightPanel() {
-            EventBus.$emit('toggleRightPanel')
+        toggleRightPanelFixed() {
+            this.$emit('toggleRightPanelFixed')
         }
     },
     computed: {

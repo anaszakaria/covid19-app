@@ -1,44 +1,33 @@
 <template>
     <v-app>
         <!-- APP HEADER -->
-        <v-app-bar app clipped-left clipped-right color="blue-grey" dark>
-            <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-            <v-toolbar-title>COVID-19 Stats and Monitoring App</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-app-bar-nav-icon @click.stop="drawerRight = !drawerRight"></v-app-bar-nav-icon>
-        </v-app-bar>
+        <app-header v-on:toggleLeftPanel="toggleLeftPanel"></app-header>
 
         <!-- LEFT PANEL -->
-        <v-navigation-drawer clipped v-model="drawer" app>
+        <v-navigation-drawer clipped v-model="leftPanel" app>
             <v-list dense>
-                <v-list-item @click.stop="left = !left">
+                <v-list-item @click.stop="rightPanelFixed = !rightPanelFixed">
                     <v-list-item-action>
                         <v-icon>mdi-exit-to-app</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>Open Temporary Drawer</v-list-item-title>
+                        <v-list-item-title>Open Fixed Right Panel Drawer</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-            </v-list>
-        </v-navigation-drawer>
-
-        <!-- RIGHT PANEL -->
-        <v-navigation-drawer v-model="drawerRight" app clipped right>
-            <v-list dense>
-                <v-list-item @click.stop="right = !right">
+                <v-list-item @click.stop="toggleTheme">
                     <v-list-item-action>
                         <v-icon>mdi-exit-to-app</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>Open Temporary Drawer</v-list-item-title>
+                        <v-list-item-title>Toggle Theme</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
         </v-navigation-drawer>
 
         <!-- FIXED PANEL -->
-        <v-navigation-drawer v-model="left" fixed temporary></v-navigation-drawer>
-        <v-navigation-drawer v-model="right" fixed right temporary></v-navigation-drawer>
+        <v-navigation-drawer v-model="leftPanelFixed" fixed temporary></v-navigation-drawer>
+        <v-navigation-drawer v-model="rightPanelFixed" fixed right temporary></v-navigation-drawer>
 
         <!-- CONTENT AREA -->
         <v-main>
@@ -57,21 +46,28 @@
 </template>
 
 <script>
+import AppHeader from '@/components/AppHeader'
+
 export default {
     name: 'App',
     components: {
-        // AppHeader
+        AppHeader
     },
     data: () => ({
-        drawer: null,
-        drawerRight: null,
-        right: false,
-        left: false
+        leftPanel: null,
+        leftPanelFixed: false,
+        rightPanelFixed: false
     }),
     methods: {
-        // toggletheme() {
-        //     this.$vuetify.theme.isDark = !this.$vuetify.theme.isDark
-        // }
+        toggleLeftPanel() {
+            this.leftPanel = !this.leftPanel
+        },
+        toggleRightPanelFixed() {
+            this.rightPanelFixed = !this.rightPanelFixed
+        },
+        toggleTheme() {
+            this.$vuetify.theme.isDark = !this.$vuetify.theme.isDark
+        }
     }
 }
 </script>
