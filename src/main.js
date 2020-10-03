@@ -4,12 +4,12 @@ import VueHighcharts from 'vue-highcharts'
 import moment from 'moment'
 
 import appMixins from '@/mixins/globalMixins' // import mixins
-import Modal from '@/components/Global/Modal.vue' // import shared components
+import Modal from '@/components/Global/Modal' // import shared components
 // import global filters
 import Snippet from './filters/snippet'
 import UpperCaseFirstLetter from './filters/upperCaseFirstLetter'
 
-import App from './App.vue'
+import App from './App'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
