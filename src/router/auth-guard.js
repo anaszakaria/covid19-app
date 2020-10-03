@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-cycle
-import store from '@/store'
+// import store from '@/store'
 
 export default (to, from, next) => {
-    store.dispatch('checkUserLocalStorage')
-    if (store.getters.user) {
+    this.$store.dispatch('checkUserLocalStorage')
+    if (this.$store.getters.user) {
         next()
     } else {
         next('/signin')

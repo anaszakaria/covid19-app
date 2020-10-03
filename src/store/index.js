@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// eslint-disable-next-line import/no-cycle
 import user from './user'
 import shared from './shared'
 

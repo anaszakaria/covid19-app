@@ -1,5 +1,4 @@
 import axios from 'axios'
-import router from '@/router'
 
 export default {
     state: {
@@ -35,7 +34,7 @@ export default {
                 .post(`${process.env.VUE_APP_API_URL}/user/signup`, payload)
                 .then((response) => {
                     commit('setLoading', false)
-                    router.push('/signin')
+                    this.$router.push('/signin')
                 })
                 .catch((error) => {
                     commit('setLoading', false)
@@ -53,7 +52,7 @@ export default {
                     commit('setUser', newUser)
                     // commit('setToken', response.data.token)
                     localStorage.setItem('user', JSON.stringify(newUser))
-                    router.push('/')
+                    this.$router.push('/')
                 })
                 .catch((error) => {
                     commit('setLoading', false)
@@ -64,7 +63,7 @@ export default {
             localStorage.clear()
             commit('setUser', null)
             commit('setError', null)
-            router.push('/signin')
+            this.$router.push('/signin')
         },
         checkUserLocalStorage({ commit, getters }) {
             const user = JSON.parse(localStorage.getItem('user'))
