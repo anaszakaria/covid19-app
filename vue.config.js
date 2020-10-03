@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 const path = require('path')
 
 function resolve(dir) {
@@ -7,8 +6,8 @@ function resolve(dir) {
 }
 
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'development' ? '/' : '/covid19_app/',
-    outputDir: 'covid19_app',
+    // publicPath: process.env.NODE_ENV === 'development' ? '/' : '/',
+    // outputDir: 'covid19_app',
     productionSourceMap: false,
     css: {
         sourceMap: true,

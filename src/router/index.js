@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import AuthGuard from './auth-guard'
+// import AuthGuard from './auth-guard'
 
 Vue.use(VueRouter)
 
