@@ -45,6 +45,10 @@
                             <v-list-item-title>{{ user.userInfos.name }}</v-list-item-title>
                             <v-list-item-subtitle>{{ user.userAccesses.permission }}</v-list-item-subtitle>
                         </v-list-item-content> -->
+                        <v-list-item-content>
+                            <v-list-item-title>Anas Zakaria</v-list-item-title>
+                            <v-list-item-subtitle>System Administrator</v-list-item-subtitle>
+                        </v-list-item-content>
                         <v-list-item-action>
                             <v-btn class="primaryGreen--text" icon>
                                 <v-icon>mdi-earth</v-icon>
