@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import AuthGuard from './auth-guard'
+// eslint-disable-next-line import/no-cycle
+import AuthGuard from './auth-guard'
 
 Vue.use(VueRouter)
 
