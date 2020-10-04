@@ -7,7 +7,7 @@
         ></app-header>
 
         <!-- LEFT PANEL -->
-        <v-navigation-drawer clipped v-model="leftPanel" app>
+        <!-- <v-navigation-drawer clipped v-model="leftPanel" app>
             <v-list dense>
                 <v-list-item @click.stop="toggleTheme">
                     <v-list-item-action>
@@ -18,7 +18,8 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
-        </v-navigation-drawer>
+        </v-navigation-drawer> -->
+        <left-panel :leftPanel="leftPanel"></left-panel>
 
         <!-- FIXED PANEL -->
         <v-navigation-drawer v-model="fixedRightPanel" fixed right temporary></v-navigation-drawer>
@@ -37,16 +38,18 @@
 
 <script>
 import AppHeader from '@/components/AppHeader'
+import LeftPanel from '@/components/LeftPanel'
 import AppFooter from '@/components/AppFooter'
 
 export default {
     name: 'App',
     components: {
         AppHeader,
+        LeftPanel,
         AppFooter
     },
     data: () => ({
-        leftPanel: null,
+        leftPanel: true,
         fixedRightPanel: false
     }),
     methods: {
@@ -55,9 +58,6 @@ export default {
         },
         toggleFixedRightPanel() {
             this.fixedRightPanel = !this.fixedRightPanel
-        },
-        toggleTheme() {
-            this.$vuetify.theme.isDark = !this.$vuetify.theme.isDark
         }
     }
 }
