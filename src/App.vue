@@ -1,28 +1,13 @@
 <template>
     <v-app>
         <!-- APP HEADER -->
-        <app-header
-            v-on:toggleLeftPanel="toggleLeftPanel"
-            v-on:toggleFixedRightPanel="toggleFixedRightPanel"
-        ></app-header>
+        <app-header></app-header>
 
         <!-- LEFT PANEL -->
-        <!-- <v-navigation-drawer clipped v-model="leftPanel" app>
-            <v-list dense>
-                <v-list-item @click.stop="toggleTheme">
-                    <v-list-item-action>
-                        <v-icon>mdi-exit-to-app</v-icon>
-                    </v-list-item-action>
-                    <v-list-item-content>
-                        <v-list-item-title>Toggle Theme</v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-list>
-        </v-navigation-drawer> -->
-        <left-panel :leftPanel="leftPanel"></left-panel>
+        <left-panel></left-panel>
 
         <!-- FIXED PANEL -->
-        <v-navigation-drawer v-model="fixedRightPanel" fixed right temporary></v-navigation-drawer>
+        <right-panel-fixed></right-panel-fixed>
 
         <!-- CONTENT AREA -->
         <v-main>
@@ -39,6 +24,7 @@
 <script>
 import AppHeader from '@/components/AppHeader'
 import LeftPanel from '@/components/LeftPanel'
+import RightPanelFixed from '@/components/RightPanelFixed'
 import AppFooter from '@/components/AppFooter'
 
 export default {
@@ -46,20 +32,11 @@ export default {
     components: {
         AppHeader,
         LeftPanel,
+        RightPanelFixed,
         AppFooter
     },
-    data: () => ({
-        leftPanel: true,
-        fixedRightPanel: false
-    }),
-    methods: {
-        toggleLeftPanel() {
-            this.leftPanel = !this.leftPanel
-        },
-        toggleFixedRightPanel() {
-            this.fixedRightPanel = !this.fixedRightPanel
-        }
-    }
+    data: () => ({}),
+    methods: {}
 }
 </script>
 

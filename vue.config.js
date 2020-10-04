@@ -6,8 +6,6 @@ function resolve(dir) {
 }
 
 module.exports = {
-    // publicPath: process.env.NODE_ENV === 'development' ? '/' : '/',
-    // outputDir: 'covid19_app',
     productionSourceMap: false,
     css: {
         sourceMap: true,

@@ -1,37 +1,47 @@
 <template>
     <v-navigation-drawer clipped v-model="leftPanel" app>
-        <v-list dense>
-            <v-list-item @click.stop="toggleTheme">
-                <v-list-item-action>
-                    <v-icon>mdi-exit-to-app</v-icon>
-                </v-list-item-action>
-                <v-list-item-content>
-                    <v-list-item-title>Toggle Theme</v-list-item-title>
-                </v-list-item-content>
-            </v-list-item>
+        <v-list class="pt-0 pb-0" dense>
+            <v-list-item-group color="primary">
+                <v-list-item v-for="list in pageList" :key="list.text" :to="list.url">
+                    <v-list-item-icon>
+                        <v-icon v-text="list.icon"></v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-regular body-2" v-text="list.text"></v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list-item-group>
         </v-list>
     </v-navigation-drawer>
 </template>
 
 <script>
+import { EventBus } from '@/main'
+
 export default {
-    props: {
-        leftPanel: {
-            type: Boolean,
-            required: true
-        }
-    },
     components: {},
     data() {
-        return {}
+        return {
+            leftPanel: true,
+            pageList: [
+                { icon: 'mdi-map', text: 'Map Viewer', url: '/mapviewer' },
+                { icon: 'mdi-table-large', text: 'Summary', url: '/summary' },
+                { icon: 'mdi-view-dashboard', text: 'Dashboard', url: '/dashboard' },
+                { icon: 'mdi-calendar-text', text: 'Prediction', url: '/prediction' }
+            ]
+        }
     },
     methods: {
-        toggleTheme() {
-            this.$vuetify.theme.isDark = !this.$vuetify.theme.isDark
+        toggleLeftPanel() {
+            this.leftPanel = !this.leftPanel
         }
     },
     computed: {},
-    created() {}
+    created() {
+        EventBus.$on('toggleLeftPanel', (payload) => {
+            this.toggleLeftPanel()
+        })
+    }
 }
 </script>
 

@@ -87,10 +87,10 @@ export default {
             this.$store.dispatch('signOut')
         },
         toggleLeftPanel() {
-            this.$emit('toggleLeftPanel')
+            EventBus.$emit('toggleLeftPanel')
         },
         toggleFixedRightPanel() {
-            this.$emit('toggleFixedRightPanel')
+            EventBus.$emit('toggleFixedRightPanel')
         },
         appBarAction(url, icon) {
             if (icon === 'mdi-settings') this.toggleFixedRightPanel()
