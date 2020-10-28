@@ -1,6 +1,14 @@
 <template>
     <section id="mapviewer">
-        <l-map class="map" :zoom="zoom" :center="center" style="height: 100%; width: 100%">
+        <l-map
+            class="map"
+            padding="5"
+            :zoom="zoom"
+            :minZoom="minZoom"
+            :maxZoom="maxZoom"
+            :center="center"
+            style="height: 100%; width: 100%"
+        >
             <l-tile-layer :url="url" :attribution="attribution" />
             <l-geo-json v-if="showGeoJSON" :geojson="geojson" :options="options" :options-style="styleFunction" />
             <l-marker :lat-lng="marker" />
@@ -35,13 +43,15 @@ export default {
             showGeoJSON: true,
             enableTooltip: true,
             zoom: 2,
+            minZoom: 2,
+            maxZoom: 8,
             center: [48, -1.219482],
             geojson: null,
             fillColor: '#e4ce7f',
             lineColor: '#0598fa',
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-            marker: latLng(47.41322, -1.219482)
+            marker: latLng(2.9264, 101.6964)
         }
     },
     computed: {
