@@ -9,9 +9,18 @@
 </template>
 
 <script>
-import { latLng } from 'leaflet'
+/* eslint-disable global-require */
+/* eslint-disable no-underscore-dangle */
 // eslint-disable-next-line object-curly-newline
 import { LMap, LTileLayer, LMarker, LGeoJson } from 'vue2-leaflet'
+import { latLng, Icon } from 'leaflet'
+
+delete Icon.Default.prototype._getIconUrl
+Icon.Default.mergeOptions({
+    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+    iconUrl: require('leaflet/dist/images/marker-icon.png'),
+    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
+})
 
 export default {
     name: 'MapViewer',
