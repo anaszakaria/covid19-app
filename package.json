@@ -14,6 +14,7 @@
         "axios": "^0.20.0",
         "core-js": "^3.6.5",
         "highcharts": "^8.2.0",
+        "leaflet": "^1.7.1",
         "moment": "^2.29.0",
         "moment-timezone": "^0.5.31",
         "pdfmake": "^0.1.68",
@@ -21,6 +22,7 @@
         "vue": "^2.6.11",
         "vue-highcharts": "^0.2.0",
         "vue-router": "^3.2.0",
+        "vue2-leaflet": "^2.6.0",
         "vuetify": "^2.2.11",
         "vuex": "^3.4.0",
         "xlsx": "^0.16.7"
