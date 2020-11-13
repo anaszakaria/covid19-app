@@ -6,13 +6,12 @@
             </v-col>
             <v-col class="mb-4">
                 <h1 class="display-2 font-weight-bold mb-3">
-                    Welcome to Vuetify
+                    COVID-19 App Home
                 </h1>
-
                 <p class="subheading font-weight-regular">
-                    For help and collaboration with other Vuetify developers,
-                    <br />please join our online
-                    <a href="https://community.vuetifyjs.com" target="_blank">Discord Community</a>
+                    COVID-19 Outbreak Live Updates
+                    <br />
+                    Mapping the novel coronavirus pandemic
                 </p>
             </v-col>
         </v-row>

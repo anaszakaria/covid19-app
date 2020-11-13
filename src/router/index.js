@@ -22,20 +22,44 @@ const routes = [
         name: 'User Profile',
         component: () => import('@/views/User/Profile')
     },
+    // MAIN
     {
         path: '/',
         name: 'Home',
         component: () => import('@/views/Home.vue')
     },
+    // INFO AND Q&A
+    {
+        path: '/info-qna',
+        name: 'Info and Q&A',
+        component: () => import('@/views/CovidInfoQNA.vue')
+    },
+    // MAPVIEWER
     {
         path: '/mapviewer',
         name: 'MapViewer',
-        component: () => import('@/views/MapViewer.vue')
+        component: () => import('@/views/Map/MapViewer.vue')
+    },
+    // STATISTICS
+    {
+        path: '/statistics',
+        name: 'Statistics',
+        component: () => import('@/views/Stats/Statistics.vue')
     },
     {
-        path: '/about',
-        name: 'About',
-        component: () => import('@/views/About.vue')
+        path: '/statistics/:country',
+        name: 'CountryStatistics',
+        component: () => import('@/views/Stats/CountryStatistics.vue')
+    },
+    {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/Stats/Dashboard.vue')
+    },
+    {
+        path: '/timeline',
+        name: 'Timeline',
+        component: () => import('@/views/Stats/Timeline.vue')
     },
     // TEST
     {
