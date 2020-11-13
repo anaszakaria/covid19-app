@@ -35,12 +35,9 @@ export default {
         }
     },
     computed: {
-        userTeam() {
-            return this.$store.getters.user.userAccesses.team
-        },
         userIsAuthenticated() {
-            return true
             // return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+            return true
         },
         userCanPerformAction() {
             return this.$store.getters.userPermission === 'General User' ? false : true

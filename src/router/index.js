@@ -1,10 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import AuthGuard from './auth-guard'
+import AuthGuard from './auth-guard'
 
 Vue.use(VueRouter)
 
 const routes = [
+    // USER
+    {
+        path: '/signin',
+        name: 'Sign In',
+        component: () => import('@/views/User/SignIn'),
+        meta: { showFooter: true }
+    },
+    {
+        path: '/signup',
+        name: 'Sign Up',
+        component: () => import('@/views/User/SignUp')
+    },
+    {
+        path: '/profile',
+        name: 'User Profile',
+        component: () => import('@/views/User/Profile')
+    },
     {
         path: '/',
         name: 'Home',

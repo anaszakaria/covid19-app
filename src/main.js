@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Highcharts from 'highcharts'
 import VueHighcharts from 'vue-highcharts'
 import moment from 'moment'
+import axios from 'axios'
 
 import appMixins from '@/mixins/globalMixins' // import mixins
 import Modal from '@/components/Global/Modal' // import shared components
@@ -38,7 +39,6 @@ Vue.filter('toMoney', (value) => {
     return adjusted
 })
 
-// eslint-disable-next-line import/prefer-default-export
 export const EventBus = new Vue() // create event bus
 
 // init middleware
@@ -52,13 +52,43 @@ Vue.directive('focus', {
     }
 })
 
+// axios interceptors - refresh token
+let isRefreshing = false
+
+axios.interceptors.response.use(
+    (response) => {
+        return response
+    },
+    (error) => {
+        const {
+            config,
+            response: { status, data }
+        } = error
+
+        if (status === 401 && data.message === 'jwt expired') {
+            if (!isRefreshing) {
+                isRefreshing = true
+                store
+                    .dispatch('refreshToken')
+                    .then(({ status }) => {
+                        if (status === 200 || status === 204) {
+                            isRefreshing = false
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                    })
+            }
+        }
+    }
+)
+
 new Vue({
     router,
     store,
     vuetify,
     render: (h) => h(App),
     created() {
-        // this.$store.dispatch('checkUserLocalStorage')
-        // this.$store.dispatch('checkEmergencyInfoStorage')
+        this.$store.dispatch('checkUserLocalStorage')
     }
 }).$mount('#app')

@@ -17,9 +17,6 @@
 </template>
 
 <script>
-/* eslint-disable global-require */
-/* eslint-disable no-underscore-dangle */
-// eslint-disable-next-line object-curly-newline
 import { LMap, LTileLayer, LMarker, LGeoJson } from 'vue2-leaflet'
 import { latLng, Icon } from 'leaflet'
 

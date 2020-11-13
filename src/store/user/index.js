@@ -78,7 +78,7 @@ export default {
         refreshToken({ state }) {
             return new Promise((resolve, reject) => {
                 axios
-                    .post(`${process.env.VUE_APP_API_URL}/token/refresh`, state.user.token, {
+                    .post(`${process.env.VUE_APP_USER_API}/auth/refresh-token`, state.user.token, {
                         headers: {
                             Authorization: `Bearer ${this.$store.getters.user.token}`
                         }
@@ -112,12 +112,6 @@ export default {
         },
         userRole(state) {
             return state.user.userAccesses.role
-        },
-        userPosition(state) {
-            return state.user.userInfos.position
-        },
-        userTeam(state) {
-            return state.user.userAccesses.team
         },
         userPermission(state) {
             return state.user.userAccesses.permission
