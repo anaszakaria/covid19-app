@@ -6,10 +6,12 @@
                 <v-card outlined tile elevation="2">
                     <v-data-table
                         :headers="headers"
-                        :items="desserts"
+                        :items="countries"
                         item-key="name"
                         class="elevation-1"
                         :search="search"
+                        :loading="loadDataTable"
+                        loading-text="Loading... Please wait"
                     >
                         <template v-slot:top>
                             <v-row>
@@ -18,16 +20,16 @@
                                 </v-col>
                                 <v-col xs3>
                                     <v-text-field
-                                        v-model="calories"
+                                        v-model="cases"
                                         type="number"
-                                        label="Calories (Less than)"
+                                        label="Cases (Less than)"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col xs3>
                                     <v-text-field
-                                        v-model="protein"
+                                        v-model="deaths"
                                         type="number"
-                                        label="Protein (Less than)"
+                                        label="Deaths (Less than)"
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -40,12 +42,15 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     data() {
         return {
+            loadDataTable: false,
             search: '',
-            calories: '',
-            protein: '',
+            cases: '',
+            deaths: '',
             countries: [],
             desserts: [
                 {
@@ -135,41 +140,43 @@ export default {
         headers() {
             return [
                 {
-                    text: 'Dessert (100g serving)',
-                    align: 'start',
-                    sortable: false,
-                    value: 'name'
+                    text: 'Country',
+                    value: 'country'
                 },
                 {
-                    text: 'Calories',
-                    value: 'calories',
+                    text: 'Cases',
+                    value: 'cases',
                     filter: (value) => {
-                        if (!this.calories) return true
-                        return value < parseInt(this.calories)
+                        if (!this.cases) return true
+                        return value < parseInt(this.cases)
                     }
                 },
                 {
-                    text: 'Protein',
-                    value: 'protein',
+                    text: 'Deaths',
+                    value: 'deaths',
                     filter: (value) => {
-                        if (!this.protein) return true
-                        return value < parseInt(this.protein)
+                        if (!this.deaths) return true
+                        return value < parseInt(this.deaths)
                     }
                 },
-                { text: 'Fat (g)', value: 'fat' },
-                { text: 'Carbs (g)', value: 'carbs' },
-                { text: 'Protein (g)', value: 'protein' },
-                { text: 'Iron (%)', value: 'iron' }
+                { text: 'Recovered', value: 'recovered' }
             ]
-        },
-        getIndex() {
-            return this.desserts
-                .map(function(x) {
-                    return x.id
-                })
-                .indexOf(item.id)
         }
     },
-    methods: {}
+    methods: {},
+    mounted() {
+        this.loadDataTable = true
+        axios
+            .get(`${process.env.VUE_APP_COVID19_MACHINE_LEARNING}/status`)
+            .then((response) => {
+                console.log(response.data)
+                this.loadDataTable = false
+                this.countries = response.data
+            })
+            .catch((error) => {
+                this.loadDataTable = false
+                console.log(error)
+            })
+    }
 }
 </script>

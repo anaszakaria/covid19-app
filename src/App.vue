@@ -17,7 +17,7 @@
         </v-main>
 
         <!-- APP FOOTER -->
-        <app-footer></app-footer>
+        <!-- <app-footer></app-footer> -->
     </v-app>
 </template>
 
