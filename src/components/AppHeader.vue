@@ -72,10 +72,10 @@ export default {
     data() {
         return {
             menuLists: [
-                { tooltipText: 'Map Viewer', icon: 'mdi-map', url: '/' },
-                { tooltipText: 'Digital Library', icon: 'mdi-library-books', url: '/digitallibrary/trainingmodules' },
-                { tooltipText: 'Data Management', icon: 'mdi-file', url: '/datamanagement/facilitylist' },
-                { tooltipText: 'Settings', icon: 'mdi-settings', url: null }
+                { tooltipText: 'COVID-19 Information and Q&A', icon: 'mdi-file', url: '/info-qna' },
+                { tooltipText: 'User Profile', icon: 'mdi-library-books', url: '/profile' },
+                { tooltipText: 'Admin Page', icon: 'mdi-file', url: '/admin' },
+                { tooltipText: 'App Settings', icon: 'mdi-settings', url: null }
             ]
         }
     },

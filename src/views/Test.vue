@@ -2,7 +2,9 @@
     <v-container grid-list-lg>
         <v-layout wrap>
             <v-flex xs12>
-                <v-card> </v-card>
+                <v-card>
+                    Test Page
+                </v-card>
             </v-flex>
         </v-layout>
     </v-container>

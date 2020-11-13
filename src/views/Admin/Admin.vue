@@ -1,5 +1,5 @@
 <template>
     <v-container>
-        <h1>COVID-19 Statistics</h1>
+        <h1>System Admin</h1>
     </v-container>
 </template>

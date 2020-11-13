@@ -1,5 +1,5 @@
 <template>
     <v-container>
-        <h1>This is Timeline page</h1>
+        <h1>COVID-19 Timeline</h1>
     </v-container>
 </template>

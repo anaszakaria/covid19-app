@@ -5,6 +5,18 @@ import AuthGuard from './auth-guard'
 Vue.use(VueRouter)
 
 const routes = [
+    // HOME
+    {
+        path: '/',
+        name: 'Home',
+        component: () => import('@/views/Home.vue')
+    },
+    // INFO AND Q&A
+    {
+        path: '/info-qna',
+        name: 'Info and Q&A',
+        component: () => import('@/views/CovidInfoQNA.vue')
+    },
     // USER
     {
         path: '/signin',
@@ -21,18 +33,13 @@ const routes = [
         path: '/profile',
         name: 'User Profile',
         component: () => import('@/views/User/Profile')
+        // beforeEnter: AuthGuard
     },
-    // MAIN
     {
-        path: '/',
-        name: 'Home',
-        component: () => import('@/views/Home.vue')
-    },
-    // INFO AND Q&A
-    {
-        path: '/info-qna',
-        name: 'Info and Q&A',
-        component: () => import('@/views/CovidInfoQNA.vue')
+        path: '/admin',
+        name: 'Admin',
+        component: () => import('@/views/Admin/Admin.vue')
+        // beforeEnter: AuthGuard
     },
     // MAPVIEWER
     {
@@ -55,6 +62,11 @@ const routes = [
         path: '/dashboard',
         name: 'Dashboard',
         component: () => import('@/views/Stats/Dashboard.vue')
+    },
+    {
+        path: '/prediction',
+        name: 'Prediction and Modelling',
+        component: () => import('@/views/Stats/Prediction.vue')
     },
     {
         path: '/timeline',

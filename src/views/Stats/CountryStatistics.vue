@@ -1,5 +1,5 @@
 <template>
     <v-container>
-        <h1>This is Country Statistics page</h1>
+        <h1>COVID-19 Statistics by Country</h1>
     </v-container>
 </template>
