@@ -9,7 +9,7 @@
                         :height="tableHeight"
                         fixed-header
                         :headers="headers"
-                        :items="countries"
+                        :items="newCountries"
                         :sort-by="['total_cases']"
                         :sort-desc="[true, false]"
                         must-sort
@@ -25,25 +25,18 @@
                     >
                         <template v-slot:top>
                             <v-row>
-                                <v-col sm="3">
-                                    <v-text-field
-                                        v-model="search"
-                                        label="Search Country"
-                                        class="mx-4"
-                                        hide-details
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col sm="3">
+                                <v-col sm="5">
                                     <v-autocomplete
                                         v-model="selectedCountries"
-                                        :items.sync="countryNames"
+                                        :items="countryNames"
+                                        :loading="loadDataTable"
                                         chips
                                         small-chips
                                         deletable-chips
                                         clearable
-                                        label="Select Country"
+                                        label="Search Country"
                                         multiple
-                                        hide-details
+                                        hide-no-data
                                         class="mx-2"
                                     ></v-autocomplete>
                                 </v-col>
@@ -52,7 +45,6 @@
                                         v-model="total_cases"
                                         type="number"
                                         label="Total Cases (More than)"
-                                        hide-details
                                     ></v-text-field>
                                 </v-col>
                                 <v-col sm="2">
@@ -60,7 +52,6 @@
                                         v-model="deaths"
                                         type="number"
                                         label="Total Deaths (More than)"
-                                        hide-details
                                     ></v-text-field>
                                 </v-col>
                                 <v-col sm="2">
@@ -68,7 +59,6 @@
                                         v-model="active_cases"
                                         type="number"
                                         label="Active Cases (More than)"
-                                        hide-details
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -117,18 +107,36 @@ export default {
     data() {
         return {
             loadDataTable: false,
+            countryNames: [],
             selectedCountries: [],
             search: '',
             total_cases: '',
             active_cases: '',
             deaths: '',
             countries: [],
+            newCountries: [],
             tableHeight: ''
         }
     },
+    watch: {
+        selectedCountries(val) {
+            if (this.selectedCountries.length === 0) {
+                this.newCountries = this.countries
+            } else {
+                this.newCountries = this.countries.filter((country) => {
+                    return this.selectedCountries.includes(country.name)
+                })
+            }
+        }
+    },
     computed: {
-        countryNames() {
-            return this.countries.map((country) => country.name)
+        filteredCountries() {
+            if (this.selectedCountries.length === 0) {
+                return this.countries
+            }
+            return this.countries.map((country) => {
+                return this.selectedCountries.includes(country.name)
+            })
         },
         headers() {
             return [
@@ -181,7 +189,6 @@ export default {
     methods: {
         resetTableHeight() {
             if (window.innerHeight < 500) {
-                console.log('MAX')
                 return
             }
             this.tableHeight = window.innerHeight - 280
@@ -211,6 +218,8 @@ export default {
                     dataArray.push(countries[property])
                 }
                 this.countries = dataArray
+                this.newCountries = dataArray
+                this.countryNames = this.countries.map((country) => country.name)
             })
             .catch(function(error) {
                 this.loadDataTable = false
