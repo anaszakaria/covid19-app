@@ -18,6 +18,10 @@
                         :search="search"
                         :loading="loadDataTable"
                         loading-text="Loading... Please wait"
+                        :footer-props="{
+                            'items-per-page-options': [15, 30, -1]
+                        }"
+                        :items-per-page="-1"
                     >
                         <template v-slot:top>
                             <v-row>
@@ -95,14 +99,11 @@ export default {
             total_cases: '',
             active_cases: '',
             deaths: '',
-            countries: []
+            countries: [],
+            tableHeight: ''
         }
     },
     computed: {
-        tableHeight() {
-            console.log(window.innerHeight)
-            return window.innerHeight - 280
-        },
         headers() {
             return [
                 {
@@ -151,8 +152,20 @@ export default {
             ]
         }
     },
-    methods: {},
+    methods: {
+        resetTableHeight() {
+            if (window.innerHeight < 500) {
+                console.log('MAX')
+                return
+            }
+            this.tableHeight = window.innerHeight - 280
+        }
+    },
+    created() {
+        window.addEventListener('resize', this.resetTableHeight)
+    },
     mounted() {
+        this.resetTableHeight()
         this.loadDataTable = true
         const options = {
             method: 'GET',
@@ -177,6 +190,9 @@ export default {
                 this.loadDataTable = false
                 console.error(error)
             })
+    },
+    beforeDestroy() {
+        window.removeEventListener('resize', this.resetTableHeight)
     }
 }
 </script>
