@@ -118,15 +118,12 @@ export default {
             tableHeight: ''
         }
     },
-    watch: {
-        selectedCountries(val) {
-            if (this.selectedCountries.length === 0) {
-                this.filteredCountries = this.countries
-            } else {
-                this.filteredCountries = this.countries.filter((country) => {
-                    return this.selectedCountries.includes(country.name)
-                })
+    methods: {
+        resetTableHeight() {
+            if (window.innerHeight < 500) {
+                return
             }
+            this.tableHeight = window.innerHeight - 280
         }
     },
     computed: {
@@ -178,12 +175,15 @@ export default {
             ]
         }
     },
-    methods: {
-        resetTableHeight() {
-            if (window.innerHeight < 500) {
-                return
+    watch: {
+        selectedCountries(val) {
+            if (this.selectedCountries.length === 0) {
+                this.filteredCountries = this.countries
+            } else {
+                this.filteredCountries = this.countries.filter((country) => {
+                    return this.selectedCountries.includes(country.name)
+                })
             }
-            this.tableHeight = window.innerHeight - 280
         }
     },
     created() {
