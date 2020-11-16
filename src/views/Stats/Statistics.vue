@@ -9,7 +9,7 @@
                         :height="tableHeight"
                         fixed-header
                         :headers="headers"
-                        :items="newCountries"
+                        :items="filteredCountries"
                         :sort-by="['total_cases']"
                         :sort-desc="[true, false]"
                         must-sort
@@ -114,30 +114,22 @@ export default {
             active_cases: '',
             deaths: '',
             countries: [],
-            newCountries: [],
+            filteredCountries: [],
             tableHeight: ''
         }
     },
     watch: {
         selectedCountries(val) {
             if (this.selectedCountries.length === 0) {
-                this.newCountries = this.countries
+                this.filteredCountries = this.countries
             } else {
-                this.newCountries = this.countries.filter((country) => {
+                this.filteredCountries = this.countries.filter((country) => {
                     return this.selectedCountries.includes(country.name)
                 })
             }
         }
     },
     computed: {
-        filteredCountries() {
-            if (this.selectedCountries.length === 0) {
-                return this.countries
-            }
-            return this.countries.map((country) => {
-                return this.selectedCountries.includes(country.name)
-            })
-        },
         headers() {
             return [
                 {
@@ -218,7 +210,7 @@ export default {
                     dataArray.push(countries[property])
                 }
                 this.countries = dataArray
-                this.newCountries = dataArray
+                this.filteredCountries = dataArray
                 this.countryNames = this.countries.map((country) => country.name)
             })
             .catch(function(error) {
