@@ -51,19 +51,19 @@
                             {{ item.total_cases | numberWithCommas }}
                         </template>
                         <template v-slot:[`item.change.total_cases`]="{ item }">
-                            {{ item.change.total_cases | numberWithCommas }}
+                            <v-chip label dark color="orange">{{ item.change.total_cases | numberWithCommas }}</v-chip>
                         </template>
                         <template v-slot:[`item.deaths`]="{ item }">
                             {{ item.deaths | numberWithCommas }}
                         </template>
                         <template v-slot:[`item.change.deaths`]="{ item }">
-                            {{ item.change.deaths | numberWithCommas }}
+                            <v-chip label dark color="red">{{ item.change.deaths | numberWithCommas }}</v-chip>
                         </template>
                         <template v-slot:[`item.recovered`]="{ item }">
                             {{ item.recovered | numberWithCommas }}
                         </template>
                         <template v-slot:[`item.change.recovered`]="{ item }">
-                            {{ item.change.recovered | numberWithCommas }}
+                            <v-chip label dark color="green">{{ item.change.recovered | numberWithCommas }}</v-chip>
                         </template>
                         <template v-slot:[`item.active_cases`]="{ item }">
                             {{ item.active_cases | numberWithCommas }}
@@ -164,3 +164,9 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.bg-red {
+    color: red !important;
+}
+</style>
