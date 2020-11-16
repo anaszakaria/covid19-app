@@ -7,6 +7,9 @@
                     <v-data-table
                         :headers="headers"
                         :items="countries"
+                        :sort-by="['total_cases']"
+                        :sort-desc="[true, false]"
+                        must-sort
                         item-key="name"
                         class="elevation-1"
                         :search="search"
@@ -78,7 +81,17 @@ export default {
                     }
                 },
                 { text: 'New Cases', value: 'change.total_cases' },
+                {
+                    text: 'Total Deaths',
+                    value: 'deaths',
+                    filter: (value) => {
+                        if (!this.deaths) return true
+                        return value > parseInt(this.deaths)
+                    }
+                },
                 { text: 'New Deaths', value: 'change.deaths' },
+                { text: 'Total Recovered', value: 'recovered' },
+                { text: 'New Revocered', value: 'change.recovered' },
                 {
                     text: 'Active Cases',
                     value: 'active_cases',
@@ -88,15 +101,6 @@ export default {
                     }
                 },
                 { text: 'Critical', value: 'critical' },
-                {
-                    text: 'Total Deaths',
-                    value: 'deaths',
-                    filter: (value) => {
-                        if (!this.deaths) return true
-                        return value > parseInt(this.deaths)
-                    }
-                },
-                { text: 'Total Recovered', value: 'recovered' },
                 { text: 'Total Tested', value: 'tested' }
             ]
         }
