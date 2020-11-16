@@ -32,7 +32,7 @@ Vue.filter('convertNullToDash', (value) => {
     return '-'
 })
 Vue.filter('numberWithCommas', (value) => {
-    if (value !== 'null') return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    if (value !== 'null') return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     return '-'
 })
 Vue.filter('toMoney', (value) => {

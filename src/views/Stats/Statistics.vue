@@ -44,6 +44,33 @@
                                 </v-col>
                             </v-row>
                         </template>
+                        <template v-slot:[`item.total_cases`]="{ item }">
+                            {{ item.total_cases | numberWithCommas }}
+                        </template>
+                        <template v-slot:[`item.change.total_cases`]="{ item }">
+                            {{ item.change.total_cases | numberWithCommas }}
+                        </template>
+                        <template v-slot:[`item.deaths`]="{ item }">
+                            {{ item.deaths | numberWithCommas }}
+                        </template>
+                        <template v-slot:[`item.change.deaths`]="{ item }">
+                            {{ item.change.deaths | numberWithCommas }}
+                        </template>
+                        <template v-slot:[`item.recovered`]="{ item }">
+                            {{ item.recovered | numberWithCommas }}
+                        </template>
+                        <template v-slot:[`item.change.recovered`]="{ item }">
+                            {{ item.change.recovered | numberWithCommas }}
+                        </template>
+                        <template v-slot:[`item.active_cases`]="{ item }">
+                            {{ item.active_cases | numberWithCommas }}
+                        </template>
+                        <template v-slot:[`item.critical`]="{ item }">
+                            {{ item.critical | numberWithCommas }}
+                        </template>
+                        <template v-slot:[`item.tested`]="{ item }">
+                            {{ item.tested | numberWithCommas }}
+                        </template>
                     </v-data-table>
                 </v-card>
             </v-col>
