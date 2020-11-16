@@ -26,13 +26,33 @@
                         <template v-slot:top>
                             <v-row>
                                 <v-col sm="3">
-                                    <v-text-field v-model="search" label="Search Country" class="mx-4"></v-text-field>
+                                    <v-text-field
+                                        v-model="search"
+                                        label="Search Country"
+                                        class="mx-4"
+                                        hide-details
+                                    ></v-text-field>
+                                </v-col>
+                                <v-col sm="3">
+                                    <v-autocomplete
+                                        v-model="selectedCountries"
+                                        :items.sync="countryNames"
+                                        chips
+                                        small-chips
+                                        deletable-chips
+                                        clearable
+                                        label="Select Country"
+                                        multiple
+                                        hide-details
+                                        class="mx-2"
+                                    ></v-autocomplete>
                                 </v-col>
                                 <v-col sm="2">
                                     <v-text-field
                                         v-model="total_cases"
                                         type="number"
                                         label="Total Cases (More than)"
+                                        hide-details
                                     ></v-text-field>
                                 </v-col>
                                 <v-col sm="2">
@@ -40,6 +60,7 @@
                                         v-model="deaths"
                                         type="number"
                                         label="Total Deaths (More than)"
+                                        hide-details
                                     ></v-text-field>
                                 </v-col>
                                 <v-col sm="2">
@@ -47,6 +68,7 @@
                                         v-model="active_cases"
                                         type="number"
                                         label="Active Cases (More than)"
+                                        hide-details
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -95,6 +117,7 @@ export default {
     data() {
         return {
             loadDataTable: false,
+            selectedCountries: [],
             search: '',
             total_cases: '',
             active_cases: '',
@@ -104,6 +127,9 @@ export default {
         }
     },
     computed: {
+        countryNames() {
+            return this.countries.map((country) => country.name)
+        },
         headers() {
             return [
                 {
