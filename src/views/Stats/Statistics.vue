@@ -5,6 +5,9 @@
                 <h3>COVID-19 Statistics</h3>
                 <v-card outlined tile>
                     <v-data-table
+                        id="statistics-table"
+                        :height="tableHeight"
+                        fixed-header
                         :headers="headers"
                         :items="countries"
                         :sort-by="['total_cases']"
@@ -96,42 +99,55 @@ export default {
         }
     },
     computed: {
+        tableHeight() {
+            console.log(window.innerHeight)
+            return window.innerHeight - 280
+        },
         headers() {
             return [
                 {
                     text: 'Country',
-                    value: 'name'
+                    value: 'name',
+                    align: 'left',
+                    divider: true,
+                    width: '150px'
                 },
                 {
                     text: 'Total Cases',
                     value: 'total_cases',
+                    align: 'right',
+                    divider: true,
                     filter: (value) => {
                         if (!this.total_cases) return true
                         return value > parseInt(this.total_cases)
                     }
                 },
-                { text: 'New Cases', value: 'change.total_cases' },
+                { text: 'New Cases', value: 'change.total_cases', align: 'right', divider: true },
                 {
                     text: 'Total Deaths',
                     value: 'deaths',
+                    align: 'right',
+                    divider: true,
                     filter: (value) => {
                         if (!this.deaths) return true
                         return value > parseInt(this.deaths)
                     }
                 },
-                { text: 'New Deaths', value: 'change.deaths' },
-                { text: 'Total Recovered', value: 'recovered' },
-                { text: 'New Revocered', value: 'change.recovered' },
+                { text: 'New Deaths', value: 'change.deaths', align: 'right', divider: true },
+                { text: 'Total Recovered', value: 'recovered', align: 'right', divider: true },
+                { text: 'New Revocered', value: 'change.recovered', align: 'right', divider: true },
                 {
                     text: 'Active Cases',
                     value: 'active_cases',
+                    align: 'right',
+                    divider: true,
                     filter: (value) => {
                         if (!this.active_cases) return true
                         return value > parseInt(this.active_cases)
                     }
                 },
-                { text: 'Critical', value: 'critical' },
-                { text: 'Total Tested', value: 'tested' }
+                { text: 'Critical', value: 'critical', align: 'right', divider: true },
+                { text: 'Total Tested', value: 'tested', align: 'right' }
             ]
         }
     },
@@ -165,8 +181,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.bg-red {
-    color: red !important;
-}
-</style>
+<style lang="scss" scoped></style>

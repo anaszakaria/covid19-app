@@ -7,6 +7,13 @@
     cursor: pointer !important;
 }
 
+// VUETIFY CLASSES
+#statistics-table {
+    .v-data-table-header {
+        border-top: thin solid rgba(0, 0, 0, .12) !important;
+    }
+}
+
 // ROUTER VIEW TRANSITION
 .slide-enter-active {
     transition: all 0.3s;
