@@ -39,8 +39,8 @@ export default {
             // return this.$store.getters.user !== null && this.$store.getters.user !== undefined
             return true
         },
-        userCanPerformAction() {
-            return this.$store.getters.userPermission === 'General User' ? false : true
+        userIsAdmin() {
+            return this.$store.getters.userRole === 'Admin' ? true : false
         }
     }
 }
