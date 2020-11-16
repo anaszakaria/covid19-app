@@ -31,6 +31,10 @@ Vue.filter('convertNullToDash', (value) => {
     if (value !== 'null') return value
     return '-'
 })
+Vue.filter('numberWithCommas', (value) => {
+    if (value !== 'null') return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    return '-'
+})
 Vue.filter('toMoney', (value) => {
     const adjusted = value.toLocaleString(undefined, {
         minimumFractionDigits: 2,

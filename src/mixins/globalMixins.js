@@ -21,6 +21,9 @@ export default {
                 evt.preventDefault()
             }
         },
+        numberWithCommas(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        },
         validate24HourFormat(evt, inputField) {
             if (inputField.length >= 5) {
                 if (evt.key == 'Backspace' || evt.key === ':' || evt.keyCode === 37 || evt.keyCode === 39) {
