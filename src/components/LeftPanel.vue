@@ -25,11 +25,11 @@ export default {
             leftPanel: true,
             pageList: [
                 { icon: 'mdi-map', text: 'Map Viewer', url: '/mapviewer' },
-                { icon: 'mdi-map', text: 'HighMaps', url: '/highmaps' },
+                { icon: 'mdi-earth', text: 'HighMaps', url: '/highmaps' },
                 { icon: 'mdi-table-large', text: 'Statistics', url: '/statistics' },
                 { icon: 'mdi-view-dashboard', text: 'Dashboard', url: '/dashboard' },
-                { icon: 'mdi-calendar-text', text: 'Prediction', url: '/prediction' },
-                { icon: 'mdi-calendar-text', text: 'Timeline', url: '/timeline' }
+                { icon: 'mdi-timer', text: 'Prediction', url: '/prediction' },
+                { icon: 'mdi-chart-timeline', text: 'Timeline', url: '/timeline' }
             ]
         }
     },

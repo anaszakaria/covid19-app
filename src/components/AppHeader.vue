@@ -72,9 +72,9 @@ export default {
     data() {
         return {
             menuLists: [
-                { tooltipText: 'COVID-19 Information and Q&A', icon: 'mdi-file', url: '/info-qna' },
-                { tooltipText: 'User Profile', icon: 'mdi-library-books', url: '/profile' },
-                { tooltipText: 'Admin Page', icon: 'mdi-file', url: '/admin' },
+                { tooltipText: 'COVID-19 Information and Q&A', icon: 'mdi-information', url: '/info-qna' },
+                { tooltipText: 'User Profile', icon: 'mdi-file', url: '/profile' },
+                { tooltipText: 'Admin Page', icon: 'mdi-tune', url: '/admin' },
                 { tooltipText: 'App Settings', icon: 'mdi-settings', url: null }
             ]
         }
