@@ -15,7 +15,6 @@
                         must-sort
                         item-key="name"
                         class="elevation-1"
-                        :search="search"
                         :loading="loadDataTable"
                         loading-text="Loading... Please wait"
                         :footer-props="{
@@ -109,12 +108,10 @@ export default {
             loadDataTable: false,
             countryNames: [],
             selectedCountries: [],
-            search: '',
             total_cases: '',
             active_cases: '',
             deaths: '',
             countries: [],
-            filteredCountries: [],
             tableHeight: ''
         }
     },
@@ -127,6 +124,15 @@ export default {
         }
     },
     computed: {
+        filteredCountries() {
+            if (this.selectedCountries.length === 0) {
+                return this.countries
+            } else {
+                return this.countries.filter((country) => {
+                    return this.selectedCountries.includes(country.name)
+                })
+            }
+        },
         headers() {
             return [
                 {
@@ -175,17 +181,6 @@ export default {
             ]
         }
     },
-    watch: {
-        selectedCountries(val) {
-            if (this.selectedCountries.length === 0) {
-                this.filteredCountries = this.countries
-            } else {
-                this.filteredCountries = this.countries.filter((country) => {
-                    return this.selectedCountries.includes(country.name)
-                })
-            }
-        }
-    },
     created() {
         window.addEventListener('resize', this.resetTableHeight)
     },
@@ -210,7 +205,6 @@ export default {
                     dataArray.push(countries[property])
                 }
                 this.countries = dataArray
-                this.filteredCountries = dataArray
                 this.countryNames = this.countries.map((country) => country.name)
             })
             .catch(function(error) {
