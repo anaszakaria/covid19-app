@@ -1,6 +1,4 @@
 import Vue from 'vue'
-import Highcharts from 'highcharts'
-import VueHighcharts from 'vue-highcharts'
 import moment from 'moment'
 import axios from 'axios'
 
@@ -46,7 +44,6 @@ Vue.filter('toMoney', (value) => {
 export const EventBus = new Vue() // create event bus
 
 // init middleware
-Vue.use(VueHighcharts, { Highcharts })
 Vue.prototype.moment = moment
 
 // global custom directives
