@@ -1,7 +1,7 @@
 <template>
     <v-container fluid fill-height>
         <v-layout justify-center align-center>
-            <v-flex xs12 sm6 md4>
+            <v-flex xs12 md6>
                 <v-card>
                     <v-card-text>
                         <v-container>

@@ -1,12 +1,10 @@
 <template>
-    <v-container>
-        <v-layout row v-if="error">
-            <v-flex xs12 sm6 offset-sm3>
-                <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
-            </v-flex>
-        </v-layout>
-        <v-layout>
-            <v-flex xs12 sm6 offset-sm3>
+    <v-container fluid fill-height>
+        <v-layout justify-center align-center>
+            <v-flex xs12 md6>
+                <v-alert v-if="error" @dismissed="onDismissed" border="left" dismissible type="error">{{
+                    error.message
+                }}</v-alert>
                 <v-card>
                     <v-card-text>
                         <v-container>
@@ -14,9 +12,21 @@
                                 <v-layout row>
                                     <v-flex xs12>
                                         <v-text-field
+                                            id="name"
+                                            name="name"
+                                            label="Name"
+                                            v-model="name"
+                                            type="text"
+                                            required
+                                        ></v-text-field>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row>
+                                    <v-flex xs12>
+                                        <v-text-field
                                             id="email"
                                             name="email"
-                                            label="Mail"
+                                            label="Email"
                                             v-model="email"
                                             type="email"
                                             required
@@ -43,13 +53,20 @@
                                             label="Confirm Password"
                                             v-model="confirmPassword"
                                             type="password"
-                                            v-bind:rules="[comparePasswords]"
+                                            :rules="[comparePasswords]"
+                                            required
                                         ></v-text-field>
                                     </v-flex>
                                 </v-layout>
                                 <v-layout row>
-                                    <v-flex xs12 text-xs-right>
-                                        <v-btn depressed type="submit" :disabled="loading" :loading="loading"
+                                    <v-flex xs12 class="text-right">
+                                        <v-btn
+                                            depressed
+                                            dark
+                                            class="body-2"
+                                            type="submit"
+                                            :disabled="loading"
+                                            :loading="loading"
                                             >Sign Up
                                             <span slot="loader" class="custom-loader">
                                                 <v-icon light>cached</v-icon>
@@ -70,14 +87,19 @@
 export default {
     data() {
         return {
+            name: '',
             email: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            passwordValidated: false
         }
     },
     methods: {
         onSignup() {
-            this.$store.dispatch('signUserUp', { email: this.email, password: this.password })
+            if (!this.passwordValidated) {
+                return
+            }
+            this.$store.dispatch('signUserUp', { name: this.name, email: this.email, password: this.password })
         },
         onDismissed() {
             console.log('Dismiss Alert')
@@ -86,6 +108,11 @@ export default {
     },
     computed: {
         comparePasswords() {
+            if (this.password !== '' && this.password === this.confirmPassword) {
+                this.passwordValidated = true
+            } else {
+                this.passwordValidated = false
+            }
             return this.password !== this.confirmPassword ? 'Passwords do not match' : ''
         },
         user() {

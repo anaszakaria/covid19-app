@@ -37,12 +37,13 @@ export default {
             commit('setLoading', true)
             commit('clearError')
             axios
-                .post(`${process.env.VUE_APP_USER_API}/auth/signup`, payload)
+                .post(`${process.env.VUE_APP_USER_API}/auth/register`, payload)
                 .then((response) => {
                     commit('setLoading', false)
                     router.push('/signin')
                 })
                 .catch((error) => {
+                    console.log(error)
                     commit('setLoading', false)
                     commit('setError', error)
                     console.log(error.response.data)

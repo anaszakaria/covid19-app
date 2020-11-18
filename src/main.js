@@ -63,10 +63,13 @@ axios.interceptors.response.use(
     (error) => {
         const {
             config,
-            response: { status, data }
+            response: {
+                status,
+                data: { message }
+            }
         } = error
 
-        if (status === 401 && data.message === 'jwt expired') {
+        if (status === 401 && message === 'jwt expired') {
             if (!isRefreshing) {
                 isRefreshing = true
                 store
