@@ -9,11 +9,11 @@
                                 <v-layout row>
                                     <v-flex xs12>
                                         <v-text-field
-                                            id="username"
-                                            name="username"
-                                            label="Username"
-                                            v-model="username"
-                                            type=""
+                                            id="email"
+                                            name="email"
+                                            label="Email"
+                                            v-model="email"
+                                            type="email"
                                             required
                                         ></v-text-field>
                                     </v-flex>
@@ -67,15 +67,15 @@ import { EventBus } from '@/main'
 export default {
     data() {
         return {
-            username: '',
+            email: '',
             password: '',
             showAlert: false
         }
     },
     methods: {
         onSignin() {
-            this.$store.dispatch('signUserIn', { username: this.username, password: this.password })
-            EventBus.$emit('showLeftPanel')
+            this.$store.dispatch('signUserIn', { email: this.email, password: this.password })
+            // EventBus.$emit('showLeftPanel')
         },
         onDismissAlert() {
             this.$store.dispatch('clearError')

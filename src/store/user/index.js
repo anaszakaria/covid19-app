@@ -1,17 +1,23 @@
 import axios from 'axios'
+import router from '@/router'
 
 export default {
     state: {
         user: null,
-        auth: {
-            token: null
-        },
+        accessToken: null,
+        refreshToken: null,
         loading: false,
         error: null
     },
     mutations: {
         setUser(state, payload) {
             state.user = payload
+        },
+        setAccessToken(state, payload) {
+            state.accessToken = payload
+        },
+        setRefreshToken(state, payload) {
+            state.refreshToken = payload
         },
         setLoading(state, payload) {
             state.loading = payload
@@ -31,10 +37,10 @@ export default {
             commit('setLoading', true)
             commit('clearError')
             axios
-                .post(`${process.env.VUE_APP_API_URL}/user/signup`, payload)
+                .post(`${process.env.VUE_APP_USER_API}/auth/signup`, payload)
                 .then((response) => {
                     commit('setLoading', false)
-                    this.$router.push('/signin')
+                    router.push('/signin')
                 })
                 .catch((error) => {
                     commit('setLoading', false)
@@ -45,16 +51,19 @@ export default {
         signUserIn({ commit, getters }, payload) {
             commit('setLoading', true)
             axios
-                .post(`${process.env.VUE_APP_API_URL}/user/login`, payload)
+                .post(`${process.env.VUE_APP_USER_API}/auth/login`, payload)
                 .then((response) => {
+                    console.log(response.data)
                     commit('setLoading', false)
                     const newUser = response.data
                     commit('setUser', newUser)
-                    // commit('setToken', response.data.token)
+                    commit('setAccessToken', newUser.accessToken)
+                    commit('setRefreshToken', newUser.refreshToken)
                     localStorage.setItem('user', JSON.stringify(newUser))
-                    this.$router.push('/')
+                    router.push('/')
                 })
                 .catch((error) => {
+                    console.log(error)
                     commit('setLoading', false)
                     commit('setError', error.response.data)
                 })
@@ -62,14 +71,17 @@ export default {
         signOut({ commit }) {
             localStorage.clear()
             commit('setUser', null)
+            commit('setAccessToken', null)
+            commit('setRefreshToken', null)
             commit('setError', null)
-            this.$router.push('/signin')
+            router.push('/signin')
         },
         checkUserLocalStorage({ commit, getters }) {
             const user = JSON.parse(localStorage.getItem('user'))
             if (user) {
                 commit('setUser', user)
-                // commit('setToken', user.token)
+                commit('setAccessToken', user.accessToken)
+                commit('setRefreshToken', user.refreshToken)
             }
         },
         clearError({ commit }) {
@@ -101,8 +113,11 @@ export default {
         user(state) {
             return state.user
         },
-        token(state) {
-            return state.user.token
+        accessToken(state) {
+            return state.accessToken
+        },
+        refreshToken(state) {
+            return state.refreshToken
         },
         error(state) {
             return state.error
@@ -110,11 +125,11 @@ export default {
         loading(state) {
             return state.loading
         },
-        userRole(state) {
-            return state.user.userAccesses.role
+        userRoles(state) {
+            return state.user.roles
         },
         userPermission(state) {
-            return state.user.userAccesses.permission
+            return state.user.permission
         }
     }
 }
