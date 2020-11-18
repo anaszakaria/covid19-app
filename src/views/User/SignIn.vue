@@ -42,13 +42,7 @@
                                 </v-layout>
                                 <v-layout row>
                                     <v-flex xs12 class="text-right">
-                                        <v-btn
-                                            depressed
-                                            dark
-                                            color="primaryGreen"
-                                            class="body-2"
-                                            type="submit"
-                                            :loading="loading"
+                                        <v-btn depressed dark class="body-2" type="submit" :loading="loading"
                                             >Sign In</v-btn
                                         >
                                     </v-flex>

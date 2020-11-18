@@ -60,18 +60,9 @@
                                 </v-layout>
                                 <v-layout row>
                                     <v-flex xs12 class="text-right">
-                                        <v-btn
-                                            depressed
-                                            dark
-                                            class="body-2"
-                                            type="submit"
-                                            :disabled="loading"
-                                            :loading="loading"
-                                            >Sign Up
-                                            <span slot="loader" class="custom-loader">
-                                                <v-icon light>cached</v-icon>
-                                            </span>
-                                        </v-btn>
+                                        <v-btn depressed dark class="body-2" type="submit" :loading="loading"
+                                            >Sign Up</v-btn
+                                        >
                                     </v-flex>
                                 </v-layout>
                             </form>

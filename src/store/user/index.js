@@ -85,6 +85,7 @@ export default {
             commit('clearError')
         },
         refreshToken({ state }) {
+            console.log('Refresh Token')
             return new Promise((resolve, reject) => {
                 axios
                     .post(`${process.env.VUE_APP_USER_API}/auth/refresh-token`, state.user.refreshToken, {
@@ -101,7 +102,7 @@ export default {
                         // set user on state to null
                         // clear local storage
                         // goto login page
-                        reject(error)
+                        reject(error.response)
                     })
             })
         }
