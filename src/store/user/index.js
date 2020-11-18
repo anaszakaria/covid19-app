@@ -53,7 +53,6 @@ export default {
             axios
                 .post(`${process.env.VUE_APP_USER_API}/auth/login`, payload)
                 .then((response) => {
-                    console.log(response.data)
                     commit('setLoading', false)
                     const newUser = response.data
                     commit('setUser', newUser)

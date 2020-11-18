@@ -39,8 +39,7 @@ export default {
     },
     computed: {
         userIsAuthenticated() {
-            // return this.$store.getters.user !== null && this.$store.getters.user !== undefined
-            return true
+            return this.$store.getters.user !== null && this.$store.getters.user !== undefined
         },
         userIsAdmin() {
             return this.$store.getters.userRole === 'Admin' ? true : false
