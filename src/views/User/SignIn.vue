@@ -4,6 +4,16 @@
             <v-flex xs12 md6>
                 <v-card>
                     <v-card-text>
+                        <v-alert
+                            type="error"
+                            dense
+                            v-if="error"
+                            :value="true"
+                            color="error"
+                            icon="mdi-alert"
+                            transition="scale-transition"
+                            >{{ error.message }}</v-alert
+                        >
                         <v-container>
                             <form @submit.prevent="onSignin">
                                 <v-layout row>
@@ -45,16 +55,6 @@
                                 </v-layout>
                             </form>
                         </v-container>
-                        <v-alert
-                            type="error"
-                            dense
-                            v-if="error"
-                            :value="true"
-                            color="error"
-                            icon="mdi-alert"
-                            transition="scale-transition"
-                            >{{ error.message }}</v-alert
-                        >
                     </v-card-text>
                 </v-card>
             </v-flex>

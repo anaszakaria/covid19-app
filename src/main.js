@@ -56,36 +56,36 @@ Vue.directive('focus', {
 // axios interceptors - refresh token
 let isRefreshing = false
 
-axios.interceptors.response.use(
-    (response) => {
-        return response
-    },
-    (error) => {
-        const {
-            config,
-            response: {
-                status,
-                data: { message }
-            }
-        } = error
+// axios.interceptors.response.use(
+//     (response) => {
+//         return response
+//     },
+//     (error) => {
+//         const {
+//             config,
+//             response: {
+//                 status,
+//                 data: { message }
+//             }
+//         } = error
 
-        if (status === 401 && message === 'jwt expired') {
-            if (!isRefreshing) {
-                isRefreshing = true
-                store
-                    .dispatch('refreshToken')
-                    .then(({ status }) => {
-                        if (status === 200 || status === 204) {
-                            isRefreshing = false
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                    })
-            }
-        }
-    }
-)
+//         if (status === 401 && message === 'jwt expired') {
+//             if (!isRefreshing) {
+//                 isRefreshing = true
+//                 store
+//                     .dispatch('refreshToken')
+//                     .then(({ status }) => {
+//                         if (status === 200 || status === 204) {
+//                             isRefreshing = false
+//                         }
+//                     })
+//                     .catch((error) => {
+//                         console.log(error)
+//                     })
+//             }
+//         }
+//     }
+// )
 
 new Vue({
     router,

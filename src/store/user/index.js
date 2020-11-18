@@ -43,10 +43,8 @@ export default {
                     router.push('/signin')
                 })
                 .catch((error) => {
-                    console.log(error)
                     commit('setLoading', false)
-                    commit('setError', error)
-                    console.log(error.response.data)
+                    commit('setError', error.response.data.error)
                 })
         },
         signUserIn({ commit, getters }, payload) {
@@ -63,9 +61,8 @@ export default {
                     router.push('/')
                 })
                 .catch((error) => {
-                    console.log(error)
                     commit('setLoading', false)
-                    commit('setError', error.response.data)
+                    commit('setError', error.response.data.error)
                 })
         },
         signOut({ commit }) {
@@ -90,9 +87,9 @@ export default {
         refreshToken({ state }) {
             return new Promise((resolve, reject) => {
                 axios
-                    .post(`${process.env.VUE_APP_USER_API}/auth/refresh-token`, state.user.token, {
+                    .post(`${process.env.VUE_APP_USER_API}/auth/refresh-token`, state.user.refreshToken, {
                         headers: {
-                            Authorization: `Bearer ${this.$store.getters.user.token}`
+                            Authorization: `Bearer ${this.$store.getters.user.accessToken}`
                         }
                     })
                     .then((response) => {

@@ -31,12 +31,6 @@
             <v-card>
                 <v-list>
                     <v-list-item>
-                        <!-- <v-list-item-avatar v-if="$store.getters.user.imgURL">
-                            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
-                        </v-list-item-avatar>
-                        <v-list-item-avatar v-else>
-                            <v-icon>mdi-account</v-icon>
-                        </v-list-item-avatar> -->
                         <v-list-item-avatar>
                             <v-icon>mdi-account</v-icon>
                         </v-list-item-avatar>
