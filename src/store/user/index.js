@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from '@/router'
+import { userService } from '@/services/userService'
 
 export default {
     state: {
@@ -33,37 +34,33 @@ export default {
         setUser({ commit }, payload) {
             commit('setUser', payload)
         },
-        signUserUp({ commit, getters }, payload) {
+        async signUserUp({ commit, getters }, payload) {
             commit('setLoading', true)
             commit('clearError')
-            axios
-                .post(`${process.env.VUE_APP_USER_API}/auth/register`, payload)
-                .then((response) => {
-                    commit('setLoading', false)
-                    router.push('/signin')
-                })
-                .catch((error) => {
-                    commit('setLoading', false)
-                    commit('setError', error.response.data.error)
-                })
+            try {
+                await userService.signUp(payload)
+                router.push('/signin')
+            } catch (error) {
+                commit('setError', error.response.data.error)
+            } finally {
+                commit('setLoading', false)
+            }
         },
-        signUserIn({ commit, getters }, payload) {
+        async signUserIn({ commit, getters }, payload) {
             commit('setLoading', true)
-            axios
-                .post(`${process.env.VUE_APP_USER_API}/auth/login`, payload)
-                .then((response) => {
-                    commit('setLoading', false)
-                    const newUser = response.data
-                    commit('setUser', newUser)
-                    commit('setAccessToken', newUser.accessToken)
-                    commit('setRefreshToken', newUser.refreshToken)
-                    localStorage.setItem('user', JSON.stringify(newUser))
-                    router.push('/')
-                })
-                .catch((error) => {
-                    commit('setLoading', false)
-                    commit('setError', error.response.data.error)
-                })
+            try {
+                const response = await userService.signIn(payload)
+                const newUser = response.data
+                commit('setUser', newUser)
+                commit('setAccessToken', newUser.accessToken)
+                commit('setRefreshToken', newUser.refreshToken)
+                localStorage.setItem('user', JSON.stringify(newUser))
+                router.push('/')
+            } catch (error) {
+                commit('setError', error.response.data.error)
+            } finally {
+                commit('setLoading', false)
+            }
         },
         signOut({ commit }) {
             localStorage.clear()
