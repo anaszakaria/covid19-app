@@ -2,7 +2,7 @@
     <v-container fluid>
         <v-row class="ma-0">
             <v-col sm="12">
-                <h3>COVID-19 Statistics</h3>
+                <h3 class="font-weight-medium">COVID-19 Statistics - Last Updated on {{ lastUpdatedOn }}</h3>
                 <v-card outlined tile>
                     <v-data-table
                         id="statistics-table"
@@ -101,17 +101,20 @@
 
 <script>
 import axios from 'axios'
+import { toDate, format, fromUnixTime } from 'date-fns'
+import { statisticService } from '@/services/statisticService'
 
 export default {
     data() {
         return {
             loadDataTable: false,
+            countries: [],
             countryNames: [],
             selectedCountries: [],
             total_cases: '',
             active_cases: '',
             deaths: '',
-            countries: [],
+            generatedOn: '',
             tableHeight: ''
         }
     },
@@ -121,9 +124,28 @@ export default {
                 return
             }
             this.tableHeight = window.innerHeight - 280
+        },
+        async getDailyLatestSummary() {
+            this.loadDataTable = true
+            try {
+                const response = await statisticService.getDailyLatestSummary()
+                this.countries = response.countries
+                this.generatedOn = response.generatedOn
+                this.countryNames = this.countries.map((country) => country.name)
+            } catch (error) {
+                console.log(error.response)
+            } finally {
+                this.loadDataTable = false
+            }
         }
     },
     computed: {
+        lastUpdatedOn() {
+            if (this.generatedOn) {
+                return fromUnixTime(this.generatedOn)
+            }
+            return '...loading'
+        },
         filteredCountries() {
             if (this.selectedCountries.length === 0) {
                 return this.countries
@@ -183,34 +205,10 @@ export default {
     },
     created() {
         window.addEventListener('resize', this.resetTableHeight)
+        this.getDailyLatestSummary()
     },
     mounted() {
         this.resetTableHeight()
-        this.loadDataTable = true
-        const options = {
-            method: 'GET',
-            url: 'https://coronavirus-map.p.rapidapi.com/v1/summary/latest',
-            headers: {
-                'x-rapidapi-key': process.env.VUE_APP_CORONAVIRUSMAP_RAPID_API_KEY,
-                'x-rapidapi-host': 'coronavirus-map.p.rapidapi.com'
-            }
-        }
-        axios
-            .request(options)
-            .then((response) => {
-                this.loadDataTable = false
-                let dataArray = []
-                const countries = response.data.data.regions
-                for (const property in countries) {
-                    dataArray.push(countries[property])
-                }
-                this.countries = dataArray
-                this.countryNames = this.countries.map((country) => country.name)
-            })
-            .catch(function(error) {
-                this.loadDataTable = false
-                console.error(error)
-            })
     },
     beforeDestroy() {
         window.removeEventListener('resize', this.resetTableHeight)

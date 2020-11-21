@@ -13,6 +13,7 @@
         "@mdi/font": "^3.6.95",
         "axios": "^0.20.0",
         "core-js": "^3.6.5",
+        "date-fns": "^2.16.1",
         "highcharts": "^8.2.0",
         "leaflet": "^1.7.1",
         "moment": "^2.29.0",

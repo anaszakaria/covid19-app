@@ -4,6 +4,7 @@
             <v-col sm="12">
                 <h3>COVID-19 Statistics for {{ country }}</h3>
                 <v-card outlined tile>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <Highstock ref="highcharts" :options="chartOptions" />
                 </v-card>
             </v-col>
@@ -14,8 +15,10 @@
 <script>
 import axios from 'axios'
 import Highcharts from 'highcharts'
-import loadStock from 'highcharts/modules/stock.js'
 import { genComponent } from 'vue-highcharts'
+import { statisticService } from '@/services/statisticService'
+import loadStock from 'highcharts/modules/stock.js'
+
 loadStock(Highcharts)
 
 export default {
@@ -150,9 +153,22 @@ export default {
             }
         }
     },
-    methods: {},
+    methods: {
+        async getTrendingSummaryByCountry() {
+            try {
+                const result = await statisticService.getTrendingSummaryByCountry(this.country)
+                this.isLoading = false
+                console.log(result)
+            } catch (error) {
+                this.isLoading = false
+                console.log(error.response)
+            }
+        }
+    },
     created() {
+        this.isLoading = true
         this.country = this.$route.params.country
+        this.getTrendingSummaryByCountry()
     },
     mounted() {
         const vm = this
