@@ -100,7 +100,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { toDate, format, fromUnixTime } from 'date-fns'
 import { statisticService } from '@/services/statisticService'
 

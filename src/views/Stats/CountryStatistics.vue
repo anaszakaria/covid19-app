@@ -13,7 +13,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import Highcharts from 'highcharts'
 import { genComponent } from 'vue-highcharts'
 import { statisticService } from '@/services/statisticService'
