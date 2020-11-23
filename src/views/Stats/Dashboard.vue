@@ -1,10 +1,22 @@
 <template>
     <v-container fluid>
         <v-row class="ma-0">
-            <v-col sm="12">
+            <v-col xs="12" md="12">
                 <v-card outlined tile>
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <Highstock ref="highcharts" :options="totalCasesChartOptions" />
+                </v-card>
+            </v-col>
+            <v-col xs="12" md="6">
+                <v-card outlined tile>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <Highstock ref="highcharts" :options="activeCasesChartOptions" />
+                </v-card>
+            </v-col>
+            <v-col xs="12" md="6">
+                <v-card outlined tile>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <Highstock ref="highcharts" :options="recoveredChartOptions" />
                 </v-card>
             </v-col>
         </v-row>
@@ -16,6 +28,7 @@ import { getUnixTime } from 'date-fns'
 import Highcharts from 'highcharts'
 import { genComponent } from 'vue-highcharts'
 import { statisticService } from '@/services/statisticService'
+import { baseChartOptions } from '@/config/baseChartOptions'
 import loadStock from 'highcharts/modules/stock.js'
 
 loadStock(Highcharts)
@@ -33,12 +46,11 @@ export default {
             deaths: [],
             recovered: [],
             tested: [],
-            totalCases: [],
-            chartOptions: {}
+            totalCases: []
         }
     },
     methods: {
-        setCategory(array, category) {
+        formatHighstockData(array, category) {
             return array
                 .map((item) => {
                     const timestamp = getUnixTime(new Date(item.eventDate)) * 1000
@@ -53,12 +65,12 @@ export default {
             try {
                 const response = await statisticService.getAllTrendingSummary()
                 this.trendingData = response
-                this.activeCases = this.setCategory(this.trendingData, 'active_cases')
-                this.critical = this.setCategory(this.trendingData, 'critical')
-                this.deaths = this.setCategory(this.trendingData, 'deaths')
-                this.recovered = this.setCategory(this.trendingData, 'recovered')
-                this.tested = this.setCategory(this.trendingData, 'tested')
-                this.totalCases = this.setCategory(this.trendingData, 'total_cases')
+                this.activeCases = this.formatHighstockData(this.trendingData, 'active_cases')
+                this.critical = this.formatHighstockData(this.trendingData, 'critical')
+                this.deaths = this.formatHighstockData(this.trendingData, 'deaths')
+                this.recovered = this.formatHighstockData(this.trendingData, 'recovered')
+                this.tested = this.formatHighstockData(this.trendingData, 'tested')
+                this.totalCases = this.formatHighstockData(this.trendingData, 'total_cases')
             } catch (error) {
                 console.log(error.response)
             } finally {
@@ -69,15 +81,20 @@ export default {
     computed: {
         totalCasesChartOptions() {
             return {
+                ...baseChartOptions,
                 title: {
-                    text: 'Total COVID-19 Cases Worldwide',
+                    text: 'Total Cases',
                     style: {
                         fontSize: '14px',
                         fontFamily: 'Roboto'
                     }
                 },
                 subtitle: {
-                    text: 'Total Cases'
+                    text: 'Total COVID-19 Cases Worldwide',
+                    style: {
+                        fontSize: '12px',
+                        fontFamily: 'Roboto'
+                    }
                 },
                 plotOptions: {
                     series: {
@@ -86,7 +103,7 @@ export default {
                             events: {
                                 click: ({ point }) => {
                                     const totalCases = this.numberWithCommas(point.y)
-                                    console.log(`Number of Cases: ${totalCases}`)
+                                    console.log(`Number of Total Cases: ${totalCases}`)
                                 }
                             }
                         }
@@ -95,16 +112,134 @@ export default {
                 series: [
                     {
                         name: 'Number of Cases',
-                        color: '#3743F7',
+                        type: 'column',
+                        color: '#E65100',
                         data: this.totalCases,
                         tooltip: {
                             pointFormat: '{point.y:,.0f}'
                         }
                     }
-                ],
-                credits: {
-                    enabled: false
-                }
+                ]
+            }
+        },
+        activeCasesChartOptions() {
+            return {
+                ...baseChartOptions,
+                title: {
+                    text: 'Active Cases',
+                    style: {
+                        fontSize: '14px',
+                        fontFamily: 'Roboto'
+                    }
+                },
+                subtitle: {
+                    text: 'Total COVID-19 Active Cases Worldwide',
+                    style: {
+                        fontSize: '12px',
+                        fontFamily: 'Roboto'
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: ({ point }) => {
+                                    const totalCases = this.numberWithCommas(point.y)
+                                    console.log(`Number of Active Cases: ${totalCases}`)
+                                }
+                            }
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: 'Active Cases',
+                        type: 'area',
+                        color: '#E65100',
+                        data: this.activeCases,
+                        tooltip: {
+                            pointFormat: '{point.y:,.0f}'
+                        },
+                        fillColor: {
+                            linearGradient: {
+                                x1: 0,
+                                y1: 0,
+                                x2: 0,
+                                y2: 1
+                            },
+                            stops: [
+                                [0.7, Highcharts.getOptions().colors[0]],
+                                [
+                                    1,
+                                    Highcharts.color(Highcharts.getOptions().colors[0])
+                                        .setOpacity(0)
+                                        .get('rgba')
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        recoveredChartOptions() {
+            return {
+                ...baseChartOptions,
+                title: {
+                    text: 'Cases Recovered',
+                    style: {
+                        fontSize: '14px',
+                        fontFamily: 'Roboto'
+                    }
+                },
+                subtitle: {
+                    text: 'Total COVID-19 Recovered Cases Worldwide',
+                    style: {
+                        fontSize: '12px',
+                        fontFamily: 'Roboto'
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: ({ point }) => {
+                                    const totalCases = this.numberWithCommas(point.y)
+                                    console.log(`Number of Recovered Cases: ${totalCases}`)
+                                }
+                            }
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: 'Recovered Cases',
+                        type: 'area',
+                        color: '#E65100',
+                        data: this.recovered,
+                        tooltip: {
+                            pointFormat: '{point.y:,.0f}'
+                        },
+                        fillColor: {
+                            linearGradient: {
+                                x1: 0,
+                                y1: 0,
+                                x2: 0,
+                                y2: 1
+                            },
+                            stops: [
+                                [0.7, Highcharts.getOptions().colors[0]],
+                                [
+                                    1,
+                                    Highcharts.color(Highcharts.getOptions().colors[0])
+                                        .setOpacity(0)
+                                        .get('rgba')
+                                ]
+                            ]
+                        }
+                    }
+                ]
             }
         }
     },
