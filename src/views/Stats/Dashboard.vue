@@ -1,7 +1,13 @@
 <template>
     <v-container fluid>
         <v-row class="ma-0">
-            <v-col xs="12" md="12">
+            <v-col xs="12" md="6">
+                <v-card outlined tile>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <Highstock ref="highcharts" :options="dataComparisonOptions" />
+                </v-card>
+            </v-col>
+            <v-col xs="12" md="6">
                 <v-card outlined tile>
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <Highstock ref="highcharts" :options="totalCasesChartOptions" />
@@ -79,6 +85,64 @@ export default {
         }
     },
     computed: {
+        dataComparisonOptions() {
+            return {
+                ...baseChartOptions,
+                title: {
+                    text: 'Data Comparison',
+                    style: {
+                        fontSize: '14px',
+                        fontFamily: 'Roboto'
+                    }
+                },
+                subtitle: {
+                    text: 'Data Comparison between Active, Recovered and Death Cases',
+                    style: {
+                        fontSize: '12px',
+                        fontFamily: 'Roboto'
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: ({ point }) => {
+                                    const totalCases = this.numberWithCommas(point.y)
+                                    console.log(`Number of Active Cases: ${totalCases}`)
+                                }
+                            }
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: 'Active Cases',
+                        color: '#E65100',
+                        data: this.activeCases,
+                        tooltip: {
+                            pointFormat: 'Active Cases: {point.y:,.0f}'
+                        }
+                    },
+                    {
+                        name: 'Recovered Cases',
+                        color: '#1B5E20',
+                        data: this.recovered,
+                        tooltip: {
+                            pointFormat: 'Recovered: {point.y:,.0f}'
+                        }
+                    },
+                    {
+                        name: 'Deaths',
+                        color: '#B71C1C',
+                        data: this.deaths,
+                        tooltip: {
+                            pointFormat: 'Deaths: {point.y:,.0f}'
+                        }
+                    }
+                ]
+            }
+        },
         totalCasesChartOptions() {
             return {
                 ...baseChartOptions,
@@ -112,8 +176,8 @@ export default {
                 series: [
                     {
                         name: 'Number of Cases',
-                        type: 'column',
-                        color: '#E65100',
+                        type: 'area',
+                        color: '#212121',
                         data: this.totalCases,
                         tooltip: {
                             pointFormat: '{point.y:,.0f}'
@@ -216,7 +280,7 @@ export default {
                     {
                         name: 'Recovered Cases',
                         type: 'area',
-                        color: '#E65100',
+                        color: '#1B5E20',
                         data: this.recovered,
                         tooltip: {
                             pointFormat: '{point.y:,.0f}'
