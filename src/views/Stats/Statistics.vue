@@ -69,19 +69,19 @@
                             {{ item.total_cases | numberWithCommas }}
                         </template>
                         <template v-slot:[`item.change.total_cases`]="{ item }">
-                            <v-chip label dark color="orange">{{ item.change.total_cases | numberWithCommas }}</v-chip>
+                            <v-chip label dark color="orange">+{{ item.change.total_cases | numberWithCommas }}</v-chip>
                         </template>
                         <template v-slot:[`item.deaths`]="{ item }">
                             {{ item.deaths | numberWithCommas }}
                         </template>
                         <template v-slot:[`item.change.deaths`]="{ item }">
-                            <v-chip label dark color="red">{{ item.change.deaths | numberWithCommas }}</v-chip>
+                            <v-chip label dark color="red">+{{ item.change.deaths | numberWithCommas }}</v-chip>
                         </template>
                         <template v-slot:[`item.recovered`]="{ item }">
                             {{ item.recovered | numberWithCommas }}
                         </template>
                         <template v-slot:[`item.change.recovered`]="{ item }">
-                            <v-chip label dark color="green">{{ item.change.recovered | numberWithCommas }}</v-chip>
+                            <v-chip label dark color="green">+{{ item.change.recovered | numberWithCommas }}</v-chip>
                         </template>
                         <template v-slot:[`item.active_cases`]="{ item }">
                             {{ item.active_cases | numberWithCommas }}
@@ -124,10 +124,10 @@ export default {
             }
             this.tableHeight = window.innerHeight - 280
         },
-        async getDailyLatestSummary() {
+        async getCountriesLatestSummary() {
             this.loadDataTable = true
             try {
-                const response = await statisticService.getDailyLatestSummary()
+                const response = await statisticService.getCountriesLatestSummary()
                 this.countries = response.countries
                 this.generatedOn = response.generatedOn
                 this.countryNames = this.countries.map((country) => country.name)
@@ -204,7 +204,7 @@ export default {
     },
     created() {
         window.addEventListener('resize', this.resetTableHeight)
-        this.getDailyLatestSummary()
+        this.getCountriesLatestSummary()
     },
     mounted() {
         this.resetTableHeight()

@@ -4,51 +4,56 @@
             <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'orange'"
-                    :total="15000000"
+                    :total="summary.total_cases"
                     :title="'Confirmed'"
                     :icon="'mdi-twitter'"
-                    :preLoader="isLoading"
+                    :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
             <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'darkgrey'"
-                    :total="15000000"
+                    :total="summary.active_cases"
                     :title="'Active'"
                     :icon="'mdi-twitter'"
+                    :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
             <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'green'"
-                    :total="15000000"
+                    :total="summary.recovered"
                     :title="'Recovered'"
                     :icon="'mdi-twitter'"
+                    :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
             <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'red'"
-                    :total="15000000"
+                    :total="summary.deaths"
                     :title="'Deaths'"
                     :icon="'mdi-twitter'"
+                    :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
             <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'yellow'"
-                    :total="15000000"
+                    :total="summary.critical"
                     :title="'Critical'"
                     :icon="'mdi-twitter'"
                     :isDark="false"
+                    :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
             <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'blue'"
-                    :total="15000000"
+                    :total="summary.tested"
                     :title="'Tested'"
                     :icon="'mdi-twitter'"
+                    :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
             <!-- DATA COMPARISON - BY COUNTRY -->
@@ -172,6 +177,8 @@ export default {
     data() {
         return {
             isLoading: false,
+            isLoadingSummary: false,
+            summary: {},
             trendingData: [],
             activeCases: [],
             critical: [],
@@ -192,10 +199,10 @@ export default {
                     return a[0] - b[0]
                 })
         },
-        async getAllTrendingSummary() {
+        async getGlobalTrendingSummary() {
             this.isLoading = true
             try {
-                const response = await statisticService.getAllTrendingSummary()
+                const response = await statisticService.getGlobalTrendingSummary()
                 this.trendingData = response
                 this.activeCases = this.formatHighstockData(this.trendingData, 'active_cases')
                 this.critical = this.formatHighstockData(this.trendingData, 'critical')
@@ -208,11 +215,23 @@ export default {
             } finally {
                 this.isLoading = false
             }
+        },
+        async getGlobalLatestSummary() {
+            this.isLoadingSummary = true
+            try {
+                const response = await statisticService.getGlobalLatestSummary()
+                this.summary = response
+            } catch (error) {
+                console.log(error.response)
+            } finally {
+                this.isLoadingSummary = false
+            }
         }
     },
     computed: {},
     created() {
-        this.getAllTrendingSummary()
+        this.getGlobalTrendingSummary()
+        this.getGlobalLatestSummary()
     },
     mounted() {}
 }

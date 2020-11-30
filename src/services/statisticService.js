@@ -15,7 +15,18 @@ const options = {
 }
 
 export const statisticService = {
-    getDailyLatestSummary() {
+    getGlobalLatestSummary() {
+        return axios
+            .request({
+                ...options,
+                url: `${process.env.VUE_APP_CORONAVIRUSMAP_API}/summary/latest`
+            })
+            .then((response) => {
+                const summary = response.data.data.summary
+                return summary
+            })
+    },
+    getCountriesLatestSummary() {
         return axios
             .request({
                 ...options,
@@ -35,7 +46,7 @@ export const statisticService = {
                 return newData
             })
     },
-    getAllTrendingSummary() {
+    getGlobalTrendingSummary() {
         return axios
             .request({
                 ...options,
@@ -64,11 +75,5 @@ export const statisticService = {
             .then((response) => {
                 return response.data
             })
-    }
-}
-
-export const userService = {
-    getUsers() {
-        return ['Admin', 'User1', 'User2']
     }
 }
