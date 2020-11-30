@@ -153,21 +153,22 @@ export default {
         }
     },
     methods: {
-        async getTrendingSummaryByCountry() {
+        async getHistoryByCountry() {
             try {
-                const result = await statisticService.getTrendingSummaryByCountry(this.country)
+                const response = await statisticService.getHistoryByCountry(this.country)
                 this.isLoading = false
-                console.log(result)
+                console.log(response)
             } catch (error) {
-                this.isLoading = false
                 console.log(error.response)
+            } finally {
+                this.isLoading = false
             }
         }
     },
     created() {
         this.isLoading = true
         this.country = this.$route.params.country
-        this.getTrendingSummaryByCountry()
+        this.getHistoryByCountry()
     },
     mounted() {
         const vm = this

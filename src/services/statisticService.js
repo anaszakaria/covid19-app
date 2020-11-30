@@ -1,10 +1,24 @@
 import axios from 'axios'
 
-const options = {
+const coronaVirusMapAPIOptions = {
     method: 'GET',
     headers: {
-        'x-rapidapi-key': process.env.VUE_APP_CORONAVIRUSMAP_RAPID_API_KEY,
+        'x-rapidapi-key': process.env.VUE_APP_RAPID_API_KEY,
         'x-rapidapi-host': 'coronavirus-map.p.rapidapi.com'
+    },
+    onDownloadProgress: (progressEvent) => {
+        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        // console.log(progressEvent.loaded, progressEvent.total)
+        // console.log(progressEvent.lengthComputable)
+        // console.log(percentCompleted)
+    }
+}
+
+const coronaVirusMonitorAPIOptions = {
+    method: 'GET',
+    headers: {
+        'x-rapidapi-key': process.env.VUE_APP_RAPID_API_KEY,
+        'x-rapidapi-host': 'coronavirus-monitor.p.rapidapi.com'
     },
     onDownloadProgress: (progressEvent) => {
         let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
@@ -18,8 +32,8 @@ export const statisticService = {
     getGlobalLatestSummary() {
         return axios
             .request({
-                ...options,
-                url: `${process.env.VUE_APP_CORONAVIRUSMAP_API}/summary/latest`
+                ...coronaVirusMapAPIOptions,
+                url: `${process.env.VUE_APP_CORONAVIRUS_MAP_API}/summary/latest`
             })
             .then((response) => {
                 const summary = response.data.data.summary
@@ -29,8 +43,8 @@ export const statisticService = {
     getCountriesLatestSummary() {
         return axios
             .request({
-                ...options,
-                url: `${process.env.VUE_APP_CORONAVIRUSMAP_API}/summary/latest`
+                ...coronaVirusMapAPIOptions,
+                url: `${process.env.VUE_APP_CORONAVIRUS_MAP_API}/summary/latest`
             })
             .then((response) => {
                 let countries = []
@@ -49,8 +63,8 @@ export const statisticService = {
     getGlobalTrendingSummary() {
         return axios
             .request({
-                ...options,
-                url: `${process.env.VUE_APP_CORONAVIRUSMAP_API}/spots/summary`
+                ...coronaVirusMapAPIOptions,
+                url: `${process.env.VUE_APP_CORONAVIRUS_MAP_API}/spots/summary`
             })
             .then((response) => {
                 let trendingSummary = []
@@ -65,15 +79,15 @@ export const statisticService = {
                 return trendingSummary
             })
     },
-    getTrendingSummaryByCountry(country) {
+    getHistoryByCountry(country) {
         return axios
             .request({
-                ...options,
-                url: `${process.env.VUE_APP_CORONAVIRUSMAP_API}/spots/day`,
-                params: { region: country }
+                ...coronaVirusMonitorAPIOptions,
+                url: `${process.env.VUE_APP_CORONAVIRUS_MONITOR_API}/cases_by_particular_country.php`,
+                params: { country }
             })
             .then((response) => {
-                return response.data
+                return response.data.stat_by_country
             })
     }
 }
