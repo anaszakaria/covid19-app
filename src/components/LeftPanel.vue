@@ -24,10 +24,10 @@ export default {
         return {
             leftPanel: true,
             pageList: [
+                { icon: 'mdi-view-dashboard', text: 'Dashboard', url: '/dashboard' },
                 { icon: 'mdi-map', text: 'Map Viewer', url: '/mapviewer' },
                 { icon: 'mdi-earth', text: 'HighMaps', url: '/highmaps' },
                 { icon: 'mdi-table-large', text: 'Statistics', url: '/statistics' },
-                { icon: 'mdi-view-dashboard', text: 'Dashboard', url: '/dashboard' },
                 { icon: 'mdi-timer', text: 'Prediction', url: '/prediction' },
                 { icon: 'mdi-chart-timeline', text: 'Timeline', url: '/timeline' }
             ]

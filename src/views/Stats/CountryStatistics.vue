@@ -3,7 +3,7 @@
         <v-row class="ma-0">
             <v-col sm="12">
                 <h3>COVID-19 Statistics for {{ country }}</h3>
-                <v-card outlined tile>
+                <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <Highstock ref="highcharts" :options="chartOptions" />
                 </v-card>

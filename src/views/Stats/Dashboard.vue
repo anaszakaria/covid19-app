@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <v-row class="ma-0">
-            <v-col xs="12" md="2">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'orange'"
                     :total="15000000"
@@ -10,7 +10,7 @@
                     :preLoader="isLoading"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="12" md="2">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'darkgrey'"
                     :total="15000000"
@@ -18,7 +18,7 @@
                     :icon="'mdi-twitter'"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="12" md="2">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'green'"
                     :total="15000000"
@@ -26,7 +26,7 @@
                     :icon="'mdi-twitter'"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="12" md="2">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'red'"
                     :total="15000000"
@@ -34,7 +34,7 @@
                     :icon="'mdi-twitter'"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="12" md="2">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'yellow'"
                     :total="15000000"
@@ -43,7 +43,7 @@
                     :isDark="false"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="12" md="2">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'blue'"
                     :total="15000000"
@@ -64,8 +64,21 @@
                     />
                 </v-card>
             </v-col> -->
-            <!-- DATA COMPARISON - ACTIVE, RECOVERED, DEATHS -->
+            <!-- PIE CHART - OVERALL ACTIVE vs RECOVERED vs DEATHS PERCENTAGE 
             <v-col xs="12" md="6">
+                <v-card outlined tile>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <PieChart
+                        :activeCases="activeCases"
+                        :recovered="recovered"
+                        :deaths="deaths"
+                        :title="'Data Comparison'"
+                        :subTitle="'Data Comparison Between Active, Recovered and Death Cases'"
+                    />
+                </v-card>
+            </v-col> -->
+            <!-- DATA COMPARISON - ACTIVE, RECOVERED, DEATHS -->
+            <v-col xs="12" md="12">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockMultiLineChart

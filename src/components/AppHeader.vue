@@ -4,7 +4,7 @@
         <v-toolbar-title
             class="white--text text--darken-4 font-weight-500 pointer hidden-xs-only pointer"
             @click="gotoPage('/')"
-            >COVID-19 Stats and Monitoring App v1.0</v-toolbar-title
+            >COVID-19 Global Stats and Monitoring</v-toolbar-title
         >
         <v-spacer></v-spacer>
         <template v-if="userIsAuthenticated">

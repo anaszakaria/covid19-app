@@ -8,8 +8,7 @@ const routes = [
     // HOME
     {
         path: '/',
-        name: 'Home',
-        component: () => import('@/views/Home.vue')
+        redirect: '/dashboard'
     },
     // INFO AND Q&A
     {
@@ -54,6 +53,11 @@ const routes = [
     },
     // STATISTICS
     {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: () => import('@/views/Stats/Dashboard.vue')
+    },
+    {
         path: '/statistics',
         name: 'Statistics',
         component: () => import('@/views/Stats/Statistics.vue')
@@ -62,11 +66,6 @@ const routes = [
         path: '/statistics/:country',
         name: 'CountryStatistics',
         component: () => import('@/views/Stats/CountryStatistics.vue')
-    },
-    {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: () => import('@/views/Stats/Dashboard.vue')
     },
     {
         path: '/prediction',
