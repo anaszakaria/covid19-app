@@ -1,9 +1,72 @@
 <template>
     <v-container fluid>
         <v-row class="ma-0">
+            <v-col xs="12" md="2">
+                <StatusWidget
+                    :widgetColor="'orange'"
+                    :total="15000000"
+                    :title="'Confirmed'"
+                    :icon="'mdi-twitter'"
+                    :preLoader="isLoading"
+                ></StatusWidget>
+            </v-col>
+            <v-col xs="12" md="2">
+                <StatusWidget
+                    :widgetColor="'darkgrey'"
+                    :total="15000000"
+                    :title="'Active'"
+                    :icon="'mdi-twitter'"
+                ></StatusWidget>
+            </v-col>
+            <v-col xs="12" md="2">
+                <StatusWidget
+                    :widgetColor="'green'"
+                    :total="15000000"
+                    :title="'Recovered'"
+                    :icon="'mdi-twitter'"
+                ></StatusWidget>
+            </v-col>
+            <v-col xs="12" md="2">
+                <StatusWidget
+                    :widgetColor="'red'"
+                    :total="15000000"
+                    :title="'Deaths'"
+                    :icon="'mdi-twitter'"
+                ></StatusWidget>
+            </v-col>
+            <v-col xs="12" md="2">
+                <StatusWidget
+                    :widgetColor="'yellow'"
+                    :total="15000000"
+                    :title="'Critical'"
+                    :icon="'mdi-twitter'"
+                    :isDark="false"
+                ></StatusWidget>
+            </v-col>
+            <v-col xs="12" md="2">
+                <StatusWidget
+                    :widgetColor="'blue'"
+                    :total="15000000"
+                    :title="'Tested'"
+                    :icon="'mdi-twitter'"
+                ></StatusWidget>
+            </v-col>
+            <!-- DATA COMPARISON - BY COUNTRY -->
+            <!-- <v-col xs="12" md="6">
+                <v-card outlined tile>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <HighStockMultiLineChart
+                        :activeCases="activeCases"
+                        :recovered="recovered"
+                        :deaths="deaths"
+                        :title="'Data Comparison'"
+                        :subTitle="'Data Comparison Between Active, Recovered and Death Cases'"
+                    />
+                </v-card>
+            </v-col> -->
             <!-- DATA COMPARISON - ACTIVE, RECOVERED, DEATHS -->
             <v-col xs="12" md="6">
-                <v-card outlined tile>
+                <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockMultiLineChart
                         :activeCases="activeCases"
@@ -16,7 +79,7 @@
             </v-col>
             <!-- TOTAL CASES -->
             <v-col xs="12" md="6">
-                <v-card outlined tile>
+                <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="totalCases"
@@ -28,7 +91,7 @@
             </v-col>
             <!-- ACTIVE CASES -->
             <v-col xs="12" md="6">
-                <v-card outlined tile>
+                <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="activeCases"
@@ -40,7 +103,7 @@
             </v-col>
             <!-- RECOVERED -->
             <v-col xs="12" md="6">
-                <v-card outlined tile>
+                <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="recovered"
@@ -52,7 +115,7 @@
             </v-col>
             <!-- DEATHS -->
             <v-col xs="12" md="6">
-                <v-card outlined tile>
+                <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="deaths"
@@ -71,11 +134,13 @@ import { getUnixTime } from 'date-fns'
 import { statisticService } from '@/services/statisticService'
 import HighStockLineChart from '@/components/Charts/HighStockLineChart'
 import HighStockMultiLineChart from '@/components/Charts/HighStockMultiLineChart'
+import StatusWidget from '@/components/Widgets/StatusWidget'
 
 export default {
     components: {
         HighStockLineChart,
-        HighStockMultiLineChart
+        HighStockMultiLineChart,
+        StatusWidget
     },
     data() {
         return {
