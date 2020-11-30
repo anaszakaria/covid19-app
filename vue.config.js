@@ -10,8 +10,8 @@ module.exports = {
     css: {
         sourceMap: true,
         loaderOptions: {
-            sass: {
-                // prependData: '@import "~@/assets/scss/main.scss"',
+            scss: {
+                additionalData: `@import "~@/assets/scss/utilities/_variables.scss";`
             },
         },
     },
@@ -30,13 +30,6 @@ module.exports = {
         }
     },
     chainWebpack: (config) => {
-        // ['vue-modules', 'vue', 'normal-modules', 'normal'].forEach((match) => {
-        //     config.module
-        //         .rule('scss')
-        //         .oneOf(match)
-        //         .use('sass-loader')
-        //         .tap((opt) => Object.assign(opt, { data: `@import '~@/assets/scss/utilities/variables.scss';` }))
-        // })
         config.output.chunkFilename(`js/[name].[id].[chunkhash:8].js`)
         config.resolve.alias
             .set('root', resolve('./'))
