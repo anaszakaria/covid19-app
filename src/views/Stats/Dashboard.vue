@@ -1,6 +1,32 @@
 <template>
     <v-container fluid>
         <v-row class="ma-0">
+            <!-- DATA COMPARISON - ACTIVE, RECOVERED, DEATHS -->
+            <v-col xs="12" md="6">
+                <v-card outlined tile>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <HighStockMultiLineChart
+                        :activeCases="activeCases"
+                        :recovered="recovered"
+                        :deaths="deaths"
+                        :title="'Data Comparison'"
+                        :subTitle="'Data Comparison Between Active, Recovered and Death Cases'"
+                    />
+                </v-card>
+            </v-col>
+            <!-- TOTAL CASES -->
+            <v-col xs="12" md="6">
+                <v-card outlined tile>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <HighStockLineChart
+                        :data="totalCases"
+                        :title="'Total Cases'"
+                        :subTitle="'Total COVID-19 Cases Worldwide'"
+                        :lineColor="'#212121'"
+                    />
+                </v-card>
+            </v-col>
+            <!-- ACTIVE CASES -->
             <v-col xs="12" md="6">
                 <v-card outlined tile>
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
@@ -12,28 +38,28 @@
                     />
                 </v-card>
             </v-col>
+            <!-- RECOVERED -->
             <v-col xs="12" md="6">
                 <v-card outlined tile>
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
-                    <Highstock ref="highcharts" :options="dataComparisonOptions" />
+                    <HighStockLineChart
+                        :data="recovered"
+                        :title="'Cases Recovered'"
+                        :subTitle="'Total COVID-19 Recovered Cases Worldwide'"
+                        :lineColor="'#1B5E20'"
+                    />
                 </v-card>
             </v-col>
+            <!-- DEATHS -->
             <v-col xs="12" md="6">
                 <v-card outlined tile>
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
-                    <Highstock ref="highcharts" :options="totalCasesChartOptions" />
-                </v-card>
-            </v-col>
-            <v-col xs="12" md="6">
-                <v-card outlined tile>
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
-                    <Highstock ref="highcharts" :options="activeCasesChartOptions" />
-                </v-card>
-            </v-col>
-            <v-col xs="12" md="6">
-                <v-card outlined tile>
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
-                    <Highstock ref="highcharts" :options="recoveredChartOptions" />
+                    <HighStockLineChart
+                        :data="deaths"
+                        :title="'Death Cases'"
+                        :subTitle="'Total COVID-19 Death Cases Worldwide'"
+                        :lineColor="'#B71C1C'"
+                    />
                 </v-card>
             </v-col>
         </v-row>
@@ -42,19 +68,14 @@
 
 <script>
 import { getUnixTime } from 'date-fns'
-import Highcharts from 'highcharts'
-import { genComponent } from 'vue-highcharts'
 import { statisticService } from '@/services/statisticService'
-import { baseChartOptions } from '@/config/baseChartOptions'
-import loadStock from 'highcharts/modules/stock.js'
 import HighStockLineChart from '@/components/Charts/HighStockLineChart'
-
-loadStock(Highcharts)
+import HighStockMultiLineChart from '@/components/Charts/HighStockMultiLineChart'
 
 export default {
     components: {
-        Highstock: genComponent('Highstock', Highcharts),
-        HighStockLineChart
+        HighStockLineChart,
+        HighStockMultiLineChart
     },
     data() {
         return {
@@ -97,240 +118,10 @@ export default {
             }
         }
     },
-    computed: {
-        dataComparisonOptions() {
-            return {
-                ...baseChartOptions,
-                title: {
-                    text: 'Data Comparison',
-                    style: {
-                        fontSize: '14px',
-                        fontFamily: 'Roboto'
-                    }
-                },
-                subtitle: {
-                    text: 'Data Comparison between Active, Recovered and Death Cases',
-                    style: {
-                        fontSize: '12px',
-                        fontFamily: 'Roboto'
-                    }
-                },
-                plotOptions: {
-                    series: {
-                        cursor: 'pointer',
-                        point: {
-                            events: {
-                                click: ({ point }) => {
-                                    const totalCases = this.numberWithCommas(point.y)
-                                    console.log(`Number of Active Cases: ${totalCases}`)
-                                }
-                            }
-                        }
-                    }
-                },
-                series: [
-                    {
-                        name: 'Active Cases',
-                        color: '#E65100',
-                        data: this.activeCases,
-                        tooltip: {
-                            pointFormat: 'Active Cases: {point.y:,.0f}'
-                        }
-                    },
-                    {
-                        name: 'Recovered Cases',
-                        color: '#1B5E20',
-                        data: this.recovered,
-                        tooltip: {
-                            pointFormat: 'Recovered: {point.y:,.0f}'
-                        }
-                    },
-                    {
-                        name: 'Deaths',
-                        color: '#B71C1C',
-                        data: this.deaths,
-                        tooltip: {
-                            pointFormat: 'Deaths: {point.y:,.0f}'
-                        }
-                    }
-                ]
-            }
-        },
-        totalCasesChartOptions() {
-            return {
-                ...baseChartOptions,
-                title: {
-                    text: 'Total Cases',
-                    style: {
-                        fontSize: '14px',
-                        fontFamily: 'Roboto'
-                    }
-                },
-                subtitle: {
-                    text: 'Total COVID-19 Cases Worldwide',
-                    style: {
-                        fontSize: '12px',
-                        fontFamily: 'Roboto'
-                    }
-                },
-                plotOptions: {
-                    series: {
-                        cursor: 'pointer',
-                        point: {
-                            events: {
-                                click: ({ point }) => {
-                                    const totalCases = this.numberWithCommas(point.y)
-                                    console.log(`Number of Total Cases: ${totalCases}`)
-                                }
-                            }
-                        }
-                    }
-                },
-                series: [
-                    {
-                        name: 'Number of Cases',
-                        type: 'area',
-                        color: '#212121',
-                        data: this.totalCases,
-                        tooltip: {
-                            pointFormat: '{point.y:,.0f}'
-                        }
-                    }
-                ]
-            }
-        },
-        activeCasesChartOptions() {
-            return {
-                ...baseChartOptions,
-                title: {
-                    text: 'Active Cases',
-                    style: {
-                        fontSize: '14px',
-                        fontFamily: 'Roboto'
-                    }
-                },
-                subtitle: {
-                    text: 'Total COVID-19 Active Cases Worldwide',
-                    style: {
-                        fontSize: '12px',
-                        fontFamily: 'Roboto'
-                    }
-                },
-                plotOptions: {
-                    series: {
-                        cursor: 'pointer',
-                        point: {
-                            events: {
-                                click: ({ point }) => {
-                                    const totalCases = this.numberWithCommas(point.y)
-                                    console.log(`Number of Active Cases: ${totalCases}`)
-                                }
-                            }
-                        }
-                    }
-                },
-                series: [
-                    {
-                        name: 'Active Cases',
-                        type: 'area',
-                        color: '#E65100',
-                        data: this.activeCases,
-                        tooltip: {
-                            pointFormat: '{point.y:,.0f}'
-                        },
-                        fillColor: {
-                            linearGradient: {
-                                x1: 0,
-                                y1: 0,
-                                x2: 0,
-                                y2: 1
-                            },
-                            stops: [
-                                [0.7, Highcharts.getOptions().colors[0]],
-                                [
-                                    1,
-                                    Highcharts.color(Highcharts.getOptions().colors[0])
-                                        .setOpacity(0)
-                                        .get('rgba')
-                                ]
-                            ]
-                        }
-                    }
-                ]
-            }
-        },
-        recoveredChartOptions() {
-            return {
-                ...baseChartOptions,
-                title: {
-                    text: 'Cases Recovered',
-                    style: {
-                        fontSize: '14px',
-                        fontFamily: 'Roboto'
-                    }
-                },
-                subtitle: {
-                    text: 'Total COVID-19 Recovered Cases Worldwide',
-                    style: {
-                        fontSize: '12px',
-                        fontFamily: 'Roboto'
-                    }
-                },
-                plotOptions: {
-                    series: {
-                        cursor: 'pointer',
-                        point: {
-                            events: {
-                                click: ({ point }) => {
-                                    const totalCases = this.numberWithCommas(point.y)
-                                    console.log(`Number of Recovered Cases: ${totalCases}`)
-                                }
-                            }
-                        }
-                    }
-                },
-                series: [
-                    {
-                        name: 'Recovered Cases',
-                        type: 'area',
-                        color: '#1B5E20',
-                        data: this.recovered,
-                        tooltip: {
-                            pointFormat: '{point.y:,.0f}'
-                        },
-                        fillColor: {
-                            linearGradient: {
-                                x1: 0,
-                                y1: 0,
-                                x2: 0,
-                                y2: 1
-                            },
-                            stops: [
-                                [0.7, Highcharts.getOptions().colors[0]],
-                                [
-                                    1,
-                                    Highcharts.color(Highcharts.getOptions().colors[0])
-                                        .setOpacity(0)
-                                        .get('rgba')
-                                ]
-                            ]
-                        }
-                    }
-                ]
-            }
-        }
-    },
+    computed: {},
     created() {
         this.getAllTrendingSummary()
     },
-    mounted() {
-        const vm = this
-        const { chart } = vm.$refs.highcharts
-        Highcharts.setOptions({
-            lang: {
-                thousandsSep: ','
-            }
-        })
-    }
+    mounted() {}
 }
 </script>

@@ -14,7 +14,9 @@ export default {
         Highstock: genComponent('Highstock', Highcharts)
     },
     props: {
-        data: Array,
+        activeCases: Array,
+        recovered: Array,
+        deaths: Array,
         title: String,
         subTitle: String,
         lineColor: String
@@ -55,28 +57,26 @@ export default {
                 series: [
                     {
                         name: 'Active Cases',
-                        type: 'area',
-                        color: this.lineColor,
-                        data: this.data,
+                        color: '#E65100',
+                        data: this.activeCases,
                         tooltip: {
-                            pointFormat: 'Cases: {point.y:,.0f}'
-                        },
-                        fillColor: {
-                            linearGradient: {
-                                x1: 0,
-                                y1: 0,
-                                x2: 0,
-                                y2: 1
-                            },
-                            stops: [
-                                [0.7, Highcharts.getOptions().colors[0]],
-                                [
-                                    1,
-                                    Highcharts.color(Highcharts.getOptions().colors[0])
-                                        .setOpacity(0)
-                                        .get('rgba')
-                                ]
-                            ]
+                            pointFormat: 'Active Cases: {point.y:,.0f}'
+                        }
+                    },
+                    {
+                        name: 'Recovered Cases',
+                        color: '#1B5E20',
+                        data: this.recovered,
+                        tooltip: {
+                            pointFormat: 'Recovered: {point.y:,.0f}'
+                        }
+                    },
+                    {
+                        name: 'Deaths',
+                        color: '#B71C1C',
+                        data: this.deaths,
+                        tooltip: {
+                            pointFormat: 'Deaths: {point.y:,.0f}'
                         }
                     }
                 ],
