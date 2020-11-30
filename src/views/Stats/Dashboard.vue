@@ -4,6 +4,17 @@
             <v-col xs="12" md="6">
                 <v-card outlined tile>
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <HighStockLineChart
+                        :data="activeCases"
+                        :title="'Active Cases'"
+                        :subTitle="'Total COVID-19 Active Cases Worldwide'"
+                        :lineColor="'#E65100'"
+                    />
+                </v-card>
+            </v-col>
+            <v-col xs="12" md="6">
+                <v-card outlined tile>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <Highstock ref="highcharts" :options="dataComparisonOptions" />
                 </v-card>
             </v-col>
@@ -36,12 +47,14 @@ import { genComponent } from 'vue-highcharts'
 import { statisticService } from '@/services/statisticService'
 import { baseChartOptions } from '@/config/baseChartOptions'
 import loadStock from 'highcharts/modules/stock.js'
+import HighStockLineChart from '@/components/Charts/HighStockLineChart'
 
 loadStock(Highcharts)
 
 export default {
     components: {
-        Highstock: genComponent('Highstock', Highcharts)
+        Highstock: genComponent('Highstock', Highcharts),
+        HighStockLineChart
     },
     data() {
         return {
