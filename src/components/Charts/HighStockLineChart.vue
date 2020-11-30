@@ -54,12 +54,12 @@ export default {
                 },
                 series: [
                     {
-                        name: 'Active Cases',
+                        name: this.title,
                         type: 'area',
                         color: this.lineColor,
                         data: this.data,
                         tooltip: {
-                            pointFormat: 'Cases: {point.y:,.0f}'
+                            pointFormat: '{series.name}: <b>{point.y:,.0f}</b>'
                         },
                         fillColor: {
                             linearGradient: {

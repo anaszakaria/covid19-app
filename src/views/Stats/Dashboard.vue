@@ -78,7 +78,7 @@
                 </v-card>
             </v-col> -->
             <!-- DATA COMPARISON - ACTIVE, RECOVERED, DEATHS -->
-            <v-col xs="12" md="12">
+            <v-col xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockMultiLineChart
@@ -91,13 +91,25 @@
                 </v-card>
             </v-col>
             <!-- TOTAL CASES -->
-            <v-col xs="12" md="6">
+            <v-col xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="totalCases"
                         :title="'Total Cases'"
                         :subTitle="'Total COVID-19 Cases Worldwide'"
+                        :lineColor="'#212121'"
+                    />
+                </v-card>
+            </v-col>
+            <!-- PIE CHART COMPARISON - ACTIVE, RECOVERED and DEATHS -->
+            <v-col xs="12" md="4">
+                <v-card outlined elevation="1">
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <PieChart
+                        :data="totalCases"
+                        :title="'Data Comparison'"
+                        :subTitle="'Percentage of Active, Recovered and Death Cases'"
                         :lineColor="'#212121'"
                     />
                 </v-card>
@@ -147,12 +159,14 @@ import { getUnixTime } from 'date-fns'
 import { statisticService } from '@/services/statisticService'
 import HighStockLineChart from '@/components/Charts/HighStockLineChart'
 import HighStockMultiLineChart from '@/components/Charts/HighStockMultiLineChart'
+import PieChart from '@/components/Charts/PieChart'
 import StatusWidget from '@/components/Widgets/StatusWidget'
 
 export default {
     components: {
         HighStockLineChart,
         HighStockMultiLineChart,
+        PieChart,
         StatusWidget
     },
     data() {
