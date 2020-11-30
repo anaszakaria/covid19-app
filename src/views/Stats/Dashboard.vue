@@ -110,9 +110,9 @@
             <!-- PIE CHART COMPARISON - ACTIVE, RECOVERED and DEATHS -->
             <v-col xs="12" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
                     <PieChart
-                        :data="totalCases"
+                        :data="pieChartSeriesData"
                         :title="'Data Comparison'"
                         :subTitle="'Percentage of Active, Recovered and Death Cases'"
                         :lineColor="'#212121'"
@@ -179,6 +179,11 @@ export default {
             isLoading: false,
             isLoadingSummary: false,
             summary: {},
+            pieChartSeriesData: [
+                { name: 'Active', y: null, color: 'blue' },
+                { name: 'Recovered', y: null, color: 'green' },
+                { name: 'Deaths', y: null, color: 'red' }
+            ],
             trendingData: [],
             activeCases: [],
             critical: [],
@@ -221,6 +226,10 @@ export default {
             try {
                 const response = await statisticService.getGlobalLatestSummary()
                 this.summary = response
+                const [active, recovered, deaths] = this.pieChartSeriesData
+                active.y = response.active_cases
+                recovered.y = response.recovered
+                deaths.y = response.deaths
             } catch (error) {
                 console.log(error.response)
             } finally {

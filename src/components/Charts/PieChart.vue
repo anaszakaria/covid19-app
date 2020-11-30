@@ -62,22 +62,9 @@ export default {
                 },
                 series: [
                     {
-                        name: 'Cases',
+                        name: 'Percentage',
                         colorByPoint: true,
-                        data: [
-                            {
-                                name: 'Chrome',
-                                y: 61.41
-                            },
-                            {
-                                name: 'Internet Explorer',
-                                y: 11.84
-                            },
-                            {
-                                name: 'Firefox',
-                                y: 10.85
-                            }
-                        ]
+                        data: this.data
                     }
                 ],
                 credits: {
