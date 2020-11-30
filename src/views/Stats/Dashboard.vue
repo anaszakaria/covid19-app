@@ -6,7 +6,7 @@
                     :widgetColor="'orange'"
                     :total="summary.total_cases"
                     :title="'Confirmed'"
-                    :icon="'mdi-twitter'"
+                    :icon="'mdi-medical-bag'"
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
@@ -15,7 +15,7 @@
                     :widgetColor="'darkgrey'"
                     :total="summary.active_cases"
                     :title="'Active'"
-                    :icon="'mdi-twitter'"
+                    :icon="'mdi-pill'"
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
@@ -24,7 +24,7 @@
                     :widgetColor="'green'"
                     :total="summary.recovered"
                     :title="'Recovered'"
-                    :icon="'mdi-twitter'"
+                    :icon="'mdi-plus-circle'"
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
@@ -33,7 +33,7 @@
                     :widgetColor="'red darken-1'"
                     :total="summary.deaths"
                     :title="'Deaths'"
-                    :icon="'mdi-twitter'"
+                    :icon="'mdi-minus-circle'"
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
@@ -42,7 +42,7 @@
                     :widgetColor="'yellow'"
                     :total="summary.critical"
                     :title="'Critical'"
-                    :icon="'mdi-twitter'"
+                    :icon="'mdi-hospital-building'"
                     :isDark="false"
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
@@ -52,7 +52,7 @@
                     :widgetColor="'blue'"
                     :total="summary.tested"
                     :title="'Tested'"
-                    :icon="'mdi-twitter'"
+                    :icon="'mdi-test-tube'"
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
@@ -61,19 +61,6 @@
                 <v-card outlined tile>
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockMultiLineChart
-                        :activeCases="activeCases"
-                        :recovered="recovered"
-                        :deaths="deaths"
-                        :title="'Data Comparison'"
-                        :subTitle="'Data Comparison Between Active, Recovered and Death Cases'"
-                    />
-                </v-card>
-            </v-col> -->
-            <!-- PIE CHART - OVERALL ACTIVE vs RECOVERED vs DEATHS PERCENTAGE 
-            <v-col xs="12" md="6">
-                <v-card outlined tile>
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
-                    <PieChart
                         :activeCases="activeCases"
                         :recovered="recovered"
                         :deaths="deaths"
