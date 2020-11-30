@@ -57,7 +57,7 @@ export default {
                 series: [
                     {
                         name: 'Active Cases',
-                        color: '#E65100',
+                        color: '#212121',
                         data: this.activeCases,
                         tooltip: {
                             pointFormat: 'Active Cases: {point.y:,.0f}'
@@ -65,7 +65,7 @@ export default {
                     },
                     {
                         name: 'Recovered Cases',
-                        color: '#1B5E20',
+                        color: '#4CAF50',
                         data: this.recovered,
                         tooltip: {
                             pointFormat: 'Recovered: {point.y:,.0f}'
@@ -73,7 +73,7 @@ export default {
                     },
                     {
                         name: 'Deaths',
-                        color: '#B71C1C',
+                        color: '#E53935',
                         data: this.deaths,
                         tooltip: {
                             pointFormat: 'Deaths: {point.y:,.0f}'

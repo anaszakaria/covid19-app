@@ -30,7 +30,7 @@
             </v-col>
             <v-col xs="6" md="2">
                 <StatusWidget
-                    :widgetColor="'red'"
+                    :widgetColor="'red darken-1'"
                     :total="summary.deaths"
                     :title="'Deaths'"
                     :icon="'mdi-twitter'"
@@ -101,9 +101,9 @@
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="totalCases"
-                        :title="'Total Cases'"
-                        :subTitle="'Total COVID-19 Cases Worldwide'"
-                        :lineColor="'#212121'"
+                        :title="'Confirmed Cases'"
+                        :subTitle="'Total Confirmed COVID-19 Cases Worldwide'"
+                        :lineColor="'#FF9800'"
                     />
                 </v-card>
             </v-col>
@@ -127,7 +127,7 @@
                         :data="activeCases"
                         :title="'Active Cases'"
                         :subTitle="'Total COVID-19 Active Cases Worldwide'"
-                        :lineColor="'#E65100'"
+                        :lineColor="'#212121'"
                     />
                 </v-card>
             </v-col>
@@ -139,7 +139,7 @@
                         :data="recovered"
                         :title="'Cases Recovered'"
                         :subTitle="'Total COVID-19 Recovered Cases Worldwide'"
-                        :lineColor="'#1B5E20'"
+                        :lineColor="'#4CAF50'"
                     />
                 </v-card>
             </v-col>
@@ -151,7 +151,7 @@
                         :data="deaths"
                         :title="'Death Cases'"
                         :subTitle="'Total COVID-19 Death Cases Worldwide'"
-                        :lineColor="'#B71C1C'"
+                        :lineColor="'#E53935'"
                     />
                 </v-card>
             </v-col>
@@ -180,9 +180,9 @@ export default {
             isLoadingSummary: false,
             summary: {},
             pieChartSeriesData: [
-                { name: 'Active', y: null, color: 'blue' },
-                { name: 'Recovered', y: null, color: 'green' },
-                { name: 'Deaths', y: null, color: 'red' }
+                { name: 'Active', y: null, color: '#212121' },
+                { name: 'Recovered', y: null, color: '#4CAF50' },
+                { name: 'Deaths', y: null, color: '#E53935' }
             ],
             trendingData: [],
             activeCases: [],

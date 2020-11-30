@@ -75,7 +75,9 @@
                             {{ item.deaths | numberWithCommas }}
                         </template>
                         <template v-slot:[`item.change.deaths`]="{ item }">
-                            <v-chip label dark color="red">+{{ item.change.deaths | numberWithCommas }}</v-chip>
+                            <v-chip label dark color="red darken-1"
+                                >+{{ item.change.deaths | numberWithCommas }}</v-chip
+                            >
                         </template>
                         <template v-slot:[`item.recovered`]="{ item }">
                             {{ item.recovered | numberWithCommas }}
