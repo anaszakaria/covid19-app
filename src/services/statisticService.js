@@ -5,6 +5,12 @@ const options = {
     headers: {
         'x-rapidapi-key': process.env.VUE_APP_CORONAVIRUSMAP_RAPID_API_KEY,
         'x-rapidapi-host': 'coronavirus-map.p.rapidapi.com'
+    },
+    onDownloadProgress: (progressEvent) => {
+        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        // console.log(progressEvent.loaded, progressEvent.total)
+        // console.log(progressEvent.lengthComputable)
+        // console.log(percentCompleted)
     }
 }
 
