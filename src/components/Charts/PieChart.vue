@@ -55,9 +55,9 @@ export default {
                         allowPointSelect: true,
                         cursor: 'pointer',
                         dataLabels: {
-                            enabled: true,
-                            format: '<b>{point.name}</b>: {point.percentage:.1f} %'
-                        }
+                            enabled: false
+                        },
+                        showInLegend: true
                     }
                 },
                 series: [
