@@ -185,7 +185,10 @@ export default {
             return array
                 .map((item) => {
                     const timestamp = getUnixTime(new Date(item.eventDate)) * 1000
-                    return [timestamp, item[category]]
+                    if (item[category]) {
+                        return [timestamp, item[category]]
+                    }
+                    return [timestamp, null]
                 })
                 .sort((a, b) => {
                     return a[0] - b[0]
