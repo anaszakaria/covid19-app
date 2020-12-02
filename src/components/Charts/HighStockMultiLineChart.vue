@@ -41,6 +41,9 @@ export default {
                         fontFamily: 'Roboto'
                     }
                 },
+                legend: {
+                    enabled: true
+                },
                 plotOptions: {
                     series: {
                         cursor: 'pointer',
