@@ -1,6 +1,5 @@
 <template>
     <v-card :dark="isDark" :color="widgetColor">
-        <!-- <v-progress-linear v-if="preLoader" indeterminate></v-progress-linear> -->
         <v-card-title>
             <v-icon medium left>
                 {{ icon }}
@@ -33,7 +32,16 @@ export default {
         }
     },
     data() {
-        return {}
+        return {
+            totalValue: ''
+        }
+    },
+    watch: {
+        total(value) {
+            if (!value) {
+                this.total = 'N/A'
+            }
+        }
     }
 }
 </script>

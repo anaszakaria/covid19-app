@@ -55,6 +55,40 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
+            <!-- PIE CHARTS -->
+            <v-col xs="12" md="4">
+                <v-card outlined elevation="1">
+                    <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
+                    <PieChart
+                        :data="casesPerMillion"
+                        :title="'Cases per 1M'"
+                        :subTitle="'Percentage of Cases per Million People'"
+                        :lineColor="'#212121'"
+                    />
+                </v-card>
+            </v-col>
+            <v-col xs="12" md="4">
+                <v-card outlined elevation="1">
+                    <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
+                    <PieChart
+                        :data="deathsPerMillion"
+                        :title="'Deaths per 1M'"
+                        :subTitle="'Percentage of Deaths per Million People'"
+                        :lineColor="'#212121'"
+                    />
+                </v-card>
+            </v-col>
+            <v-col xs="12" md="4">
+                <v-card outlined elevation="1">
+                    <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
+                    <PieChart
+                        :data="testPerMillion"
+                        :title="'Tests per 1M'"
+                        :subTitle="'Percentage of Tests per Million People'"
+                        :lineColor="'#212121'"
+                    />
+                </v-card>
+            </v-col>
             <!-- TOTAL CASES -->
             <v-col xs="12" md="12">
                 <v-card outlined elevation="1">
@@ -75,11 +109,13 @@
 import { getUnixTime } from 'date-fns'
 import { statisticService } from '@/services/statisticService'
 import HighStockLineChart from '@/components/Charts/HighStockLineChart'
+import PieChart from '@/components/Charts/PieChart'
 import StatusWidget from '@/components/Widgets/StatusWidget'
 
 export default {
     components: {
         HighStockLineChart,
+        PieChart,
         StatusWidget
     },
     data() {
@@ -93,7 +129,19 @@ export default {
             deaths: [],
             recovered: [],
             tested: [],
-            totalCases: []
+            totalCases: [],
+            casesPerMillion: [
+                { name: 'Confirmed', y: null, color: '#ff9800' },
+                { name: 'Not Infected', y: null, color: '#4CAF50' }
+            ],
+            deathsPerMillion: [
+                { name: 'Deaths', y: null, color: '#E53935' },
+                { name: 'Alive', y: null, color: '#4CAF50' }
+            ],
+            testPerMillion: [
+                { name: 'Tested', y: null, color: '#2196f3' },
+                { name: 'Not Tested', y: null, color: '#212121' }
+            ]
         }
     },
     computed: {},
@@ -110,6 +158,14 @@ export default {
                 .sort((a, b) => {
                     return a[0] - b[0]
                 })
+        },
+        formatStrToInt(str) {
+            return parseInt(str.replace(/,/g, ''))
+        },
+        setPieChartData(pieChartData, value) {
+            const [slice1, slice2] = pieChartData
+            slice1.y = value
+            slice2.y = 1000000 - value
         },
         async getHistoryByCountry() {
             this.isLoading = true
@@ -133,8 +189,11 @@ export default {
             try {
                 const response = await statisticService.getLatestStatsByCountry(this.country)
                 this.summary = response
-                console.log(object)
+                this.setPieChartData(this.casesPerMillion, this.formatStrToInt(this.summary.total_cases_per1m))
+                this.setPieChartData(this.deathsPerMillion, this.formatStrToInt(this.summary.deaths_per1m))
+                this.setPieChartData(this.testPerMillion, this.formatStrToInt(this.summary.total_tests_per1m))
             } catch (error) {
+                console.log(error.response)
             } finally {
                 this.isLoadingSummary = false
             }
@@ -142,7 +201,7 @@ export default {
     },
     created() {
         this.country = this.$route.params.country
-        this.getHistoryByCountry()
+        // this.getHistoryByCountry()
         this.getLatestStatsByCountry()
     },
     mounted() {}

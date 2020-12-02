@@ -98,7 +98,6 @@ export const statisticService = {
                 params: { country }
             })
             .then((response) => {
-                console.log(response.data.latest_stat_by_country[0])
                 return response.data.latest_stat_by_country[0]
             })
     }
