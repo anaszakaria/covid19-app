@@ -89,5 +89,17 @@ export const statisticService = {
             .then((response) => {
                 return response.data.stat_by_country
             })
+    },
+    getLatestStatsByCountry(country) {
+        return axios
+            .request({
+                ...coronaVirusMonitorAPIOptions,
+                url: `${process.env.VUE_APP_CORONAVIRUS_MONITOR_API}/latest_stat_by_country.php`,
+                params: { country }
+            })
+            .then((response) => {
+                console.log(response.data.latest_stat_by_country[0])
+                return response.data.latest_stat_by_country[0]
+            })
     }
 }

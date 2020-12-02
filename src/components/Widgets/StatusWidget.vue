@@ -20,7 +20,7 @@
 export default {
     props: {
         widgetColor: String,
-        total: Number,
+        total: [Number, String],
         title: String,
         icon: String,
         isDark: {
