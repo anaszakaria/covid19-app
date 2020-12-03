@@ -69,10 +69,10 @@ export default {
                                 y2: 1
                             },
                             stops: [
-                                [0.7, Highcharts.getOptions().colors[0]],
+                                [0.7, this.lineColor],
                                 [
                                     1,
-                                    Highcharts.color(Highcharts.getOptions().colors[0])
+                                    Highcharts.color(this.lineColor)
                                         .setOpacity(0)
                                         .get('rgba')
                                 ]
