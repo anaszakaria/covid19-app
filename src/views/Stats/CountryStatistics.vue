@@ -95,7 +95,13 @@
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <v-row class="ma-0">
                         <v-col xs="12" md="3">
-                            <v-select :items="statusOptions" v-model="selectedStatus" label="Cases" dense></v-select>
+                            <v-select
+                                :items="statusOptions"
+                                v-model="selectedStatus"
+                                label="Cases"
+                                :disabled="isLoading"
+                                dense
+                            ></v-select>
                         </v-col>
                     </v-row>
                     <HighStockLineChart
@@ -129,7 +135,15 @@ export default {
             isLoadingSummary: false,
             summary: {},
             selectedStatus: 'Confirmed',
-            statusOptions: ['Confirmed', 'Active', 'Deaths', 'Recovered', 'Critical', 'Tested'],
+            statusOptions: ['Confirmed', 'Active', 'Recovered', 'Deaths', 'Critical', 'Tested'],
+            statusParams: [
+                'total_cases',
+                'active_cases',
+                'total_recovered',
+                'total_deaths',
+                'serious_critical',
+                'total_tests'
+            ],
             statusChartOptions: {
                 confirmed: {
                     title: 'Confirmed Cases',
@@ -141,15 +155,15 @@ export default {
                     subTitle: 'Total COVID-19 Active Cases',
                     lineColor: '#212121'
                 },
-                deaths: {
-                    title: 'Death Cases',
-                    subTitle: 'Total COVID-19 Death Cases',
-                    lineColor: '#E53935'
-                },
                 recovered: {
                     title: 'Cases Recovered',
                     subTitle: 'Total COVID-19 Recovered Cases',
                     lineColor: '#4CAF50'
+                },
+                deaths: {
+                    title: 'Death Cases',
+                    subTitle: 'Total COVID-19 Death Cases',
+                    lineColor: '#E53935'
                 },
                 critical: {
                     title: 'Critical Cases',
@@ -163,7 +177,7 @@ export default {
                 }
             },
             trendingData: [],
-            activeCases: [],
+            active: [],
             critical: [],
             deaths: [],
             recovered: [],
@@ -185,8 +199,48 @@ export default {
     },
     computed: {
         trendingLineChartSummaryData() {
-            const data = this.confirmed
-            return data
+            switch (this.selectedStatus) {
+                case 'Confirmed':
+                    if (this.confirmed.length === 0) {
+                        return this.formatHighstockData(this.trendingData, 'total_cases')
+                    }
+                    return this.confirmed
+                    break
+                case 'Active':
+                    if (this.active.length === 0) {
+                        return this.formatHighstockData(this.trendingData, 'active_cases')
+                    }
+                    return this.active
+                    break
+                case 'Recovered':
+                    if (this.recovered.length === 0) {
+                        return this.formatHighstockData(this.trendingData, 'total_recovered')
+                    }
+                    return this.recovered
+                    break
+                case 'Deaths':
+                    if (this.deaths.length === 0) {
+                        return this.formatHighstockData(this.trendingData, 'total_deaths')
+                    }
+                    return this.deaths
+                    break
+                case 'Critical':
+                    if (this.critical.length === 0) {
+                        return this.formatHighstockData(this.trendingData, 'serious_critical')
+                    }
+                    return this.critical
+                    break
+                case 'Tested':
+                    if (this.tested.length === 0) {
+                        return this.formatHighstockData(this.trendingData, 'total_tests')
+                    }
+                    return this.tested
+                    break
+                default:
+                    console.log('Selected Status in Not Found')
+                    break
+            }
+            return this[this.selectedStatus.toLowerCase()]
         },
         statusChart() {
             return {
@@ -221,12 +275,6 @@ export default {
             try {
                 const response = await statisticService.getHistoryByCountry(this.country)
                 this.trendingData = response
-                // this.activeCases = this.formatHighstockData(this.trendingData, 'active_cases')
-                // this.critical = this.formatHighstockData(this.trendingData, 'serious_critical')
-                // this.deaths = this.formatHighstockData(this.trendingData, 'total_deaths')
-                // this.recovered = this.formatHighstockData(this.trendingData, 'total_recovered')
-                // this.tested = this.formatHighstockData(this.trendingData, 'total_tests')
-                this.confirmed = this.formatHighstockData(this.trendingData, 'total_cases')
             } catch (error) {
                 console.log(error.response)
             } finally {
