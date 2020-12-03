@@ -1,8 +1,8 @@
 <template>
     <section id="mapviewer">
+        <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
         <l-map
             class="map"
-            padding="5"
             :zoom="zoom"
             :minZoom="minZoom"
             :maxZoom="maxZoom"
@@ -19,6 +19,7 @@
 <script>
 import { LMap, LTileLayer, LMarker, LGeoJson } from 'vue2-leaflet'
 import { latLng, Icon } from 'leaflet'
+import { statisticService } from '@/services/statisticService'
 
 delete Icon.Default.prototype._getIconUrl
 Icon.Default.mergeOptions({
@@ -37,6 +38,7 @@ export default {
     },
     data() {
         return {
+            isLoading: false,
             showGeoJSON: true,
             enableTooltip: true,
             zoom: 2,
@@ -49,6 +51,20 @@ export default {
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             marker: latLng(2.9264, 101.6964)
+        }
+    },
+    methods: {
+        async getCasesByCountry() {
+            this.isLoading = true
+            try {
+                const response = await statisticService.getCasesByCountry()
+                this.summary = response
+                console.log(this.summary.countries_stat)
+            } catch (error) {
+                console.log(error.response)
+            } finally {
+                this.isLoading = false
+            }
         }
     },
     computed: {
@@ -83,6 +99,7 @@ export default {
         const geojsonData = process.env.CountryGEOJSON
         this.geojson = geojsonData
         console.log(this.geojson)
+        this.getCasesByCountry()
     }
 }
 </script>
@@ -90,5 +107,9 @@ export default {
 <style lang="scss" scoped>
 #mapviewer {
     height: 100%;
+}
+
+.vue2leaflet-map {
+    z-index: 2 !important;
 }
 </style>

@@ -4,6 +4,7 @@
             <v-col sm="12">
                 <h3>World Map Statistics for COVID-19</h3>
                 <v-card outlined tile>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <Highmaps ref="highcharts" :options="chartOptions" />
                 </v-card>
             </v-col>
@@ -17,6 +18,8 @@ import geojson from '@/config/world-palestine-highres.geo.json'
 import Highcharts from 'highcharts'
 import loadMap from 'highcharts/modules/map.js'
 import { genComponent } from 'vue-highcharts'
+import { statisticService } from '@/services/statisticService'
+
 loadMap(Highcharts)
 
 export default {
@@ -27,7 +30,8 @@ export default {
         return {
             isLoading: false,
             chartData: [],
-            mapHeight: ''
+            mapHeight: '',
+            summary: {}
         }
     },
     methods: {
@@ -36,6 +40,18 @@ export default {
                 return
             }
             this.mapHeight = window.innerHeight - 130
+        },
+        async getCasesByCountry() {
+            this.isLoading = true
+            try {
+                const response = await statisticService.getCasesByCountry()
+                this.summary = response
+                console.log(this.summary.countries_stat)
+            } catch (error) {
+                console.log(error.response)
+            } finally {
+                this.isLoading = false
+            }
         }
     },
     computed: {
@@ -96,9 +112,9 @@ export default {
         }
     },
     created() {
-        this.country = this.$route.params.country
-        this.resetMapHeight()
         window.addEventListener('resize', this.resetMapHeight)
+        this.resetMapHeight()
+        this.getCasesByCountry()
     },
     mounted() {
         const vm = this

@@ -79,6 +79,26 @@ export const statisticService = {
                 return trendingSummary
             })
     },
+    getWorldTotalStat() {
+        return axios
+            .request({
+                ...coronaVirusMonitorAPIOptions,
+                url: `${process.env.VUE_APP_CORONAVIRUS_MONITOR_API}/worldstat.php`
+            })
+            .then((response) => {
+                return response.data
+            })
+    },
+    getCasesByCountry() {
+        return axios
+            .request({
+                ...coronaVirusMonitorAPIOptions,
+                url: `${process.env.VUE_APP_CORONAVIRUS_MONITOR_API}/cases_by_country.php`
+            })
+            .then((response) => {
+                return response.data
+            })
+    },
     getHistoryByCountry(country) {
         return axios
             .request({
