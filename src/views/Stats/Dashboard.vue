@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <v-row class="ma-0">
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'orange'"
                     :total="summary.total_cases"
@@ -10,7 +10,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'darkgrey'"
                     :total="summary.active_cases"
@@ -19,7 +19,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'green'"
                     :total="summary.recovered"
@@ -28,7 +28,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'red darken-1'"
                     :total="summary.deaths"
@@ -37,7 +37,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'yellow'"
                     :total="summary.critical"
@@ -47,7 +47,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'blue'"
                     :total="summary.tested"

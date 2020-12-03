@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <v-row class="ma-0">
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'orange'"
                     :total="summary.total_cases"
@@ -10,7 +10,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'orange'"
                     :total="summary.new_cases"
@@ -19,7 +19,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'darkgrey'"
                     :total="summary.active_cases"
@@ -28,7 +28,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'green'"
                     :total="summary.total_recovered"
@@ -37,7 +37,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'red darken-1'"
                     :total="summary.total_deaths"
@@ -46,7 +46,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2" class="d-flex">
+            <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'red darken-1'"
                     :total="summary.new_deaths"
@@ -135,6 +135,31 @@ export default {
                     title: 'Confirmed Cases',
                     subTitle: 'Total Confirmed COVID-19 Cases',
                     lineColor: '#FF9800'
+                },
+                active: {
+                    title: 'Active Cases',
+                    subTitle: 'Total COVID-19 Active Cases',
+                    lineColor: '#212121'
+                },
+                deaths: {
+                    title: 'Death Cases',
+                    subTitle: 'Total COVID-19 Death Cases',
+                    lineColor: '#E53935'
+                },
+                recovered: {
+                    title: 'Cases Recovered',
+                    subTitle: 'Total COVID-19 Recovered Cases',
+                    lineColor: '#4CAF50'
+                },
+                critical: {
+                    title: 'Critical Cases',
+                    subTitle: 'Total COVID-19 Critical Cases',
+                    lineColor: '#ffeb3b'
+                },
+                tested: {
+                    title: 'Total Tests',
+                    subTitle: 'Total Number of COVID-19 Tests',
+                    lineColor: '#2196f3'
                 }
             },
             trendingData: [],
