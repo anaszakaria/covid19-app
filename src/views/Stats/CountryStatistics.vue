@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <v-row class="ma-0">
-            <v-col xs="6" md="2">
+            <v-col xs="6" md="2" class="d-flex">
                 <StatusWidget
                     :widgetColor="'orange'"
                     :total="summary.total_cases"
@@ -10,7 +10,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2">
+            <v-col xs="6" md="2" class="d-flex">
                 <StatusWidget
                     :widgetColor="'orange'"
                     :total="summary.new_cases"
@@ -19,7 +19,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2">
+            <v-col xs="6" md="2" class="d-flex">
                 <StatusWidget
                     :widgetColor="'darkgrey'"
                     :total="summary.active_cases"
@@ -28,7 +28,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2">
+            <v-col xs="6" md="2" class="d-flex">
                 <StatusWidget
                     :widgetColor="'green'"
                     :total="summary.total_recovered"
@@ -37,7 +37,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2">
+            <v-col xs="6" md="2" class="d-flex">
                 <StatusWidget
                     :widgetColor="'red darken-1'"
                     :total="summary.total_deaths"
@@ -46,7 +46,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2">
+            <v-col xs="6" md="2" class="d-flex">
                 <StatusWidget
                     :widgetColor="'red darken-1'"
                     :total="summary.new_deaths"
@@ -93,11 +93,16 @@
             <v-col xs="12" md="12">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-row class="ma-0">
+                        <v-col xs="12" md="3">
+                            <v-select :items="statusOptions" v-model="selectedStatus" label="Cases" dense></v-select>
+                        </v-col>
+                    </v-row>
                     <HighStockLineChart
-                        :data="totalCases"
-                        :title="'Confirmed Cases'"
-                        :subTitle="`Total Confirmed COVID-19 Cases for ${country}`"
-                        :lineColor="'#FF9800'"
+                        :data="trendingLineChartSummaryData"
+                        :title="statusChart.title"
+                        :subTitle="statusChart.subTitle"
+                        :lineColor="statusChart.lineColor"
                     />
                 </v-card>
             </v-col>
@@ -123,13 +128,22 @@ export default {
             isLoading: false,
             isLoadingSummary: false,
             summary: {},
+            selectedStatus: 'Confirmed',
+            statusOptions: ['Confirmed', 'Active', 'Deaths', 'Recovered', 'Critical', 'Tested'],
+            statusChartOptions: {
+                confirmed: {
+                    title: 'Confirmed Cases',
+                    subTitle: 'Total Confirmed COVID-19 Cases',
+                    lineColor: '#FF9800'
+                }
+            },
             trendingData: [],
             activeCases: [],
             critical: [],
             deaths: [],
             recovered: [],
             tested: [],
-            totalCases: [],
+            confirmed: [],
             casesPerMillion: [
                 { name: 'Confirmed', y: null, color: '#ff9800' },
                 { name: 'Not Infected', y: null, color: '#4CAF50' }
@@ -144,7 +158,17 @@ export default {
             ]
         }
     },
-    computed: {},
+    computed: {
+        trendingLineChartSummaryData() {
+            const data = this.confirmed
+            return data
+        },
+        statusChart() {
+            return {
+                ...this.statusChartOptions[this.selectedStatus.toLowerCase()]
+            }
+        }
+    },
     methods: {
         formatHighstockData(array, category) {
             return array
@@ -172,12 +196,12 @@ export default {
             try {
                 const response = await statisticService.getHistoryByCountry(this.country)
                 this.trendingData = response
-                this.activeCases = this.formatHighstockData(this.trendingData, 'active_cases')
-                this.critical = this.formatHighstockData(this.trendingData, 'serious_critical')
-                this.deaths = this.formatHighstockData(this.trendingData, 'total_deaths')
-                this.recovered = this.formatHighstockData(this.trendingData, 'total_recovered')
-                this.tested = this.formatHighstockData(this.trendingData, 'total_tests')
-                this.totalCases = this.formatHighstockData(this.trendingData, 'total_cases')
+                // this.activeCases = this.formatHighstockData(this.trendingData, 'active_cases')
+                // this.critical = this.formatHighstockData(this.trendingData, 'serious_critical')
+                // this.deaths = this.formatHighstockData(this.trendingData, 'total_deaths')
+                // this.recovered = this.formatHighstockData(this.trendingData, 'total_recovered')
+                // this.tested = this.formatHighstockData(this.trendingData, 'total_tests')
+                this.confirmed = this.formatHighstockData(this.trendingData, 'total_cases')
             } catch (error) {
                 console.log(error.response)
             } finally {
@@ -201,7 +225,7 @@ export default {
     },
     created() {
         this.country = this.$route.params.country
-        // this.getHistoryByCountry()
+        this.getHistoryByCountry()
         this.getLatestStatsByCountry()
     },
     mounted() {}
