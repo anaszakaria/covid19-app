@@ -28,8 +28,9 @@ export default {
                 { icon: 'mdi-map', text: 'Map Viewer', url: '/mapviewer' },
                 { icon: 'mdi-earth', text: 'HighMaps', url: '/highmaps' },
                 { icon: 'mdi-table-large', text: 'Statistics', url: '/statistics' },
-                { icon: 'mdi-timer', text: 'Prediction', url: '/prediction' },
-                { icon: 'mdi-chart-timeline', text: 'Timeline', url: '/timeline' }
+                { icon: 'mdi-information', text: 'Information and Q&A', url: '/info-qna' }
+                // { icon: 'mdi-timer', text: 'Prediction', url: '/prediction' },
+                // { icon: 'mdi-chart-timeline', text: 'Timeline', url: '/timeline' },
             ]
         }
     },
