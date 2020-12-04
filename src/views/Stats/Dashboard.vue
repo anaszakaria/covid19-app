@@ -39,18 +39,6 @@
                     />
                 </v-card>
             </v-col>
-            <!-- TOTAL CASES -->
-            <v-col v-if="dashboardWidget[2].enabled" xs="12" md="4">
-                <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
-                    <HighStockLineChart
-                        :data="totalCases"
-                        :title="'Confirmed Cases'"
-                        :subTitle="'Total Confirmed COVID-19 Cases Worldwide'"
-                        :lineColor="'#FF9800'"
-                    />
-                </v-card>
-            </v-col>
             <!-- PIE CHART COMPARISON - ACTIVE, RECOVERED and DEATHS -->
             <v-col v-if="dashboardWidget[3].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
@@ -60,6 +48,18 @@
                         :title="'Data Comparison'"
                         :subTitle="'Percentage of Active, Recovered and Death Cases'"
                         :lineColor="'#212121'"
+                    />
+                </v-card>
+            </v-col>
+            <!-- CONFIRMED CASES -->
+            <v-col v-if="dashboardWidget[2].enabled" xs="12" md="4">
+                <v-card outlined elevation="1">
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <HighStockLineChart
+                        :data="confirmedCases"
+                        :title="'Confirmed Cases'"
+                        :subTitle="'Total Confirmed COVID-19 Cases Worldwide'"
+                        :lineColor="'#FF9800'"
                     />
                 </v-card>
             </v-col>
@@ -150,7 +150,7 @@ export default {
             deaths: [],
             recovered: [],
             tested: [],
-            totalCases: [],
+            confirmedCases: [],
             dashboardWidget: []
         }
     },
@@ -193,7 +193,7 @@ export default {
                 this.deaths = this.formatHighstockData(this.trendingData, 'deaths')
                 this.recovered = this.formatHighstockData(this.trendingData, 'recovered')
                 this.tested = this.formatHighstockData(this.trendingData, 'tested')
-                this.totalCases = this.formatHighstockData(this.trendingData, 'total_cases')
+                this.confirmedCases = this.formatHighstockData(this.trendingData, 'total_cases')
             } catch (error) {
                 console.log(error.response)
             } finally {
