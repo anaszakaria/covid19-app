@@ -168,6 +168,22 @@ export default {
             isLoading: false,
             isLoadingSummary: false,
             summary: {},
+            statusParams: [
+                'total_cases',
+                'active_cases',
+                'total_recovered',
+                'total_deaths',
+                'serious_critical',
+                'total_tests'
+            ],
+            statusWidgetData: [
+                { title: 'Confirmed', widgetColor: 'orange', total: 0, icon: 'mdi-medical-bag' },
+                { title: 'Active', widgetColor: 'darkgrey', total: 0, icon: 'mdi-pill' },
+                { title: 'Recovered', widgetColor: 'green', total: 0, icon: 'mdi-plus-circle' },
+                { title: 'Deaths', widgetColor: 'red darken-1', total: 0, icon: 'mdi-minus-circle' },
+                { title: 'Critical', widgetColor: 'yellow', total: 0, icon: 'mdi-hospital-building' },
+                { title: 'Tested', widgetColor: 'blue', total: 0, icon: 'mdi-test-tube' }
+            ],
             pieChartSeriesData: [
                 { name: 'Active', y: null, color: '#212121' },
                 { name: 'Recovered', y: null, color: '#4CAF50' },
@@ -197,6 +213,18 @@ export default {
                     return a[0] - b[0]
                 })
         },
+        setPieChartComparisonData(summary) {
+            const [active, recovered, deaths] = this.pieChartSeriesData
+            active.y = summary.active_cases
+            recovered.y = summary.recovered
+            deaths.y = summary.deaths
+        },
+        setStatusWidgetData(summary) {
+            console.log(summary)
+            for (const [index, status] of summary.entries()) {
+                console.log(index, status)
+            }
+        },
         async getGlobalTrendingSummary() {
             this.isLoading = true
             try {
@@ -219,10 +247,8 @@ export default {
             try {
                 const response = await statisticService.getGlobalLatestSummary()
                 this.summary = response
-                const [active, recovered, deaths] = this.pieChartSeriesData
-                active.y = response.active_cases
-                recovered.y = response.recovered
-                deaths.y = response.deaths
+                this.setPieChartComparisonData(this.summary)
+                this.setStatusWidgetData(this.summary)
             } catch (error) {
                 console.log(error.response)
             } finally {
