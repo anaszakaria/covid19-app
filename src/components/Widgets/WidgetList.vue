@@ -1,47 +1,31 @@
 <template>
-    <v-card :dark="isDark" :color="widgetColor">
-        <v-card-title>
-            <v-icon medium left>
-                {{ icon }}
-            </v-icon>
-            <span class="title font-weight-light">{{ title }}</span>
-        </v-card-title>
-        <v-card-text v-if="total" class="headline font-weight-bold text-center">
-            {{ total | numberWithCommas }}
-        </v-card-text>
-        <v-card-text v-else class="text-center">
-            <v-progress-circular v-if="preLoader" indeterminate color="primary"></v-progress-circular>
-        </v-card-text>
-    </v-card>
+    <v-list dense subheader>
+        <v-subheader class="subtitle-2">{{ widgetSection }}</v-subheader>
+        <v-list-item v-for="(widget, index) in widgetList" :key="index">
+            <v-list-item-action>
+                <v-switch v-model="widget.enabled"></v-switch>
+            </v-list-item-action>
+            <v-list-item-content>
+                <v-list-item-title class="subtitle-2 font-weight-regular">{{ widget.title }}</v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+    </v-list>
 </template>
 
 <script>
 export default {
     props: {
-        widgetColor: String,
-        total: [Number, String],
-        title: String,
-        icon: String,
-        isDark: {
-            type: Boolean,
-            default: true
+        widgetSection: {
+            type: String,
+            required: true
         },
-        preLoader: {
-            type: Boolean,
-            default: false
+        widgetList: {
+            type: Array,
+            required: true
         }
     },
     data() {
-        return {
-            totalValue: ''
-        }
-    },
-    watch: {
-        total(value) {
-            if (!value) {
-                this.total = 'N/A'
-            }
-        }
+        return {}
     }
 }
 </script>

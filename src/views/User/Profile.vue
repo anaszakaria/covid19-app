@@ -4,36 +4,15 @@
         <v-row class="ma-0">
             <v-col sm="12">
                 <v-card outlined elevation="1">
-                    <v-list dense subheader>
-                        <v-subheader class="subtitle-2">Dashboard Widget</v-subheader>
-                        <v-list-item v-for="(widget, index) in dashboardWidget" :key="index">
-                            <v-list-item-action>
-                                <v-switch v-model="widget.enabled"></v-switch>
-                            </v-list-item-action>
-                            <v-list-item-content>
-                                <v-list-item-title class="subtitle-2 font-weight-regular">{{
-                                    widget.title
-                                }}</v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
+                    <WidgetList :widgetSection="'Dashboard Widget'" :widgetList="dashboardWidget"></WidgetList>
                 </v-card>
             </v-col>
             <v-col sm="12">
                 <v-card outlined elevation="1">
-                    <v-list dense subheader>
-                        <v-subheader class="subtitle-2">Country Statistics Widget</v-subheader>
-                        <v-list-item v-for="(widget, index) in countryStatisticWidget" :key="index">
-                            <v-list-item-action>
-                                <v-switch v-model="widget.enabled"></v-switch>
-                            </v-list-item-action>
-                            <v-list-item-content>
-                                <v-list-item-title class="subtitle-2 font-weight-regular">{{
-                                    widget.title
-                                }}</v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
+                    <WidgetList
+                        :widgetSection="'Country Statistic Widget'"
+                        :widgetList="countryStatisticWidget"
+                    ></WidgetList>
                 </v-card>
             </v-col>
         </v-row>
@@ -41,7 +20,12 @@
 </template>
 
 <script>
+import WidgetList from '@/components/Widgets/WidgetList'
+
 export default {
+    components: {
+        WidgetList
+    },
     data() {
         return {
             dashboardWidget: [
