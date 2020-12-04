@@ -28,38 +28,26 @@ export default {
     },
     data() {
         return {
-            dashboardWidget: [
-                { title: 'Summary', enabled: true },
-                { title: 'Data Comparison Between Active, Recovered and Death Cases', enabled: true },
-                { title: 'Confirmed Cases', enabled: true },
-                { title: 'Percentage of Active, Recovered and Death Cases', enabled: true },
-                { title: 'Active Cases', enabled: true },
-                { title: 'Cases Recovered', enabled: true },
-                { title: 'Death Cases', enabled: true }
-            ],
-            countryStatisticWidget: [
-                { title: 'Summary', enabled: true },
-                { title: 'Cases Per Million Pie Chart', enabled: true },
-                { title: 'Deaths Per Million Pie Chart', enabled: true },
-                { title: 'Tests Per Million Pie Chart', enabled: true },
-                { title: 'Trending Data Line Chart', enabled: true }
-            ]
+            dashboardWidget: this.$store.getters.dashboardWidget,
+            countryStatisticWidget: this.$store.getters.countryStatisticWidget
         }
     },
     watch: {
         dashboardWidget: {
             handler(value) {
-                console.log(value)
+                this.$store.dispatch('setDashboardWidget', value)
             },
             deep: true
         },
         countryStatisticWidget: {
             handler(value) {
-                console.log(value)
+                this.$store.dispatch('setCountryStatisticWidget', value)
             },
             deep: true
         }
-    }
+    },
+    created() {},
+    mounted() {}
 }
 </script>
 
