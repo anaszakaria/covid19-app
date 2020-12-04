@@ -1,5 +1,5 @@
 <template>
-    <v-card :dark="isDark" :color="widgetColor">
+    <v-card :dark="!blackFont" :color="widgetColor">
         <v-card-title>
             <v-icon medium left>
                 {{ icon }}
@@ -22,9 +22,9 @@ export default {
         total: [Number, String],
         title: String,
         icon: String,
-        isDark: {
+        blackFont: {
             type: Boolean,
-            default: true
+            default: false
         },
         preLoader: {
             type: Boolean,

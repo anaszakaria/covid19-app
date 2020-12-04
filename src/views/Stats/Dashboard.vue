@@ -1,58 +1,13 @@
 <template>
     <v-container fluid>
         <v-row v-if="dashboardWidget[0].enabled" class="ma-0">
-            <v-col xs="6" md="2">
+            <v-col v-for="(status, index) in statusWidgetData" :key="index" xs="6" md="2">
                 <StatusWidget
-                    :widgetColor="'orange'"
-                    :total="summary.total_cases"
-                    :title="'Confirmed'"
-                    :icon="'mdi-medical-bag'"
-                    :preLoader="isLoadingSummary"
-                ></StatusWidget>
-            </v-col>
-            <v-col xs="6" md="2">
-                <StatusWidget
-                    :widgetColor="'darkgrey'"
-                    :total="summary.active_cases"
-                    :title="'Active'"
-                    :icon="'mdi-pill'"
-                    :preLoader="isLoadingSummary"
-                ></StatusWidget>
-            </v-col>
-            <v-col xs="6" md="2">
-                <StatusWidget
-                    :widgetColor="'green'"
-                    :total="summary.recovered"
-                    :title="'Recovered'"
-                    :icon="'mdi-plus-circle'"
-                    :preLoader="isLoadingSummary"
-                ></StatusWidget>
-            </v-col>
-            <v-col xs="6" md="2">
-                <StatusWidget
-                    :widgetColor="'red darken-1'"
-                    :total="summary.deaths"
-                    :title="'Deaths'"
-                    :icon="'mdi-minus-circle'"
-                    :preLoader="isLoadingSummary"
-                ></StatusWidget>
-            </v-col>
-            <v-col xs="6" md="2">
-                <StatusWidget
-                    :widgetColor="'yellow'"
-                    :total="summary.critical"
-                    :title="'Critical'"
-                    :icon="'mdi-hospital-building'"
-                    :isDark="false"
-                    :preLoader="isLoadingSummary"
-                ></StatusWidget>
-            </v-col>
-            <v-col xs="6" md="2">
-                <StatusWidget
-                    :widgetColor="'blue'"
-                    :total="summary.tested"
-                    :title="'Tested'"
-                    :icon="'mdi-test-tube'"
+                    :widgetColor="status.widgetColor"
+                    :total="status.total"
+                    :title="status.title"
+                    :icon="status.icon"
+                    :blackFont="status.blackFont"
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
@@ -181,7 +136,7 @@ export default {
                 { title: 'Active', widgetColor: 'darkgrey', total: 0, icon: 'mdi-pill' },
                 { title: 'Recovered', widgetColor: 'green', total: 0, icon: 'mdi-plus-circle' },
                 { title: 'Deaths', widgetColor: 'red darken-1', total: 0, icon: 'mdi-minus-circle' },
-                { title: 'Critical', widgetColor: 'yellow', total: 0, icon: 'mdi-hospital-building' },
+                { title: 'Critical', widgetColor: 'yellow', total: 0, icon: 'mdi-hospital-building', blackFont: true },
                 { title: 'Tested', widgetColor: 'blue', total: 0, icon: 'mdi-test-tube' }
             ],
             pieChartSeriesData: [
@@ -220,16 +175,18 @@ export default {
             deaths.y = summary.deaths
         },
         setStatusWidgetData(summary) {
-            console.log(summary)
-            for (const [index, status] of summary.entries()) {
-                console.log(index, status)
-            }
+            const [confirmed, active, recovered, deaths, critical, tested] = this.statusWidgetData
+            confirmed.total = summary.total_cases
+            active.total = summary.active_cases
+            recovered.total = summary.recovered
+            deaths.total = summary.deaths
+            critical.total = summary.critical
+            tested.total = summary.tested
         },
         async getGlobalTrendingSummary() {
             this.isLoading = true
             try {
-                const response = await statisticService.getGlobalTrendingSummary()
-                this.trendingData = response
+                this.trendingData = await statisticService.getGlobalTrendingSummary()
                 this.activeCases = this.formatHighstockData(this.trendingData, 'active_cases')
                 this.critical = this.formatHighstockData(this.trendingData, 'critical')
                 this.deaths = this.formatHighstockData(this.trendingData, 'deaths')
@@ -245,8 +202,7 @@ export default {
         async getGlobalLatestSummary() {
             this.isLoadingSummary = true
             try {
-                const response = await statisticService.getGlobalLatestSummary()
-                this.summary = response
+                this.summary = await statisticService.getGlobalLatestSummary()
                 this.setPieChartComparisonData(this.summary)
                 this.setStatusWidgetData(this.summary)
             } catch (error) {
