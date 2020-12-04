@@ -277,8 +277,7 @@ export default {
         async getHistoryByCountry() {
             this.isLoading = true
             try {
-                const response = await statisticService.getHistoryByCountry(this.country)
-                this.trendingData = response
+                this.trendingData = await statisticService.getHistoryByCountry(this.country)
             } catch (error) {
                 console.log(error.response)
             } finally {
@@ -288,8 +287,7 @@ export default {
         async getLatestStatsByCountry() {
             this.isLoadingSummary = true
             try {
-                const response = await statisticService.getLatestStatsByCountry(this.country)
-                this.summary = response
+                this.summary = await statisticService.getLatestStatsByCountry(this.country)
                 this.setPieChartData(this.casesPerMillion, this.formatStrToInt(this.summary.total_cases_per1m))
                 this.setPieChartData(this.deathsPerMillion, this.formatStrToInt(this.summary.deaths_per1m))
                 this.setPieChartData(this.testPerMillion, this.formatStrToInt(this.summary.total_tests_per1m))

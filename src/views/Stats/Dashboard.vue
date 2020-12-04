@@ -154,6 +154,7 @@ export default {
             dashboardWidget: []
         }
     },
+    computed: {},
     methods: {
         formatHighstockData(array, category) {
             return array
@@ -212,7 +213,6 @@ export default {
             }
         }
     },
-    computed: {},
     created() {
         this.getGlobalTrendingSummary()
         this.getGlobalLatestSummary()

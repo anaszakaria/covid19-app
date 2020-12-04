@@ -119,43 +119,7 @@ export default {
             tableHeight: ''
         }
     },
-    methods: {
-        resetTableHeight() {
-            if (window.innerHeight < 500) {
-                return
-            }
-            this.tableHeight = window.innerHeight - 280
-        },
-        async getCountriesLatestSummary() {
-            this.loadDataTable = true
-            try {
-                const response = await statisticService.getCountriesLatestSummary()
-                this.countries = response.countries
-                this.generatedOn = response.generatedOn
-                this.countryNames = this.countries.map((country) => country.name)
-            } catch (error) {
-                console.log(error.response)
-            } finally {
-                this.loadDataTable = false
-            }
-        }
-    },
     computed: {
-        lastUpdatedOn() {
-            if (this.generatedOn) {
-                return fromUnixTime(this.generatedOn)
-            }
-            return '...loading'
-        },
-        filteredCountries() {
-            if (this.selectedCountries.length === 0) {
-                return this.countries
-            } else {
-                return this.countries.filter((country) => {
-                    return this.selectedCountries.includes(country.name)
-                })
-            }
-        },
         headers() {
             return [
                 {
@@ -202,8 +166,45 @@ export default {
                 { text: 'Critical', value: 'critical', align: 'right', divider: true },
                 { text: 'Total Tested', value: 'tested', align: 'right' }
             ]
+        },
+        lastUpdatedOn() {
+            if (this.generatedOn) {
+                return fromUnixTime(this.generatedOn)
+            }
+            return '...loading'
+        },
+        filteredCountries() {
+            if (this.selectedCountries.length === 0) {
+                return this.countries
+            } else {
+                return this.countries.filter((country) => {
+                    return this.selectedCountries.includes(country.name)
+                })
+            }
         }
     },
+    methods: {
+        resetTableHeight() {
+            if (window.innerHeight < 500) {
+                return
+            }
+            this.tableHeight = window.innerHeight - 280
+        },
+        async getCountriesLatestSummary() {
+            this.loadDataTable = true
+            try {
+                const result = await statisticService.getCountriesLatestSummary()
+                this.countries = result.countries
+                this.generatedOn = result.generatedOn
+                this.countryNames = this.countries.map((country) => country.name)
+            } catch (error) {
+                console.log(error.response)
+            } finally {
+                this.loadDataTable = false
+            }
+        }
+    },
+
     created() {
         window.addEventListener('resize', this.resetTableHeight)
         this.getCountriesLatestSummary()
