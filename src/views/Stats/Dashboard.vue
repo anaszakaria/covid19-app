@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <v-row class="ma-0">
+        <v-row v-if="dashboardWidget[0].enabled" class="ma-0">
             <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'orange'"
@@ -56,6 +56,8 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
+        </v-row>
+        <v-row class="ma-0">
             <!-- DATA COMPARISON - BY COUNTRY -->
             <!-- <v-col xs="12" md="6">
                 <v-card outlined tile>
@@ -70,7 +72,7 @@
                 </v-card>
             </v-col> -->
             <!-- DATA COMPARISON - ACTIVE, RECOVERED, DEATHS -->
-            <v-col xs="12" md="4">
+            <v-col v-if="dashboardWidget[1].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockMultiLineChart
@@ -83,7 +85,7 @@
                 </v-card>
             </v-col>
             <!-- TOTAL CASES -->
-            <v-col xs="12" md="4">
+            <v-col v-if="dashboardWidget[2].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -95,7 +97,7 @@
                 </v-card>
             </v-col>
             <!-- PIE CHART COMPARISON - ACTIVE, RECOVERED and DEATHS -->
-            <v-col xs="12" md="4">
+            <v-col v-if="dashboardWidget[3].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
                     <PieChart
@@ -107,7 +109,7 @@
                 </v-card>
             </v-col>
             <!-- ACTIVE CASES -->
-            <v-col xs="12" md="6">
+            <v-col v-if="dashboardWidget[4].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -119,7 +121,7 @@
                 </v-card>
             </v-col>
             <!-- RECOVERED -->
-            <v-col xs="12" md="6">
+            <v-col v-if="dashboardWidget[5].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -131,7 +133,7 @@
                 </v-card>
             </v-col>
             <!-- DEATHS -->
-            <v-col xs="12" md="6">
+            <v-col v-if="dashboardWidget[6].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -177,7 +179,8 @@ export default {
             deaths: [],
             recovered: [],
             tested: [],
-            totalCases: []
+            totalCases: [],
+            dashboardWidget: []
         }
     },
     methods: {
@@ -231,6 +234,7 @@ export default {
     created() {
         this.getGlobalTrendingSummary()
         this.getGlobalLatestSummary()
+        this.dashboardWidget = this.$store.getters.dashboardWidget
     },
     mounted() {}
 }
