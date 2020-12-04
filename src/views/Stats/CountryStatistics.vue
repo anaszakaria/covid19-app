@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <v-row class="ma-0">
+        <v-row v-if="countryStatisticWidget[0].enabled" class="ma-0">
             <v-col xs="6" md="2">
                 <StatusWidget
                     :widgetColor="'orange'"
@@ -55,8 +55,10 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
+        </v-row>
+        <v-row class="ma-0">
             <!-- PIE CHARTS -->
-            <v-col xs="12" md="4">
+            <v-col v-if="countryStatisticWidget[1].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
                     <PieChart
@@ -67,7 +69,7 @@
                     />
                 </v-card>
             </v-col>
-            <v-col xs="12" md="4">
+            <v-col v-if="countryStatisticWidget[2].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
                     <PieChart
@@ -78,7 +80,7 @@
                     />
                 </v-card>
             </v-col>
-            <v-col xs="12" md="4">
+            <v-col v-if="countryStatisticWidget[3].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
                     <PieChart
@@ -90,7 +92,7 @@
                 </v-card>
             </v-col>
             <!-- TOTAL CASES -->
-            <v-col xs="12" md="12">
+            <v-col v-if="countryStatisticWidget[4].enabled" xs="12" md="12">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <v-row class="ma-0">
@@ -144,6 +146,7 @@ export default {
                 'serious_critical',
                 'total_tests'
             ],
+            countryStatisticWidget: [],
             statusChartOptions: {
                 confirmed: {
                     title: 'Confirmed Cases',
@@ -298,7 +301,8 @@ export default {
     },
     created() {
         this.country = this.$route.params.country
-        this.getHistoryByCountry()
+        this.countryStatisticWidget = this.$store.getters.countryStatisticWidget
+        // this.getHistoryByCountry()
         this.getLatestStatsByCountry()
     },
     mounted() {}
