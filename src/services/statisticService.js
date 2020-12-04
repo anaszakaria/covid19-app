@@ -1,4 +1,6 @@
 import axios from 'axios'
+const CORONAVIRUS_MAP_API = process.env.VUE_APP_CORONAVIRUS_MAP_API
+const CORONAVIRUS_MONITOR_API = process.env.VUE_APP_CORONAVIRUS_MONITOR_API
 
 const coronaVirusMapAPIOptions = {
     method: 'GET',
@@ -29,22 +31,22 @@ const coronaVirusMonitorAPIOptions = {
 }
 
 export const statisticService = {
-    getGlobalLatestSummary() {
+    async getGlobalLatestSummary() {
         return axios
             .request({
                 ...coronaVirusMapAPIOptions,
-                url: `${process.env.VUE_APP_CORONAVIRUS_MAP_API}/summary/latest`
+                url: `${CORONAVIRUS_MAP_API}/summary/latest`
             })
             .then((response) => {
                 const summary = response.data.data.summary
                 return summary
             })
     },
-    getCountriesLatestSummary() {
+    async getCountriesLatestSummary() {
         return axios
             .request({
                 ...coronaVirusMapAPIOptions,
-                url: `${process.env.VUE_APP_CORONAVIRUS_MAP_API}/summary/latest`
+                url: `${CORONAVIRUS_MAP_API}/summary/latest`
             })
             .then((response) => {
                 let countries = []
@@ -60,11 +62,11 @@ export const statisticService = {
                 return newData
             })
     },
-    getGlobalTrendingSummary() {
+    async getGlobalTrendingSummary() {
         return axios
             .request({
                 ...coronaVirusMapAPIOptions,
-                url: `${process.env.VUE_APP_CORONAVIRUS_MAP_API}/spots/summary`
+                url: `${CORONAVIRUS_MAP_API}/spots/summary`
             })
             .then((response) => {
                 let trendingSummary = []
@@ -79,42 +81,42 @@ export const statisticService = {
                 return trendingSummary
             })
     },
-    getWorldTotalStat() {
+    async getWorldTotalStat() {
         return axios
             .request({
                 ...coronaVirusMonitorAPIOptions,
-                url: `${process.env.VUE_APP_CORONAVIRUS_MONITOR_API}/worldstat.php`
+                url: `${CORONAVIRUS_MONITOR_API}/worldstat.php`
             })
             .then((response) => {
                 return response.data
             })
     },
-    getCasesByCountry() {
+    async getCasesByCountry() {
         return axios
             .request({
                 ...coronaVirusMonitorAPIOptions,
-                url: `${process.env.VUE_APP_CORONAVIRUS_MONITOR_API}/cases_by_country.php`
+                url: `${CORONAVIRUS_MONITOR_API}/cases_by_country.php`
             })
             .then((response) => {
                 return response.data
             })
     },
-    getHistoryByCountry(country) {
+    async getHistoryByCountry(country) {
         return axios
             .request({
                 ...coronaVirusMonitorAPIOptions,
-                url: `${process.env.VUE_APP_CORONAVIRUS_MONITOR_API}/cases_by_particular_country.php`,
+                url: `${CORONAVIRUS_MONITOR_API}/cases_by_particular_country.php`,
                 params: { country }
             })
             .then((response) => {
                 return response.data.stat_by_country
             })
     },
-    getLatestStatsByCountry(country) {
+    async getLatestStatsByCountry(country) {
         return axios
             .request({
                 ...coronaVirusMonitorAPIOptions,
-                url: `${process.env.VUE_APP_CORONAVIRUS_MONITOR_API}/latest_stat_by_country.php`,
+                url: `${CORONAVIRUS_MONITOR_API}/latest_stat_by_country.php`,
                 params: { country }
             })
             .then((response) => {
