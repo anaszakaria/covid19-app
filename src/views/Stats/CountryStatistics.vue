@@ -135,6 +135,7 @@ export default {
         return {
             isLoading: false,
             isLoadingSummary: false,
+            country: this.$route.params.country,
             summary: {},
             selectedStatus: 'Confirmed',
             statusOptions: ['Confirmed', 'Active', 'Recovered', 'Deaths', 'Critical', 'Tested'],
@@ -300,9 +301,13 @@ export default {
         }
     },
     created() {
-        this.country = this.$route.params.country
         this.countryStatisticWidget = this.$store.getters.countryStatisticWidget
-        // this.getHistoryByCountry()
+        const historyByCountryWidget = this.countryStatisticWidget.find(
+            (item) => item.title === 'Trending Data Line Chart'
+        )
+        if (historyByCountryWidget.enabled) {
+            this.getHistoryByCountry()
+        }
         this.getLatestStatsByCountry()
     },
     mounted() {}
