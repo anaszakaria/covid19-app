@@ -51,7 +51,6 @@ export default {
             try {
                 const response = await userService.signIn(payload)
                 const newUser = response.data
-                console.log(newUser)
                 commit('setUser', newUser)
                 commit('setAccessToken', newUser.accessToken)
                 commit('setRefreshToken', newUser.refreshToken)
