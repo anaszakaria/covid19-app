@@ -90,7 +90,12 @@ export default {
             if (!this.passwordValidated) {
                 return
             }
-            this.$store.dispatch('signUserUp', { name: this.name, email: this.email, password: this.password })
+            this.$store.dispatch('signUserUp', {
+                name: this.name,
+                email: this.email,
+                password: this.password,
+                widget: this.$store.getters.widget
+            })
         },
         onDismissed() {
             console.log('Dismiss Alert')
