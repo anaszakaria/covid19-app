@@ -46,6 +46,16 @@ const coronaVirusMonitorAPIOptions = {
 }
 
 export const statisticService = {
+    async getWorldStatistics() {
+        return axios
+            .request({
+                ...covid19APIOptions,
+                url: `${COVID19_API}/statistics`
+            })
+            .then((response) => {
+                return response.data.response
+            })
+    },
     async getHistoryByCountry(country) {
         return axios
             .request({
@@ -127,17 +137,6 @@ export const statisticService = {
                 return response.data
             })
     },
-    // async getHistoryByCountry(country) {
-    //     return axios
-    //         .request({
-    //             ...coronaVirusMonitorAPIOptions,
-    //             url: `${CORONAVIRUS_MONITOR_API}/cases_by_particular_country.php`,
-    //             params: { country }
-    //         })
-    //         .then((response) => {
-    //             return response.data.stat_by_country
-    //         })
-    // },
     async getLatestStatsByCountry(country) {
         return axios
             .request({
