@@ -139,14 +139,6 @@ export default {
             summary: {},
             selectedStatus: 'Confirmed',
             statusOptions: ['Confirmed', 'Active', 'Recovered', 'Deaths', 'Critical', 'Tested'],
-            statusParams: [
-                'total_cases',
-                'active_cases',
-                'total_recovered',
-                'total_deaths',
-                'serious_critical',
-                'total_tests'
-            ],
             countryStatisticWidget: [],
             statusChartOptions: {
                 confirmed: {
@@ -183,6 +175,7 @@ export default {
             dailyNewCases: [],
             dailyNewDeaths: [],
             trendingData: [],
+            latestData: {},
             active: [],
             critical: [],
             deaths: [],
@@ -272,14 +265,20 @@ export default {
             return parseInt(str.replace(/,/g, ''))
         },
         setPieChartData(pieChartData, value) {
+            console.log(value)
             const [slice1, slice2] = pieChartData
             slice1.y = value
             slice2.y = 1000000 - value
+            console.log(slice2.y)
         },
         async getHistoryByCountry() {
             this.isLoading = true
             try {
                 this.trendingData = await statisticService.getHistoryByCountry(this.country)
+                this.latestData = this.trendingData[0]
+                this.setPieChartData(this.casesPerMillion, parseInt(this.latestData.cases['1M_pop']))
+                this.setPieChartData(this.deathsPerMillion, parseInt(this.latestData.deaths['1M_pop']))
+                this.setPieChartData(this.testPerMillion, parseInt(this.latestData.tests['1M_pop']))
             } catch (error) {
                 console.log(error.response)
             } finally {
@@ -290,9 +289,9 @@ export default {
             this.isLoadingSummary = true
             try {
                 this.summary = await statisticService.getLatestStatsByCountry(this.country)
-                this.setPieChartData(this.casesPerMillion, this.formatStrToInt(this.summary.total_cases_per1m))
-                this.setPieChartData(this.deathsPerMillion, this.formatStrToInt(this.summary.deaths_per1m))
-                this.setPieChartData(this.testPerMillion, this.formatStrToInt(this.summary.total_tests_per1m))
+                // this.setPieChartData(this.casesPerMillion, this.formatStrToInt(this.summary.total_cases_per1m))
+                // this.setPieChartData(this.deathsPerMillion, this.formatStrToInt(this.summary.deaths_per1m))
+                // this.setPieChartData(this.testPerMillion, this.formatStrToInt(this.summary.total_tests_per1m))
             } catch (error) {
                 console.log(error.response)
             } finally {
