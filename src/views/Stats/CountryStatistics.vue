@@ -180,6 +180,8 @@ export default {
                     lineColor: '#2196f3'
                 }
             },
+            dailyNewCases: [],
+            dailyNewDeaths: [],
             trendingData: [],
             active: [],
             critical: [],
@@ -206,37 +208,37 @@ export default {
             switch (this.selectedStatus) {
                 case 'Confirmed':
                     if (this.confirmed.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'total_cases')
+                        return this.formatHighstockData(this.trendingData, 'cases', 'total')
                     }
                     return this.confirmed
                     break
                 case 'Active':
                     if (this.active.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'active_cases')
+                        return this.formatHighstockData(this.trendingData, 'cases', 'active')
                     }
                     return this.active
                     break
                 case 'Recovered':
                     if (this.recovered.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'total_recovered')
+                        return this.formatHighstockData(this.trendingData, 'cases', 'recovered')
                     }
                     return this.recovered
                     break
                 case 'Deaths':
                     if (this.deaths.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'total_deaths')
+                        return this.formatHighstockData(this.trendingData, 'deaths', 'total')
                     }
                     return this.deaths
                     break
                 case 'Critical':
                     if (this.critical.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'serious_critical')
+                        return this.formatHighstockData(this.trendingData, 'cases', 'critical')
                     }
                     return this.critical
                     break
                 case 'Tested':
                     if (this.tested.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'total_tests')
+                        return this.formatHighstockData(this.trendingData, 'tests', 'total')
                     }
                     return this.tested
                     break
@@ -253,12 +255,12 @@ export default {
         }
     },
     methods: {
-        formatHighstockData(array, category) {
+        formatHighstockData(array, category, subsection) {
             return array
                 .map((item) => {
-                    const timestamp = getUnixTime(new Date(item.record_date)) * 1000
+                    const timestamp = getUnixTime(new Date(item.day)) * 1000
                     if (item[category]) {
-                        return [timestamp, parseInt(item[category].replace(/,/g, ''))]
+                        return [timestamp, parseInt(item[category][subsection])]
                     }
                     return [timestamp, null]
                 })
@@ -278,7 +280,6 @@ export default {
             this.isLoading = true
             try {
                 this.trendingData = await statisticService.getHistoryByCountry(this.country)
-                console.log(this.trendingData)
             } catch (error) {
                 console.log(error.response)
             } finally {
