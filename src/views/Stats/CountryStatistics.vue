@@ -265,11 +265,9 @@ export default {
             return parseInt(str.replace(/,/g, ''))
         },
         setPieChartData(pieChartData, value) {
-            console.log(value)
             const [slice1, slice2] = pieChartData
             slice1.y = value
             slice2.y = 1000000 - value
-            console.log(slice2.y)
         },
         async getHistoryByCountry() {
             this.isLoading = true
