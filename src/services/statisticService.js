@@ -8,12 +8,6 @@ const covid19APIOptions = {
     headers: {
         'x-rapidapi-key': process.env.VUE_APP_RAPID_API_KEY,
         'x-rapidapi-host': 'covid-193.p.rapidapi.com'
-    },
-    onDownloadProgress: (progressEvent) => {
-        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-        // console.log(progressEvent.loaded, progressEvent.total)
-        // console.log(progressEvent.lengthComputable)
-        // console.log(percentCompleted)
     }
 }
 
@@ -22,12 +16,6 @@ const coronaVirusMapAPIOptions = {
     headers: {
         'x-rapidapi-key': process.env.VUE_APP_RAPID_API_KEY,
         'x-rapidapi-host': 'coronavirus-map.p.rapidapi.com'
-    },
-    onDownloadProgress: (progressEvent) => {
-        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-        // console.log(progressEvent.loaded, progressEvent.total)
-        // console.log(progressEvent.lengthComputable)
-        // console.log(percentCompleted)
     }
 }
 
@@ -46,16 +34,6 @@ const coronaVirusMonitorAPIOptions = {
 }
 
 export const statisticService = {
-    async getWorldStatistics() {
-        return axios
-            .request({
-                ...covid19APIOptions,
-                url: `${COVID19_API}/statistics`
-            })
-            .then((response) => {
-                return response.data.response
-            })
-    },
     async getHistoryByCountry(country) {
         return axios
             .request({
@@ -115,26 +93,6 @@ export const statisticService = {
                     trendingSummary.push(newData)
                 }
                 return trendingSummary
-            })
-    },
-    async getWorldTotalStat() {
-        return axios
-            .request({
-                ...coronaVirusMonitorAPIOptions,
-                url: `${CORONAVIRUS_MONITOR_API}/worldstat.php`
-            })
-            .then((response) => {
-                return response.data
-            })
-    },
-    async getCasesByCountry() {
-        return axios
-            .request({
-                ...coronaVirusMonitorAPIOptions,
-                url: `${CORONAVIRUS_MONITOR_API}/cases_by_country.php`
-            })
-            .then((response) => {
-                return response.data
             })
     },
     async getLatestStatsByCountry(country) {
