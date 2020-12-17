@@ -41,12 +41,12 @@ export default {
             }
             this.mapHeight = window.innerHeight - 130
         },
-        async getCasesByCountry() {
+        async getCountriesLatestSummary() {
             this.isLoading = true
             try {
-                const response = await statisticService.getCasesByCountry()
-                this.summary = response
-                console.log(this.summary.countries_stat)
+                const result = await statisticService.getCountriesLatestSummary()
+                this.summary = result
+                console.log(this.summary)
             } catch (error) {
                 console.log(error.response)
             } finally {
@@ -114,7 +114,7 @@ export default {
     created() {
         window.addEventListener('resize', this.resetMapHeight)
         this.resetMapHeight()
-        this.getCasesByCountry()
+        this.getCountriesLatestSummary()
     },
     mounted() {
         const vm = this
