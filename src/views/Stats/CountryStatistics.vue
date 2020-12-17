@@ -60,7 +60,7 @@
             <!-- PIE CHARTS -->
             <v-col v-if="countryStatisticWidget[1].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <PieChart
                         :data="casesPerMillion"
                         :title="'Cases per 1M'"
@@ -71,7 +71,7 @@
             </v-col>
             <v-col v-if="countryStatisticWidget[2].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <PieChart
                         :data="deathsPerMillion"
                         :title="'Deaths per 1M'"
@@ -82,7 +82,7 @@
             </v-col>
             <v-col v-if="countryStatisticWidget[3].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <PieChart
                         :data="testPerMillion"
                         :title="'Tests per 1M'"
@@ -289,9 +289,6 @@ export default {
             this.isLoadingSummary = true
             try {
                 this.summary = await statisticService.getLatestStatsByCountry(this.country)
-                // this.setPieChartData(this.casesPerMillion, this.formatStrToInt(this.summary.total_cases_per1m))
-                // this.setPieChartData(this.deathsPerMillion, this.formatStrToInt(this.summary.deaths_per1m))
-                // this.setPieChartData(this.testPerMillion, this.formatStrToInt(this.summary.total_tests_per1m))
             } catch (error) {
                 console.log(error.response)
             } finally {
