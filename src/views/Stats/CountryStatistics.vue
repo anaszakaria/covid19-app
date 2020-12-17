@@ -278,6 +278,7 @@ export default {
             this.isLoading = true
             try {
                 this.trendingData = await statisticService.getHistoryByCountry(this.country)
+                console.log(this.trendingData)
             } catch (error) {
                 console.log(error.response)
             } finally {

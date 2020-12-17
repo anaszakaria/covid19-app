@@ -1,6 +1,21 @@
 import axios from 'axios'
+const COVID19_API = process.env.VUE_APP_COVID193_API
 const CORONAVIRUS_MAP_API = process.env.VUE_APP_CORONAVIRUS_MAP_API
 const CORONAVIRUS_MONITOR_API = process.env.VUE_APP_CORONAVIRUS_MONITOR_API
+
+const covid19APIOptions = {
+    method: 'GET',
+    headers: {
+        'x-rapidapi-key': process.env.VUE_APP_RAPID_API_KEY,
+        'x-rapidapi-host': 'covid-193.p.rapidapi.com'
+    },
+    onDownloadProgress: (progressEvent) => {
+        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+        // console.log(progressEvent.loaded, progressEvent.total)
+        // console.log(progressEvent.lengthComputable)
+        // console.log(percentCompleted)
+    }
+}
 
 const coronaVirusMapAPIOptions = {
     method: 'GET',
@@ -31,6 +46,17 @@ const coronaVirusMonitorAPIOptions = {
 }
 
 export const statisticService = {
+    async getHistoryByCountry(country) {
+        return axios
+            .request({
+                ...covid19APIOptions,
+                url: `${COVID19_API}/history`,
+                params: { country }
+            })
+            .then((response) => {
+                return response.data.response
+            })
+    },
     async getGlobalLatestSummary() {
         return axios
             .request({
@@ -101,17 +127,17 @@ export const statisticService = {
                 return response.data
             })
     },
-    async getHistoryByCountry(country) {
-        return axios
-            .request({
-                ...coronaVirusMonitorAPIOptions,
-                url: `${CORONAVIRUS_MONITOR_API}/cases_by_particular_country.php`,
-                params: { country }
-            })
-            .then((response) => {
-                return response.data.stat_by_country
-            })
-    },
+    // async getHistoryByCountry(country) {
+    //     return axios
+    //         .request({
+    //             ...coronaVirusMonitorAPIOptions,
+    //             url: `${CORONAVIRUS_MONITOR_API}/cases_by_particular_country.php`,
+    //             params: { country }
+    //         })
+    //         .then((response) => {
+    //             return response.data.stat_by_country
+    //         })
+    // },
     async getLatestStatsByCountry(country) {
         return axios
             .request({
