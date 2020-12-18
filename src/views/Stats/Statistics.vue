@@ -63,7 +63,7 @@
                             </v-row>
                         </template>
                         <template v-slot:[`item.name`]="{ item }">
-                            <a @click="gotoPage(`/statistics/${item.name}`)">{{ item.name }}</a>
+                            <a @click="gotToCountryStatisticsPage(item.name)">{{ item.name }}</a>
                         </template>
                         <template v-slot:[`item.total_cases`]="{ item }">
                             {{ item.total_cases | numberWithCommas }}
@@ -190,6 +190,10 @@ export default {
             }
             this.tableHeight = window.innerHeight - 280
         },
+        gotToCountryStatisticsPage(country) {
+            const formattedCountry = country.replace(/ /g, '-')
+            this.gotoPage(`/statistics/${formattedCountry}`)
+        },
         async getCountriesLatestSummary() {
             this.loadDataTable = true
             try {
@@ -204,7 +208,6 @@ export default {
             }
         }
     },
-
     created() {
         window.addEventListener('resize', this.resetTableHeight)
         this.getCountriesLatestSummary()
