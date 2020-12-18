@@ -17,7 +17,8 @@ export default {
         data: Array,
         title: String,
         subTitle: String,
-        lineColor: String
+        lineColor: String,
+        seriesType: String
     },
     data() {
         return {}
@@ -55,9 +56,12 @@ export default {
                 series: [
                     {
                         name: this.title,
-                        type: 'area',
+                        type: this.seriesType === 'area' ? 'area' : 'column',
                         color: this.lineColor,
                         data: this.data,
+                        dataGrouping: {
+                            enabled: false
+                        },
                         tooltip: {
                             pointFormat: '{series.name}: <b>{point.y:,.0f}</b>'
                         },

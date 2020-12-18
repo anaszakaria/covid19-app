@@ -144,7 +144,7 @@ export default {
                 { name: 'Recovered', y: null, color: '#4CAF50' },
                 { name: 'Deaths', y: null, color: '#E53935' }
             ],
-            trendingData: [],
+            historicalData: [],
             activeCases: [],
             critical: [],
             deaths: [],
@@ -187,13 +187,13 @@ export default {
         async getGlobalTrendingSummary() {
             this.isLoading = true
             try {
-                this.trendingData = await statisticService.getGlobalTrendingSummary()
-                this.activeCases = this.formatHighstockData(this.trendingData, 'active_cases')
-                this.critical = this.formatHighstockData(this.trendingData, 'critical')
-                this.deaths = this.formatHighstockData(this.trendingData, 'deaths')
-                this.recovered = this.formatHighstockData(this.trendingData, 'recovered')
-                this.tested = this.formatHighstockData(this.trendingData, 'tested')
-                this.confirmedCases = this.formatHighstockData(this.trendingData, 'total_cases')
+                this.historicalData = await statisticService.getGlobalTrendingSummary()
+                this.activeCases = this.formatHighstockData(this.historicalData, 'active_cases')
+                this.critical = this.formatHighstockData(this.historicalData, 'critical')
+                this.deaths = this.formatHighstockData(this.historicalData, 'deaths')
+                this.recovered = this.formatHighstockData(this.historicalData, 'recovered')
+                this.tested = this.formatHighstockData(this.historicalData, 'tested')
+                this.confirmedCases = this.formatHighstockData(this.historicalData, 'total_cases')
             } catch (error) {
                 console.log(error.response)
             } finally {

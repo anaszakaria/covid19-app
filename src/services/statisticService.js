@@ -56,6 +56,25 @@ export const statisticService = {
                 return summary
             })
     },
+    async getGlobalTrendingSummary() {
+        return axios
+            .request({
+                ...coronaVirusMapAPIOptions,
+                url: `${CORONAVIRUS_MAP_API}/spots/summary`
+            })
+            .then((response) => {
+                let trendingSummary = []
+                const trendingData = response.data.data
+                for (const property in trendingData) {
+                    const newData = {
+                        eventDate: property,
+                        ...trendingData[property]
+                    }
+                    trendingSummary.push(newData)
+                }
+                return trendingSummary
+            })
+    },
     async getCountriesLatestSummary() {
         return axios
             .request({
@@ -74,25 +93,6 @@ export const statisticService = {
                     countries
                 }
                 return newData
-            })
-    },
-    async getGlobalTrendingSummary() {
-        return axios
-            .request({
-                ...coronaVirusMapAPIOptions,
-                url: `${CORONAVIRUS_MAP_API}/spots/summary`
-            })
-            .then((response) => {
-                let trendingSummary = []
-                const trendingData = response.data.data
-                for (const property in trendingData) {
-                    const newData = {
-                        eventDate: property,
-                        ...trendingData[property]
-                    }
-                    trendingSummary.push(newData)
-                }
-                return trendingSummary
             })
     },
     async getLatestStatsByCountry(country) {

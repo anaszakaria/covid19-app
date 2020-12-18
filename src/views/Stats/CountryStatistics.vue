@@ -57,6 +57,31 @@
             </v-col>
         </v-row>
         <v-row class="ma-0">
+            <!-- DAILY CASES -->
+            <v-col xs="12" md="6">
+                <v-card outlined elevation="1">
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <HighStockLineChart
+                        :data="dailyNewCasesData"
+                        :title="'Daily Confirmed'"
+                        :subTitle="'Daily Confirmed COVID-19 Cases'"
+                        :lineColor="'#FF9800'"
+                        :seriesType="'column'"
+                    />
+                </v-card>
+            </v-col>
+            <v-col xs="12" md="6">
+                <v-card outlined elevation="1">
+                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <HighStockLineChart
+                        :data="dailyDeathCasesData"
+                        :title="'Daily Deaths'"
+                        :subTitle="'Daily COVID-19 Deaths Cases'"
+                        :lineColor="'#E53935'"
+                        :seriesType="'column'"
+                    />
+                </v-card>
+            </v-col>
             <!-- PIE CHARTS -->
             <v-col v-if="countryStatisticWidget[1].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
@@ -107,10 +132,11 @@
                         </v-col>
                     </v-row>
                     <HighStockLineChart
-                        :data="trendingLineChartSummaryData"
+                        :data="lineChartHistoricalData"
                         :title="statusChart.title"
                         :subTitle="statusChart.subTitle"
                         :lineColor="statusChart.lineColor"
+                        :seriesType="statusChart.seriesType"
                     />
                 </v-card>
             </v-col>
@@ -137,6 +163,7 @@ export default {
             isLoadingSummary: false,
             country: this.$route.params.country,
             summary: {},
+            selectedDaily: 'Confirmed',
             selectedStatus: 'Confirmed',
             statusOptions: ['Confirmed', 'Active', 'Recovered', 'Deaths', 'Critical', 'Tested'],
             countryStatisticWidget: [],
@@ -144,37 +171,43 @@ export default {
                 confirmed: {
                     title: 'Confirmed Cases',
                     subTitle: 'Total Confirmed COVID-19 Cases',
-                    lineColor: '#FF9800'
+                    lineColor: '#FF9800',
+                    seriesType: 'area'
                 },
                 active: {
                     title: 'Active Cases',
                     subTitle: 'Total COVID-19 Active Cases',
-                    lineColor: '#212121'
+                    lineColor: '#212121',
+                    seriesType: 'area'
                 },
                 recovered: {
                     title: 'Cases Recovered',
                     subTitle: 'Total COVID-19 Recovered Cases',
-                    lineColor: '#4CAF50'
+                    lineColor: '#4CAF50',
+                    seriesType: 'area'
                 },
                 deaths: {
                     title: 'Death Cases',
                     subTitle: 'Total COVID-19 Death Cases',
-                    lineColor: '#E53935'
+                    lineColor: '#E53935',
+                    seriesType: 'area'
                 },
                 critical: {
                     title: 'Critical Cases',
                     subTitle: 'Total COVID-19 Critical Cases',
-                    lineColor: '#ffeb3b'
+                    lineColor: '#FDD835',
+                    seriesType: 'area'
                 },
                 tested: {
                     title: 'Total Tests',
                     subTitle: 'Total Number of COVID-19 Tests',
-                    lineColor: '#2196f3'
+                    lineColor: '#2196f3',
+                    seriesType: 'area'
                 }
             },
             dailyNewCases: [],
             dailyNewDeaths: [],
-            trendingData: [],
+            historicalData: [],
             latestData: {},
             active: [],
             critical: [],
@@ -197,41 +230,53 @@ export default {
         }
     },
     computed: {
-        trendingLineChartSummaryData() {
+        dailyNewCasesData() {
+            if (this.dailyNewCases.length === 0) {
+                return this.formatDailyCasesData(this.historicalData, 'cases', 'new')
+            }
+            return this.dailyNewCases
+        },
+        dailyDeathCasesData() {
+            if (this.dailyNewDeaths.length === 0) {
+                return this.formatDailyCasesData(this.historicalData, 'deaths', 'new')
+            }
+            return this.dailyNewDeaths
+        },
+        lineChartHistoricalData() {
             switch (this.selectedStatus) {
                 case 'Confirmed':
                     if (this.confirmed.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'cases', 'total')
+                        return this.formatHighstockData(this.historicalData, 'cases', 'total')
                     }
                     return this.confirmed
                     break
                 case 'Active':
                     if (this.active.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'cases', 'active')
+                        return this.formatHighstockData(this.historicalData, 'cases', 'active')
                     }
                     return this.active
                     break
                 case 'Recovered':
                     if (this.recovered.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'cases', 'recovered')
+                        return this.formatHighstockData(this.historicalData, 'cases', 'recovered')
                     }
                     return this.recovered
                     break
                 case 'Deaths':
                     if (this.deaths.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'deaths', 'total')
+                        return this.formatHighstockData(this.historicalData, 'deaths', 'total')
                     }
                     return this.deaths
                     break
                 case 'Critical':
                     if (this.critical.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'cases', 'critical')
+                        return this.formatHighstockData(this.historicalData, 'cases', 'critical')
                     }
                     return this.critical
                     break
                 case 'Tested':
                     if (this.tested.length === 0) {
-                        return this.formatHighstockData(this.trendingData, 'tests', 'total')
+                        return this.formatHighstockData(this.historicalData, 'tests', 'total')
                     }
                     return this.tested
                     break
@@ -248,12 +293,14 @@ export default {
         }
     },
     methods: {
-        formatHighstockData(array, category, subsection) {
+        formatDailyCasesData(array, category, subsection) {
             return array
                 .map((item) => {
                     const timestamp = getUnixTime(new Date(item.day)) * 1000
-                    if (item[category]) {
-                        return [timestamp, parseInt(item[category][subsection])]
+                    if (item[category][subsection]) {
+                        const value = parseInt(item[category][subsection].replace('+', ''))
+                        let cases = value < 0 ? null : value
+                        return [timestamp, cases]
                     }
                     return [timestamp, null]
                 })
@@ -261,8 +308,18 @@ export default {
                     return a[0] - b[0]
                 })
         },
-        formatStrToInt(str) {
-            return parseInt(str.replace(/,/g, ''))
+        formatHighstockData(array, category, subsection) {
+            return array
+                .map((item) => {
+                    const timestamp = getUnixTime(new Date(item.day)) * 1000
+                    if (item[category][subsection]) {
+                        return [timestamp, parseInt(item[category][subsection])]
+                    }
+                    return [timestamp, null]
+                })
+                .sort((a, b) => {
+                    return a[0] - b[0]
+                })
         },
         setPieChartData(pieChartData, value) {
             const [slice1, slice2] = pieChartData
@@ -272,8 +329,8 @@ export default {
         async getHistoryByCountry() {
             this.isLoading = true
             try {
-                this.trendingData = await statisticService.getHistoryByCountry(this.country)
-                this.latestData = this.trendingData[0]
+                this.historicalData = await statisticService.getHistoryByCountry(this.country)
+                this.latestData = this.historicalData[0]
                 this.setPieChartData(this.casesPerMillion, parseInt(this.latestData.cases['1M_pop']))
                 this.setPieChartData(this.deathsPerMillion, parseInt(this.latestData.deaths['1M_pop']))
                 this.setPieChartData(this.testPerMillion, parseInt(this.latestData.tests['1M_pop']))
