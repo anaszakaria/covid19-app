@@ -191,7 +191,7 @@ export default {
             this.tableHeight = window.innerHeight - 280
         },
         gotToCountryStatisticsPage(country) {
-            const formattedCountry = country.replace(/ /g, '-')
+            let formattedCountry = country === 'South Korea' ? 'S-Korea' : country.replace(/ /g, '-')
             this.gotoPage(`/statistics/${formattedCountry}`)
         },
         async getCountriesLatestSummary() {
