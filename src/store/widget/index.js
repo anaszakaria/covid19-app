@@ -12,6 +12,8 @@ export default {
             ],
             countryStatisticWidget: [
                 { title: 'Summary', enabled: true },
+                { title: 'Daily Confirmed', enabled: true },
+                { title: 'Daily Deaths', enabled: true },
                 { title: 'Cases Per Million Pie Chart', enabled: true },
                 { title: 'Deaths Per Million Pie Chart', enabled: true },
                 { title: 'Tests Per Million Pie Chart', enabled: true },

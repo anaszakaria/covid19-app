@@ -58,7 +58,7 @@
         </v-row>
         <v-row class="ma-0">
             <!-- DAILY CASES -->
-            <v-col xs="12" md="6">
+            <v-col v-if="countryStatisticWidget[1].enabled" xs="12" md="6">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -70,7 +70,7 @@
                     />
                 </v-card>
             </v-col>
-            <v-col xs="12" md="6">
+            <v-col v-if="countryStatisticWidget[2].enabled" xs="12" md="6">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -83,7 +83,7 @@
                 </v-card>
             </v-col>
             <!-- PIE CHARTS -->
-            <v-col v-if="countryStatisticWidget[1].enabled" xs="12" md="4">
+            <v-col v-if="countryStatisticWidget[3].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <PieChart
@@ -94,7 +94,7 @@
                     />
                 </v-card>
             </v-col>
-            <v-col v-if="countryStatisticWidget[2].enabled" xs="12" md="4">
+            <v-col v-if="countryStatisticWidget[4].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <PieChart
@@ -105,7 +105,7 @@
                     />
                 </v-card>
             </v-col>
-            <v-col v-if="countryStatisticWidget[3].enabled" xs="12" md="4">
+            <v-col v-if="countryStatisticWidget[5].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <PieChart
@@ -117,7 +117,7 @@
                 </v-card>
             </v-col>
             <!-- TOTAL CASES -->
-            <v-col v-if="countryStatisticWidget[4].enabled" xs="12" md="12">
+            <v-col v-if="countryStatisticWidget[6].enabled" xs="12" md="12">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <v-row class="ma-0">
