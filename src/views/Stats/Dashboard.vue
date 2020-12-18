@@ -26,6 +26,33 @@
                     />
                 </v-card>
             </v-col> -->
+            <!-- TOP 10 CASES -->
+            <v-col xs="12" md="6">
+                <v-card outlined elevation="1">
+                    <v-progress-linear v-if="isLoadingTopTenData" indeterminate></v-progress-linear>
+                    <BarChart
+                        :data="top10ConfirmedData.series"
+                        :seriesName="'Total Confirmed'"
+                        :categories="top10ConfirmedData.categories"
+                        :title="'Top 10 COVID-19 Confirmed Cases Worldwide'"
+                        :subTitle="'Top 10 Cumulative Number of COVID-19 Confirmed Cases Worldwide'"
+                        :lineColor="'#FF9800'"
+                    />
+                </v-card>
+            </v-col>
+            <v-col xs="12" md="6">
+                <v-card outlined elevation="1">
+                    <v-progress-linear v-if="isLoadingTopTenData" indeterminate></v-progress-linear>
+                    <BarChart
+                        :data="top10DeathsData.series"
+                        :seriesName="'Total Deaths'"
+                        :categories="top10DeathsData.categories"
+                        :title="'Top 10 COVID-19 Death Cases Worldwide'"
+                        :subTitle="'Top 10 Cumulative Number of COVID-19 Deaths Worldwide'"
+                        :lineColor="'#E53935'"
+                    />
+                </v-card>
+            </v-col>
             <!-- DATA COMPARISON - ACTIVE, RECOVERED, DEATHS -->
             <v-col v-if="dashboardWidget[1].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
@@ -108,6 +135,7 @@ import { getUnixTime } from 'date-fns'
 import { statisticService } from '@/services/statisticService'
 import HighStockLineChart from '@/components/Charts/HighStockLineChart'
 import HighStockMultiLineChart from '@/components/Charts/HighStockMultiLineChart'
+import BarChart from '@/components/Charts/BarChart'
 import PieChart from '@/components/Charts/PieChart'
 import StatusWidget from '@/components/Widgets/StatusWidget'
 
@@ -115,6 +143,7 @@ export default {
     components: {
         HighStockLineChart,
         HighStockMultiLineChart,
+        BarChart,
         PieChart,
         StatusWidget
     },
@@ -122,15 +151,8 @@ export default {
         return {
             isLoading: false,
             isLoadingSummary: false,
+            isLoadingTopTenData: false,
             summary: {},
-            statusParams: [
-                'total_cases',
-                'active_cases',
-                'total_recovered',
-                'total_deaths',
-                'serious_critical',
-                'total_tests'
-            ],
             statusWidgetData: [
                 { title: 'Confirmed', widgetColor: 'orange', total: 0, icon: 'mdi-medical-bag' },
                 { title: 'Active', widgetColor: 'darkgrey', total: 0, icon: 'mdi-pill' },
@@ -139,6 +161,14 @@ export default {
                 { title: 'Critical', widgetColor: 'yellow', total: 0, icon: 'mdi-hospital-building', blackFont: true },
                 { title: 'Tested', widgetColor: 'blue', total: 0, icon: 'mdi-test-tube' }
             ],
+            top10ConfirmedData: {
+                series: [],
+                categories: []
+            },
+            top10DeathsData: {
+                series: [],
+                categories: []
+            },
             pieChartSeriesData: [
                 { name: 'Active', y: null, color: '#212121' },
                 { name: 'Recovered', y: null, color: '#4CAF50' },
@@ -156,6 +186,37 @@ export default {
     },
     computed: {},
     methods: {
+        sortObjectArray(array, key) {
+            let argType = ''
+            const item = Object.entries(array[0])
+            for (const [itemKey, value] of item) {
+                if (key === itemKey) {
+                    argType = value
+                }
+            }
+
+            const newArray = [...array]
+
+            switch (typeof argType) {
+                case 'string':
+                    newArray.sort((a, b) => {
+                        var nameA = a.name.toUpperCase() // ignore upper and lowercase
+                        var nameB = b.name.toUpperCase() // ignore upper and lowercase
+                        if (nameA < nameB) return -1
+                        if (nameA > nameB) return 1
+                        return 0
+                    })
+                    break
+                case 'number':
+                    newArray.sort((a, b) => {
+                        return a.value - b.value
+                    })
+                    break
+                default:
+                    console.log('type is not defined')
+            }
+            return newArray
+        },
         formatHighstockData(array, category) {
             return array
                 .map((item) => {
@@ -168,6 +229,11 @@ export default {
                 .sort((a, b) => {
                     return a[0] - b[0]
                 })
+        },
+        setTopTenBarChartData(array, obj, key) {
+            const topTen = array.slice(0, 10)
+            obj.categories = [...topTen.map((country) => country.name)]
+            obj.series = [...topTen.map((country) => country[key])]
         },
         setPieChartComparisonData(summary) {
             const [active, recovered, deaths] = this.pieChartSeriesData
@@ -211,11 +277,27 @@ export default {
             } finally {
                 this.isLoadingSummary = false
             }
+        },
+        async getCountriesLatestSummary() {
+            this.isLoadingTopTenData = true
+            try {
+                const result = await statisticService.getCountriesLatestSummary()
+                let sortedCountriesByTotalCases = this.sortObjectArray(result.countries, 'total_cases')
+                let sortedCountriesByDeaths = this.sortObjectArray(result.countries, 'deaths')
+                console.log(sortedCountriesByDeaths)
+                this.setTopTenBarChartData(sortedCountriesByTotalCases, this.top10ConfirmedData, 'total_cases')
+                this.setTopTenBarChartData(sortedCountriesByDeaths, this.top10DeathsData, 'deaths')
+            } catch (error) {
+                console.log(error.response)
+            } finally {
+                this.isLoadingTopTenData = false
+            }
         }
     },
     created() {
         this.getGlobalTrendingSummary()
         this.getGlobalLatestSummary()
+        this.getCountriesLatestSummary()
         this.dashboardWidget = this.$store.getters.dashboardWidget
     },
     mounted() {}
