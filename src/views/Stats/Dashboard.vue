@@ -27,7 +27,7 @@
                 </v-card>
             </v-col> -->
             <!-- TOP 10 CASES -->
-            <v-col xs="12" md="6">
+            <v-col v-if="dashboardWidget[1].enabled" xs="12" md="6">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoadingTopTenData" indeterminate></v-progress-linear>
                     <BarChart
@@ -40,7 +40,7 @@
                     />
                 </v-card>
             </v-col>
-            <v-col xs="12" md="6">
+            <v-col v-if="dashboardWidget[2].enabled" xs="12" md="6">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoadingTopTenData" indeterminate></v-progress-linear>
                     <BarChart
@@ -54,7 +54,7 @@
                 </v-card>
             </v-col>
             <!-- DATA COMPARISON - ACTIVE, RECOVERED, DEATHS -->
-            <v-col v-if="dashboardWidget[1].enabled" xs="12" md="4">
+            <v-col v-if="dashboardWidget[3].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockMultiLineChart
@@ -67,7 +67,7 @@
                 </v-card>
             </v-col>
             <!-- PIE CHART COMPARISON - ACTIVE, RECOVERED and DEATHS -->
-            <v-col v-if="dashboardWidget[3].enabled" xs="12" md="4">
+            <v-col v-if="dashboardWidget[4].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
                     <PieChart
@@ -79,7 +79,7 @@
                 </v-card>
             </v-col>
             <!-- CONFIRMED CASES -->
-            <v-col v-if="dashboardWidget[2].enabled" xs="12" md="4">
+            <v-col v-if="dashboardWidget[5].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -91,7 +91,7 @@
                 </v-card>
             </v-col>
             <!-- ACTIVE CASES -->
-            <v-col v-if="dashboardWidget[4].enabled" xs="12" md="4">
+            <v-col v-if="dashboardWidget[6].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -103,7 +103,7 @@
                 </v-card>
             </v-col>
             <!-- RECOVERED -->
-            <v-col v-if="dashboardWidget[5].enabled" xs="12" md="4">
+            <v-col v-if="dashboardWidget[7].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -115,7 +115,7 @@
                 </v-card>
             </v-col>
             <!-- DEATHS -->
-            <v-col v-if="dashboardWidget[6].enabled" xs="12" md="4">
+            <v-col v-if="dashboardWidget[8].enabled" xs="12" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -187,35 +187,10 @@ export default {
     computed: {},
     methods: {
         sortObjectArray(array, key) {
-            let argType = ''
-            const item = Object.entries(array[0])
-            for (const [itemKey, value] of item) {
-                if (key === itemKey) {
-                    argType = value
-                }
-            }
-
             const newArray = [...array]
-
-            switch (typeof argType) {
-                case 'string':
-                    newArray.sort((a, b) => {
-                        var nameA = a.name.toUpperCase() // ignore upper and lowercase
-                        var nameB = b.name.toUpperCase() // ignore upper and lowercase
-                        if (nameA < nameB) return -1
-                        if (nameA > nameB) return 1
-                        return 0
-                    })
-                    break
-                case 'number':
-                    newArray.sort((a, b) => {
-                        return a.value - b.value
-                    })
-                    break
-                default:
-                    console.log('type is not defined')
-            }
-            return newArray
+            return newArray.sort((a, b) => {
+                return b[key] - a[key]
+            })
         },
         formatHighstockData(array, category) {
             return array
@@ -282,9 +257,8 @@ export default {
             this.isLoadingTopTenData = true
             try {
                 const result = await statisticService.getCountriesLatestSummary()
-                let sortedCountriesByTotalCases = this.sortObjectArray(result.countries, 'total_cases')
-                let sortedCountriesByDeaths = this.sortObjectArray(result.countries, 'deaths')
-                console.log(sortedCountriesByDeaths)
+                const sortedCountriesByTotalCases = this.sortObjectArray(result.countries, 'total_cases')
+                const sortedCountriesByDeaths = this.sortObjectArray(result.countries, 'deaths')
                 this.setTopTenBarChartData(sortedCountriesByTotalCases, this.top10ConfirmedData, 'total_cases')
                 this.setTopTenBarChartData(sortedCountriesByDeaths, this.top10DeathsData, 'deaths')
             } catch (error) {

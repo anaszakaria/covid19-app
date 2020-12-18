@@ -3,9 +3,11 @@ export default {
         widget: {
             dashboardWidget: [
                 { title: 'Summary', enabled: true },
+                { title: 'Top 10 COVID-19 Confirmed Cases Worldwide', enabled: true },
+                { title: 'Top 10 COVID-19 Death Cases Worldwide', enabled: true },
                 { title: 'Data Comparison Between Active, Recovered and Death Cases', enabled: true },
-                { title: 'Confirmed Cases', enabled: true },
                 { title: 'Percentage of Active, Recovered and Death Cases', enabled: true },
+                { title: 'Confirmed Cases', enabled: true },
                 { title: 'Active Cases', enabled: true },
                 { title: 'Cases Recovered', enabled: true },
                 { title: 'Death Cases', enabled: true }
