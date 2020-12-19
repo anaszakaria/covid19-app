@@ -62,9 +62,8 @@ export default {
     data() {
         return {
             menuLists: [
-                { tooltipText: 'User Profile', icon: 'mdi-file', url: '/profile' },
                 { tooltipText: 'Admin Page', icon: 'mdi-tune', url: '/admin' },
-                { tooltipText: 'App Settings', icon: 'mdi-settings', url: null }
+                { tooltipText: 'App Settings', icon: 'mdi-cogs', url: null }
             ]
         }
     },
@@ -81,7 +80,7 @@ export default {
             EventBus.$emit('toggleFixedRightPanel')
         },
         appBarAction(url, icon) {
-            if (icon === 'mdi-settings') this.toggleFixedRightPanel()
+            if (icon === 'mdi-cogs') this.toggleFixedRightPanel()
             else this.gotoPage(url)
         }
     },

@@ -29,9 +29,9 @@ const routes = [
         component: () => import('@/views/User/SignUp')
     },
     {
-        path: '/profile',
-        name: 'User Profile',
-        component: () => import('@/views/User/Profile')
+        path: '/settings',
+        name: 'App Settings',
+        component: () => import('@/views/Settings')
         // beforeEnter: AuthGuard
     },
     {
@@ -63,7 +63,7 @@ const routes = [
         component: () => import('@/views/Stats/Statistics.vue')
     },
     {
-        path: '/statistics/:country',
+        path: '/countrystatistics/:country',
         name: 'CountryStatistics',
         component: () => import('@/views/Stats/CountryStatistics.vue')
     },

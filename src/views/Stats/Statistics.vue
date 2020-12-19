@@ -63,7 +63,7 @@
                             </v-row>
                         </template>
                         <template v-slot:[`item.name`]="{ item }">
-                            <a @click="gotoPage(`/statistics/${item.name}`)">{{ item.name }}</a>
+                            <a @click="gotoPage(`/countrystatistics/${item.name}`)">{{ item.name }}</a>
                         </template>
                         <template v-slot:[`item.total_cases`]="{ item }">
                             {{ item.total_cases | numberWithCommas }}
@@ -170,7 +170,6 @@ export default {
         lastUpdatedOn() {
             if (this.generatedOn) {
                 const date = new Date(this.generatedOn * 1000)
-                console.log(fromUnixTime(this.generatedOn))
                 return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
             }
             return '.....'

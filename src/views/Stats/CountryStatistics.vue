@@ -388,6 +388,7 @@ export default {
         }
     },
     created() {
+        this.country = this.$route.params.country
         this.selectedCountry = this.$route.params.country
         this.formattedCountry = this.country === 'South Korea' ? 'S-Korea' : this.country.replace(/ /g, '-')
         this.countryStatisticWidget = this.$store.getters.countryStatisticWidget

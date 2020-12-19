@@ -25,12 +25,13 @@ export default {
             leftPanel: true,
             pageList: [
                 { icon: 'mdi-view-dashboard', text: 'Dashboard', url: '/dashboard' },
-                { icon: 'mdi-map', text: 'Map Viewer', url: '/mapviewer' },
+                { icon: 'mdi-earth', text: 'Map Viewer', url: '/mapviewer' },
                 { icon: 'mdi-earth', text: 'HighMaps', url: '/highmaps' },
-                { icon: 'mdi-table-large', text: 'Statistics', url: '/statistics' },
-                { icon: 'mdi-information', text: 'Information and Q&A', url: '/info-qna' }
-                // { icon: 'mdi-timer', text: 'Prediction', url: '/prediction' },
-                // { icon: 'mdi-chart-timeline', text: 'Timeline', url: '/timeline' },
+                { icon: 'mdi-table-large', text: 'World Statistics', url: '/statistics' },
+                { icon: 'mdi-map', text: 'Statistics: Malaysia', url: '/countrystatistics/Malaysia' },
+                { icon: 'mdi-information', text: 'Information and Q&A', url: '/info-qna' },
+                { icon: 'mdi-settings', text: 'App Settings', url: '/settings' },
+                { icon: 'mdi-tune', text: 'Admin Page', url: '/admin' }
             ]
         }
     },
