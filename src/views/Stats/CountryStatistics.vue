@@ -4,7 +4,7 @@
         <v-autocomplete
             v-model="selectedCountry"
             :items="countryNames"
-            :loading="isLoading"
+            :loading="isLoadingCountryList"
             @change="changeRoute()"
             label="Search Country"
             hide-no-data
@@ -171,8 +171,9 @@ export default {
         return {
             isLoading: false,
             isLoadingSummary: false,
+            isLoadingCountryList: false,
             country: this.$route.params.country,
-            countryNames: ['USA', 'Brazil', 'Malaysia'],
+            countryNames: [],
             selectedCountry: '',
             formattedCountry: '',
             summary: {},
@@ -350,6 +351,16 @@ export default {
             slice1.y = value
             slice2.y = 1000000 - value
         },
+        async getCountryList() {
+            this.isLoadingCountryList = true
+            try {
+                this.countryNames = await statisticService.getCountryList()
+            } catch (error) {
+                console.log(error.response)
+            } finally {
+                this.isLoadingCountryList = false
+            }
+        },
         async getHistoryByCountry() {
             this.isLoading = true
             try {
@@ -385,6 +396,7 @@ export default {
         if (historyByCountryWidget.enabled) {
             this.getHistoryByCountry()
         }
+        this.getCountryList()
         this.getLatestStatsByCountry()
     },
     mounted() {}

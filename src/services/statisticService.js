@@ -34,6 +34,16 @@ const coronaVirusMonitorAPIOptions = {
 }
 
 export const statisticService = {
+    async getCountryList() {
+        return axios
+            .request({
+                ...covid19APIOptions,
+                url: `${COVID19_API}/countries`
+            })
+            .then((response) => {
+                return response.data.response
+            })
+    },
     async getHistoryByCountry(country) {
         return axios
             .request({
