@@ -94,6 +94,7 @@ export default {
                 name: this.name,
                 email: this.email,
                 password: this.password,
+                savedCountry: 'Malaysia',
                 widget: this.$store.getters.widget
             })
         },
