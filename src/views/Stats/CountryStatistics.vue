@@ -1,5 +1,6 @@
 <template>
     <v-container fluid>
+        <h3 class="font-weight-medium ml-3">COVID-19 Statistics for {{ country }}</h3>
         <v-row v-if="countryStatisticWidget[0].enabled" class="ma-0">
             <v-col xs="6" md="2">
                 <StatusWidget

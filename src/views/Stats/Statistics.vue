@@ -1,8 +1,8 @@
 <template>
     <v-container fluid>
+        <h3 class="font-weight-medium ml-3 mb-1">COVID-19 Statistics for Countries - Updated on {{ lastUpdatedOn }}</h3>
         <v-row class="ma-0">
             <v-col sm="12">
-                <h3 class="font-weight-medium">COVID-19 Statistics - Last Updated on {{ lastUpdatedOn }}</h3>
                 <v-card outlined tile>
                     <v-data-table
                         id="statistics-table"
@@ -169,9 +169,11 @@ export default {
         },
         lastUpdatedOn() {
             if (this.generatedOn) {
-                return fromUnixTime(this.generatedOn)
+                const date = new Date(this.generatedOn * 1000)
+                console.log(fromUnixTime(this.generatedOn))
+                return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
             }
-            return '...loading'
+            return '.....'
         },
         filteredCountries() {
             if (this.selectedCountries.length === 0) {
