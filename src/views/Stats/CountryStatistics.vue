@@ -1,6 +1,15 @@
 <template>
     <v-container fluid>
         <h3 class="font-weight-medium ml-3">COVID-19 Statistics for {{ country }}</h3>
+        <v-autocomplete
+            v-model="selectedCountry"
+            :items="countryNames"
+            :loading="isLoading"
+            @change="changeRoute()"
+            label="Search Country"
+            hide-no-data
+            class="mx-0 ml-3 mr-3"
+        ></v-autocomplete>
         <v-row v-if="countryStatisticWidget[0].enabled" class="ma-0">
             <v-col xs="6" md="2">
                 <StatusWidget
@@ -163,6 +172,8 @@ export default {
             isLoading: false,
             isLoadingSummary: false,
             country: this.$route.params.country,
+            countryNames: ['USA', 'Brazil', 'Malaysia'],
+            selectedCountry: '',
             formattedCountry: '',
             summary: {},
             selectedDaily: 'Confirmed',
@@ -231,6 +242,14 @@ export default {
             ]
         }
     },
+    watch: {
+        '$route.params.country': function(country) {
+            this.country = this.$route.params.country
+            this.formattedCountry = this.country === 'South Korea' ? 'S-Korea' : this.country.replace(/ /g, '-')
+            this.getHistoryByCountry()
+            this.getLatestStatsByCountry()
+        }
+    },
     computed: {
         dailyNewCasesData() {
             if (this.dailyNewCases.length === 0) {
@@ -295,6 +314,9 @@ export default {
         }
     },
     methods: {
+        changeRoute() {
+            this.gotoPage(this.selectedCountry)
+        },
         formatDailyCasesData(array, category, subsection) {
             return array
                 .map((item) => {
