@@ -162,6 +162,7 @@ export default {
             isLoading: false,
             isLoadingSummary: false,
             country: this.$route.params.country,
+            formattedCountry: '',
             summary: {},
             selectedDaily: 'Confirmed',
             selectedStatus: 'Confirmed',
@@ -329,7 +330,7 @@ export default {
         async getHistoryByCountry() {
             this.isLoading = true
             try {
-                this.historicalData = await statisticService.getHistoryByCountry(this.country)
+                this.historicalData = await statisticService.getHistoryByCountry(this.formattedCountry)
                 this.latestData = this.historicalData[0]
                 this.setPieChartData(this.casesPerMillion, parseInt(this.latestData.cases['1M_pop']))
                 this.setPieChartData(this.deathsPerMillion, parseInt(this.latestData.deaths['1M_pop']))
@@ -343,7 +344,8 @@ export default {
         async getLatestStatsByCountry() {
             this.isLoadingSummary = true
             try {
-                this.summary = await statisticService.getLatestStatsByCountry(this.country)
+                const country = this.country === 'South Korea' ? 'S. Korea' : this.country
+                this.summary = await statisticService.getLatestStatsByCountry(country)
             } catch (error) {
                 console.log(error.response)
             } finally {
@@ -352,6 +354,7 @@ export default {
         }
     },
     created() {
+        this.formattedCountry = this.country === 'South Korea' ? 'S-Korea' : this.country.replace(/ /g, '-')
         this.countryStatisticWidget = this.$store.getters.countryStatisticWidget
         const historyByCountryWidget = this.countryStatisticWidget.find(
             (item) => item.title === 'Trending Data Line Chart'

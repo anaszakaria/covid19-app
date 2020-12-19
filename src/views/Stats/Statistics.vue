@@ -63,7 +63,7 @@
                             </v-row>
                         </template>
                         <template v-slot:[`item.name`]="{ item }">
-                            <a @click="gotToCountryStatisticsPage(item.name)">{{ item.name }}</a>
+                            <a @click="gotoPage(`/statistics/${item.name}`)">{{ item.name }}</a>
                         </template>
                         <template v-slot:[`item.total_cases`]="{ item }">
                             {{ item.total_cases | numberWithCommas }}
