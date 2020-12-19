@@ -23,12 +23,13 @@ export default {
     data() {
         return {
             leftPanel: true,
+            savedCountry: '',
             pageList: [
                 { icon: 'mdi-view-dashboard', text: 'Dashboard', url: '/dashboard' },
                 { icon: 'mdi-earth', text: 'Map Viewer', url: '/mapviewer' },
                 { icon: 'mdi-earth', text: 'HighMaps', url: '/highmaps' },
                 { icon: 'mdi-table-large', text: 'World Statistics', url: '/statistics' },
-                { icon: 'mdi-map', text: 'Statistics: Malaysia', url: '/countrystatistics/Malaysia' },
+                { icon: 'mdi-map', text: '', url: '' },
                 { icon: 'mdi-information', text: 'Information and Q&A', url: '/info-qna' },
                 { icon: 'mdi-settings', text: 'App Settings', url: '/settings' },
                 { icon: 'mdi-tune', text: 'Admin Page', url: '/admin' }
@@ -42,6 +43,9 @@ export default {
     },
     computed: {},
     created() {
+        this.savedCountry = this.$store.getters.savedCountry
+        this.pageList[4].text = `Statistics: ${this.savedCountry}`
+        this.pageList[4].url = `/countrystatistics/${this.savedCountry}`
         EventBus.$on('toggleLeftPanel', (payload) => {
             this.toggleLeftPanel()
         })

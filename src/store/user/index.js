@@ -8,7 +8,8 @@ export default {
         accessToken: null,
         refreshToken: null,
         loading: false,
-        error: null
+        error: null,
+        savedCountry: 'Malaysia'
     },
     mutations: {
         setUser(state, payload) {
@@ -107,6 +108,9 @@ export default {
     getters: {
         user(state) {
             return state.user
+        },
+        savedCountry(state) {
+            return state.savedCountry
         },
         accessToken(state) {
             return state.accessToken
