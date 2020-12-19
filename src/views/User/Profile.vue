@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <h3>User Profile</h3>
+        <h4 class="font-weight-medium ml-3">User Profile</h4>
         <v-row class="ma-0">
             <v-col sm="12">
                 <v-card outlined elevation="1">

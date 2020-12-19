@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <h3 class="font-weight-medium ml-3">COVID-19 Statistics for {{ country }}</h3>
+        <h4 class="font-weight-medium ml-3">COVID-19 Statistics for {{ country }}</h4>
         <v-autocomplete
             v-model="selectedCountry"
             :items="countryNames"

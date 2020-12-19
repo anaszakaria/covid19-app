@@ -67,16 +67,6 @@ const routes = [
         name: 'CountryStatistics',
         component: () => import('@/views/Stats/CountryStatistics.vue')
     },
-    {
-        path: '/prediction',
-        name: 'Prediction and Modelling',
-        component: () => import('@/views/Stats/Prediction.vue')
-    },
-    {
-        path: '/timeline',
-        name: 'Timeline',
-        component: () => import('@/views/Stats/Timeline.vue')
-    },
     // TEST
     {
         path: '/test',

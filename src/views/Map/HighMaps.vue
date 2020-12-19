@@ -1,8 +1,8 @@
 <template>
     <v-container fluid>
+        <h4 class="font-weight-medium ml-3">World Map Statistics for COVID-19</h4>
         <v-row class="ma-0">
             <v-col sm="12">
-                <h3>World Map Statistics for COVID-19</h3>
                 <v-card outlined tile>
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <Highmaps ref="highcharts" :options="chartOptions" />
