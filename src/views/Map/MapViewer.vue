@@ -12,30 +12,21 @@
             <l-tile-layer :url="url" :attribution="attribution" />
             <!-- <l-geo-json v-if="showGeoJSON" :geojson="geojson" :options="options" :options-style="styleFunction" /> -->
             <l-geo-json v-if="showGeoJSON" :geojson="geojson" :options="options" />
-            <l-marker :lat-lng="marker" />
         </l-map>
     </section>
 </template>
 
 <script>
-import { LMap, LTileLayer, LMarker, LGeoJson, LPolygon, LPolyline } from 'vue2-leaflet'
+import { LMap, LTileLayer, LGeoJson, LPolygon, LPolyline } from 'vue2-leaflet'
 import { latLng, Icon, point, PolyUtil } from 'leaflet'
 import { statisticService } from '@/services/statisticService'
-
-delete Icon.Default.prototype._getIconUrl
-Icon.Default.mergeOptions({
-    iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-    iconUrl: require('leaflet/dist/images/marker-icon.png'),
-    shadowUrl: require('leaflet/dist/images/marker-shadow.png')
-})
 
 export default {
     name: 'MapViewer',
     components: {
         LMap,
         LTileLayer,
-        LGeoJson,
-        LMarker
+        LGeoJson
     },
     data() {
         return {
@@ -47,13 +38,8 @@ export default {
             maxZoom: 8,
             center: [48, -1.219482],
             geojson: null,
-            // fillColor: '#e4ce7f',
-            // lineColor: '#0598fa',
-            fillColor: '',
-            lineColor: '',
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-            marker: latLng(2.9264, 101.6964)
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         }
     },
     methods: {
@@ -62,21 +48,12 @@ export default {
             try {
                 const result = await statisticService.getCountriesLatestSummary()
                 this.summary = result
-                // console.log(this.summary);
                 this.geojson.features.map((item, i) => {
-                    // let country = this.summary.countries.find(obj => obj.name == item.properties.name)
                     let country = this.summary.countries.find((obj) => obj.iso3166a3 == item.properties.iso_a3)
                     if (country) {
-                        // const properties = Object.assign(item.properties, country)
-                        // return item.properties = properties
                         return (item.properties = country)
                     }
                 })
-                // console.log(this.geojson.features[0].geometry.coordinates);
-                // LPolygon(this.geojson.features[0].geometry.coordinates)
-                // console.log(LPolygon(this.geojson.features[0].geometry.coordinates));
-                // console.log(LPolygon([this.geojson.features[0].geometry.coordinates]).getBounds());
-                // console.log(this.geojson);
             } catch (error) {
                 console.log(error.response)
             } finally {
@@ -89,40 +66,72 @@ export default {
             return {
                 onEachFeature: this.onEachFeatureFunction,
                 style: (feature) => {
-                    // console.log(feature);
                     const totalCases = feature.properties.total_cases
-                    if (totalCases < 10000) {
+                    if (totalCases < 5000) {
                         return {
                             weight: 1,
-                            color: 'green',
+                            color: '#1A237E',
                             opacity: 1,
-                            fillColor: 'green',
-                            fillOpacity: 0.5
+                            fillColor: '#f5f0eb',
+                            fillOpacity: 1
                         }
                     }
                     if (totalCases < 10000) {
                         return {
                             weight: 1,
-                            color: 'yellow',
+                            color: '#1A237E',
                             opacity: 1,
-                            fillColor: 'yellow',
-                            fillOpacity: 0.5
+                            fillColor: '#f7efd4',
+                            fillOpacity: 1
+                        }
+                    }
+                    if (totalCases < 50000) {
+                        return {
+                            weight: 1,
+                            color: '#1A237E',
+                            opacity: 1,
+                            fillColor: '#f7efd4',
+                            fillOpacity: 1
                         }
                     } else if (totalCases < 100000) {
                         return {
                             weight: 1,
-                            color: 'orange',
+                            color: '#1A237E',
                             opacity: 1,
-                            fillColor: 'orange',
-                            fillOpacity: 0.5
+                            fillColor: '#f5eaad',
+                            fillOpacity: 1
                         }
-                    } else if (totalCases >= 100000) {
+                    } else if (totalCases < 500000) {
                         return {
                             weight: 1,
-                            color: 'red',
+                            color: '#1A237E',
                             opacity: 1,
-                            fillColor: 'red',
-                            fillOpacity: 0.5
+                            fillColor: '#fcd783',
+                            fillOpacity: 1
+                        }
+                    } else if (totalCases < 1000000) {
+                        return {
+                            weight: 1,
+                            color: '#1A237E',
+                            opacity: 1,
+                            fillColor: '#fa9247',
+                            fillOpacity: 1
+                        }
+                    } else if (totalCases < 2000000) {
+                        return {
+                            weight: 1,
+                            color: '#1A237E',
+                            opacity: 1,
+                            fillColor: '#f76459',
+                            fillOpacity: 1
+                        }
+                    } else if (totalCases > 2000000) {
+                        return {
+                            weight: 1,
+                            color: '#1A237E',
+                            opacity: 1,
+                            fillColor: '#cc3838',
+                            fillOpacity: 1
                         }
                     } else {
                         return {
@@ -136,22 +145,11 @@ export default {
                 }
             }
         },
-        styleFunction() {
-            const { fillColor, lineColor } = this
-            return {
-                weight: 1,
-                color: lineColor,
-                opacity: 1,
-                fillColor,
-                fillOpacity: 0.5
-            }
-        },
         onEachFeatureFunction() {
             if (!this.enableTooltip) {
                 return () => {}
             }
             return (feature, layer) => {
-                console.log(feature.properties)
                 layer.bindTooltip(
                     `<div>Country:${feature.properties.name}</div><div>Total Cases:${feature.properties.total_cases}</div>`,
                     {
@@ -165,30 +163,7 @@ export default {
     created() {
         const geojsonData = process.env.CountryGEOJSON
         this.geojson = geojsonData
-        // console.log(this.geojson)
         this.getCountriesLatestSummary()
-        // console.log(LPolygon);
-        var latlngs = [
-            [
-                [37, -109.05],
-                [41, -109.03],
-                [41, -102.05],
-                [37, -102.04]
-            ], // outer ring
-            [
-                [37.29, -108.58],
-                [40.71, -108.58],
-                [40.71, -102.5],
-                [37.29, -102.5]
-            ] // hole
-        ]
-        // console.log(point(300, 300));
-        console.log(PolyUtil.clipPolygon(latlngs))
-        // console.log(Point(101.6964, 2.9264));
-        // LPolygon.latLngs = latlngs
-        // console.log(LPolygon);
-
-        // console.log(LPolygon(latlngs));
     }
 }
 </script>
