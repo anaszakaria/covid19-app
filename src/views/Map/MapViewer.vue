@@ -3,7 +3,7 @@
         <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
         <v-card id="legend" class="mx-auto" max-width="300" tile>
             <v-list dense disabled>
-                <v-subheader>LEGEND</v-subheader>
+                <v-subheader class="pl-4 subtitle-2">LEGEND</v-subheader>
                 <v-list-item-group color="primary">
                     <v-list-item v-for="(item, i) in legendItems" :key="i">
                         <v-list-item-icon>
