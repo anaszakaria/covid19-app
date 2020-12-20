@@ -51,6 +51,14 @@
                         </v-container>
                     </v-card-text>
                 </v-card>
+                <v-row>
+                    <v-col xs="12" class="d-flex align-end flex-column">
+                        <v-card flat>
+                            <span class="question">Don't have an account?</span>
+                            <v-btn @click="gotoPage('/signup')" text class="ml-2" color="primary">Sign Up</v-btn>
+                        </v-card>
+                    </v-col>
+                </v-row>
             </v-col>
         </v-layout>
     </v-container>

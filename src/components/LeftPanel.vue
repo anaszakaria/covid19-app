@@ -10,6 +10,14 @@
                         <v-list-item-title class="font-weight-regular body-2" v-text="list.text"></v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                <v-list-item v-if="userIsAuthenticated && userIsAdmin" to="/admin">
+                    <v-list-item-icon>
+                        <v-icon v-text="'mdi-tune'"></v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title class="font-weight-regular body-2" v-text="'Admin Page'"></v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
             </v-list-item-group>
         </v-list>
     </v-navigation-drawer>
@@ -30,8 +38,7 @@ export default {
                 { icon: 'mdi-table-large', text: 'World Statistics', url: '/statistics' },
                 { icon: 'mdi-map', text: '', url: '' },
                 { icon: 'mdi-information', text: 'Information and Q&A', url: '/info-qna' },
-                { icon: 'mdi-settings', text: 'App Settings', url: '/settings' },
-                { icon: 'mdi-tune', text: 'Admin Page', url: '/admin' }
+                { icon: 'mdi-settings', text: 'App Settings', url: '/settings' }
             ]
         }
     },

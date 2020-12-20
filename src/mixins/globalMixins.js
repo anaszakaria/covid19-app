@@ -42,7 +42,7 @@ export default {
             return this.$store.getters.user !== null && this.$store.getters.user !== undefined
         },
         userIsAdmin() {
-            return this.$store.getters.userRole === 'Admin' ? true : false
+            return this.$store.getters.userRoles.includes('ROLE_ADMIN')
         }
     }
 }

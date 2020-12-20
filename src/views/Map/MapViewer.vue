@@ -197,7 +197,8 @@ export default {
                     </div>`,
                     {
                         permanent: false,
-                        sticky: true
+                        sticky: true,
+                        className: 'tool-tip-style'
                     }
                 )
             }
@@ -216,9 +217,19 @@ export default {
     height: 100%;
 }
 
-#tool-tip {
+.vue2leaflet-map {
+    z-index: 2 !important;
+}
+
+.tool-tip-style {
     padding: 200px;
     background: red;
+}
+
+.popupCustom .leaflet-popup-tip,
+.popupCustom .leaflet-popup-content-wrapper {
+    background: #f80c0c !important;
+    color: #234c5e !important;
 }
 
 #legend {
@@ -226,9 +237,5 @@ export default {
     z-index: 5;
     top: 64px;
     right: 18px;
-}
-
-.vue2leaflet-map {
-    z-index: 2 !important;
 }
 </style>
