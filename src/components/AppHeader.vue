@@ -17,6 +17,11 @@
                 <span>{{ list.tooltipText }}</span>
             </v-tooltip>
         </template>
+        <template v-else>
+            <v-btn small color="accent" @click="gotoPage('/signin')"
+                ><v-icon small left>mdi-account</v-icon>Sign In</v-btn
+            >
+        </template>
         <v-menu v-if="userIsAuthenticated" :close-on-content-click="false" offset-y nudge-bottom="2">
             <template #activator="{ on: menu }">
                 <v-tooltip bottom nudge-bottom="-10">
