@@ -26,7 +26,7 @@ export default {
             savedCountry: '',
             pageList: [
                 { icon: 'mdi-view-dashboard', text: 'Dashboard', url: '/dashboard' },
-                { icon: 'mdi-earth', text: 'Map Viewer', url: '/mapviewer' },
+                { icon: 'mdi-earth', text: 'World Map', url: '/mapviewer' },
                 { icon: 'mdi-table-large', text: 'World Statistics', url: '/statistics' },
                 { icon: 'mdi-map', text: '', url: '' },
                 { icon: 'mdi-information', text: 'Information and Q&A', url: '/info-qna' },

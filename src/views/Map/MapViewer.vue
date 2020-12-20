@@ -25,7 +25,6 @@
             style="height: 100%; width: 100%"
         >
             <l-tile-layer :url="url" :attribution="attribution" />
-            <!-- <l-geo-json v-if="showGeoJSON" :geojson="geojson" :options="options" :options-style="styleFunction" /> -->
             <l-geo-json v-if="showGeoJSON" :geojson="geojson" :options="options" />
         </l-map>
     </section>
@@ -175,8 +174,27 @@ export default {
                 return () => {}
             }
             return (feature, layer) => {
+                function numbersToComma(num) {
+                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                }
+                const confirmedCases = feature.properties.total_cases
+                    ? numbersToComma(feature.properties.total_cases)
+                    : 'No Data'
+                const deaths = feature.properties.deaths ? numbersToComma(feature.properties.deaths) : 'No Data'
+                const active = feature.properties.active_cases
+                    ? numbersToComma(feature.properties.active_cases)
+                    : 'No Data'
+                const recovered = feature.properties.recovered
+                    ? numbersToComma(feature.properties.recovered)
+                    : 'No Data'
                 layer.bindTooltip(
-                    `<div>Country:${feature.properties.name}</div><div>Total Cases:${feature.properties.total_cases}</div>`,
+                    `<div>
+                        <div>Country: ${feature.properties.name}</div>
+                        <div>Confirmed Cases: ${confirmedCases}</div>
+                        <div>Active Cases: ${active}</div>
+                        <div>Deaths: ${deaths}</div>
+                        <div>Recovered: ${recovered}</div>
+                    </div>`,
                     {
                         permanent: false,
                         sticky: true
@@ -196,6 +214,11 @@ export default {
 <style lang="scss" scoped>
 #mapviewer {
     height: 100%;
+}
+
+#tool-tip {
+    padding: 200px;
+    background: red;
 }
 
 #legend {
