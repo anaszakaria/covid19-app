@@ -1,7 +1,7 @@
 <template>
     <v-container fluid fill-height>
         <v-layout justify-center align-center>
-            <v-flex xs12 md6>
+            <v-col xs="12" md="6">
                 <v-card>
                     <v-card-text>
                         <v-alert
@@ -42,7 +42,7 @@
                                 </v-layout>
                                 <v-layout row>
                                     <v-flex xs12 class="text-right">
-                                        <v-btn depressed dark class="body-2" type="submit" :loading="loading"
+                                        <v-btn depressed color="primary" class="body-2" type="submit" :loading="loading"
                                             >Sign In</v-btn
                                         >
                                     </v-flex>
@@ -51,7 +51,7 @@
                         </v-container>
                     </v-card-text>
                 </v-card>
-            </v-flex>
+            </v-col>
         </v-layout>
     </v-container>
 </template>
