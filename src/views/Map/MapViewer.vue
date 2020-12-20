@@ -1,6 +1,21 @@
 <template>
     <section id="mapviewer">
         <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+        <v-card id="legend" class="mx-auto" max-width="300" tile>
+            <v-list dense disabled>
+                <v-subheader>LEGEND</v-subheader>
+                <v-list-item-group color="primary">
+                    <v-list-item v-for="(item, i) in legendItems" :key="i">
+                        <v-list-item-icon>
+                            <v-icon v-text="'mdi-square'" :color="item.color"></v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title v-text="item.text"></v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list-item-group>
+            </v-list>
+        </v-card>
         <l-map
             class="map"
             :zoom="zoom"
@@ -39,7 +54,17 @@ export default {
             center: [48, -1.219482],
             geojson: null,
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            legendItems: [
+                { text: 'Below 5K', color: '#f5f0eb' },
+                { text: '5K to 10K', color: '#f7efd4' },
+                { text: '10K to 50K', color: '#f5eaad' },
+                { text: '50K to 100K', color: '#fcd783' },
+                { text: '100K to 500K', color: '#fabc70' },
+                { text: '500K to 1M', color: '#fa9247' },
+                { text: '1M to 2M', color: '#E53935' },
+                { text: 'Above 2M', color: '#B71C1C' }
+            ]
         }
     },
     methods: {
@@ -90,7 +115,7 @@ export default {
                             weight: 1,
                             color: '#1A237E',
                             opacity: 1,
-                            fillColor: '#f7efd4',
+                            fillColor: '#f5eaad',
                             fillOpacity: 1
                         }
                     } else if (totalCases < 100000) {
@@ -98,7 +123,7 @@ export default {
                             weight: 1,
                             color: '#1A237E',
                             opacity: 1,
-                            fillColor: '#f5eaad',
+                            fillColor: '#fcd783',
                             fillOpacity: 1
                         }
                     } else if (totalCases < 500000) {
@@ -106,7 +131,7 @@ export default {
                             weight: 1,
                             color: '#1A237E',
                             opacity: 1,
-                            fillColor: '#fcd783',
+                            fillColor: '#fabc70',
                             fillOpacity: 1
                         }
                     } else if (totalCases < 1000000) {
@@ -122,7 +147,7 @@ export default {
                             weight: 1,
                             color: '#1A237E',
                             opacity: 1,
-                            fillColor: '#f76459',
+                            fillColor: '#E53935',
                             fillOpacity: 1
                         }
                     } else if (totalCases > 2000000) {
@@ -130,7 +155,7 @@ export default {
                             weight: 1,
                             color: '#1A237E',
                             opacity: 1,
-                            fillColor: '#cc3838',
+                            fillColor: '#B71C1C',
                             fillOpacity: 1
                         }
                     } else {
@@ -171,6 +196,13 @@ export default {
 <style lang="scss" scoped>
 #mapviewer {
     height: 100%;
+}
+
+#legend {
+    position: fixed;
+    z-index: 5;
+    top: 64px;
+    right: 18px;
 }
 
 .vue2leaflet-map {
