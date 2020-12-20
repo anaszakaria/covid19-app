@@ -27,7 +27,6 @@ export default {
             pageList: [
                 { icon: 'mdi-view-dashboard', text: 'Dashboard', url: '/dashboard' },
                 { icon: 'mdi-earth', text: 'Map Viewer', url: '/mapviewer' },
-                { icon: 'mdi-earth', text: 'HighMaps', url: '/highmaps' },
                 { icon: 'mdi-table-large', text: 'World Statistics', url: '/statistics' },
                 { icon: 'mdi-map', text: '', url: '' },
                 { icon: 'mdi-information', text: 'Information and Q&A', url: '/info-qna' },
@@ -44,8 +43,8 @@ export default {
     computed: {},
     created() {
         this.savedCountry = this.$store.getters.savedCountry
-        this.pageList[4].text = `Statistics: ${this.savedCountry}`
-        this.pageList[4].url = `/countrystatistics/${this.savedCountry}`
+        this.pageList[3].text = `Statistics: ${this.savedCountry}`
+        this.pageList[3].url = `/countrystatistics/${this.savedCountry}`
         EventBus.$on('toggleLeftPanel', (payload) => {
             this.toggleLeftPanel()
         })

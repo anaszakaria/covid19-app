@@ -46,11 +46,6 @@ const routes = [
         name: 'MapViewer',
         component: () => import('@/views/Map/MapViewer.vue')
     },
-    {
-        path: '/highmaps',
-        name: 'HighMaps',
-        component: () => import('@/views/Map/HighMaps.vue')
-    },
     // STATISTICS
     {
         path: '/dashboard',
