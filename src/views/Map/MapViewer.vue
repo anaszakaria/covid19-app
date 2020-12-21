@@ -1,15 +1,8 @@
 <template>
     <section id="mapviewer">
         <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
-        <v-card id="basemap" class="mx-auto" max-width="300" tile>
-            <div style="margin-bottom:20px;font-family:monospace">
-                Basemap
-                <select v-model="currentTiles">
-                    <option v-for="(t, i) in tiles" :key="i" :value="i">
-                        {{ t.name }}
-                    </option>
-                </select>
-            </div>
+        <v-card id="basemap" class="mx-auto pa-3 pt-2 pb-0" max-width="300" tile>
+            <v-select v-model="selectedProviders" :items="providers" label="Change Basemap"></v-select>
         </v-card>
         <v-card id="legend" class="mx-auto" max-width="300" tile>
             <v-list dense disabled>
@@ -58,7 +51,7 @@ export default {
             showGeoJSON: true,
             enableTooltip: true,
             fillOpacity: 0.7,
-            zoom: 2,
+            zoom: 2.2,
             minZoom: 2,
             maxZoom: 8,
             center: [48, -1.219482],
@@ -66,6 +59,19 @@ export default {
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             currentTiles: 0,
+            selectedProviders: 'MapBox Satellite',
+            providers: [
+                'MapBox Satellite',
+                'MapBox Dark',
+                'MapBox Light',
+                'MapBox Streets',
+                'MapBox Outdoors',
+                'OpenStreetMap',
+                'OpenStreetMap Grey',
+                'OpenTopoMap',
+                'ArcGIS World Topo Map',
+                'ArcGIS Shaded Relief'
+            ],
             tiles: [
                 {
                     name: 'MapBox Satellite',
@@ -185,10 +191,12 @@ export default {
     },
     computed: {
         tilesUrl() {
-            return this.tiles[this.currentTiles].url
+            const [provider] = this.tiles.filter((tile) => tile.name === this.selectedProviders)
+            return provider.url
         },
         tilesOptions() {
-            return this.tiles[this.currentTiles].options
+            const [provider] = this.tiles.filter((tile) => tile.name === this.selectedProviders)
+            return provider.options
         },
         options() {
             return {
@@ -346,7 +354,7 @@ export default {
 #basemap {
     position: absolute;
     z-index: 5;
-    bottom: 14px;
-    left: 14px;
+    top: 11px;
+    left: 56px;
 }
 </style>
