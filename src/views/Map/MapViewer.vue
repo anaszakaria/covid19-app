@@ -60,18 +60,7 @@ export default {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             currentTiles: 0,
             selectedProviders: 'MapBox Satellite',
-            providers: [
-                'MapBox Satellite',
-                'MapBox Dark',
-                'MapBox Light',
-                'MapBox Streets',
-                'MapBox Outdoors',
-                'OpenStreetMap',
-                'OpenStreetMap Grey',
-                'OpenTopoMap',
-                'ArcGIS World Topo Map',
-                'ArcGIS Shaded Relief'
-            ],
+            providers: ['MapBox Satellite', 'MapBox Dark', 'MapBox Light', 'MapBox Outdoors', 'Esri World Imagery'],
             tiles: [
                 {
                     name: 'MapBox Satellite',
@@ -98,15 +87,6 @@ export default {
                     }
                 },
                 {
-                    name: 'MapBox Streets',
-                    url:
-                        'https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW5hc3pha2FyaWEiLCJhIjoiY2tiZHM0cmZsMGVxcjJubWtidzJvNnBkZCJ9.daQ2O29WJOpI7jJV1lMD3w',
-                    options: {
-                        attribution: 'Tiles &copy; Source: MapBox'
-                    }
-                },
-
-                {
                     name: 'MapBox Outdoors',
                     url:
                         'https://api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW5hc3pha2FyaWEiLCJhIjoiY2tiZHM0cmZsMGVxcjJubWtidzJvNnBkZCJ9.daQ2O29WJOpI7jJV1lMD3w',
@@ -115,46 +95,12 @@ export default {
                     }
                 },
                 {
-                    name: 'OpenStreetMap',
-                    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    options: {
-                        maxZoom: 19,
-                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    }
-                },
-                {
-                    name: 'OpenStreetMap Grey',
-                    url: 'http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png',
-                    options: {
-                        maxZoom: 18,
-                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    }
-                },
-                {
-                    name: 'OpenTopoMap',
-                    url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-                    options: {
-                        maxZoom: 17,
-                        attribution:
-                            'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-                    }
-                },
-                {
-                    name: 'ArcGIS World Topo Map',
+                    name: 'Esri World Imagery',
                     url:
-                        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+                        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
                     options: {
                         attribution:
-                            'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
-                    }
-                },
-                {
-                    name: 'ArcGIS Shaded Relief',
-                    url:
-                        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}',
-                    options: {
-                        attribution: 'Tiles &copy; Esri &mdash; Source: Esri',
-                        maxZoom: 13
+                            'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
                     }
                 }
             ],
@@ -191,12 +137,10 @@ export default {
     },
     computed: {
         tilesUrl() {
-            const [provider] = this.tiles.filter((tile) => tile.name === this.selectedProviders)
-            return provider.url
+            return this.tiles.find((tile) => tile.name === this.selectedProviders).url
         },
         tilesOptions() {
-            const [provider] = this.tiles.filter((tile) => tile.name === this.selectedProviders)
-            return provider.options
+            return this.tiles.find((tile) => tile.name === this.selectedProviders).options
         },
         options() {
             return {
