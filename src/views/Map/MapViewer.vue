@@ -1,10 +1,10 @@
 <template>
     <section id="mapviewer">
         <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
-        <v-card id="basemap" class="mx-auto pa-3 pt-2 pb-0" max-width="300" tile>
-            <v-select v-model="selectedProviders" :items="providers" label="Change Basemap"></v-select>
+        <v-card id="basemap" class="mx-auto pa-3 pt-5 pb-0" max-width="240" tile>
+            <v-select dense v-model="selectedProviders" :items="providers" label="Change Basemap"></v-select>
         </v-card>
-        <v-card id="legend" class="mx-auto" max-width="300" tile>
+        <v-card id="legend" class="mx-auto" max-width="200" tile>
             <v-list dense disabled>
                 <v-subheader class="pl-4 subtitle-2">LEGEND</v-subheader>
                 <v-list-item-group color="primary">
@@ -56,8 +56,6 @@ export default {
             maxZoom: 8,
             center: [48, -1.219482],
             geojson: null,
-            url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
             currentTiles: 0,
             selectedProviders: 'MapBox Satellite',
             providers: ['MapBox Satellite', 'MapBox Dark', 'MapBox Light', 'MapBox Outdoors', 'Esri World Imagery'],
@@ -298,7 +296,7 @@ export default {
 #basemap {
     position: absolute;
     z-index: 5;
-    top: 11px;
+    top: 12px;
     left: 56px;
 }
 </style>

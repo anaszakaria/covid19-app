@@ -23,9 +23,10 @@
                         :items-per-page="-1"
                     >
                         <template v-slot:top>
-                            <v-row>
+                            <v-row class="pt-1">
                                 <v-col sm="5">
                                     <v-autocomplete
+                                        dense
                                         v-model="selectedCountries"
                                         :items="countryNames"
                                         :loading="loadDataTable"
@@ -41,6 +42,7 @@
                                 </v-col>
                                 <v-col sm="2">
                                     <v-text-field
+                                        dense
                                         v-model="total_cases"
                                         type="number"
                                         label="Total Cases (More than)"
@@ -48,6 +50,7 @@
                                 </v-col>
                                 <v-col sm="2">
                                     <v-text-field
+                                        dense
                                         v-model="deaths"
                                         type="number"
                                         label="Total Deaths (More than)"
@@ -55,6 +58,7 @@
                                 </v-col>
                                 <v-col sm="2">
                                     <v-text-field
+                                        dense
                                         v-model="active_cases"
                                         type="number"
                                         label="Active Cases (More than)"

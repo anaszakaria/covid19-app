@@ -3,7 +3,7 @@
         <h4 class="font-weight-medium ml-3">COVID-19 Information and Q&A</h4>
         <v-row class="ma-0">
             <v-col sm="12">
-                <v-expansion-panels accordion focusable>
+                <v-expansion-panels v-model="panel" multiple accordion focusable>
                     <v-expansion-panel v-for="(info, index) in covidInfo" :key="index">
                         <v-expansion-panel-header class="subtitle-2 pt-0 pb-0">{{
                             info.question
@@ -22,6 +22,7 @@
 export default {
     data() {
         return {
+            panel: [0],
             covidInfo: [
                 {
                     question: 'How does COVID-19 spread?',

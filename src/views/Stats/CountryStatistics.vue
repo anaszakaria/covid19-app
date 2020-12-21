@@ -1,7 +1,8 @@
 <template>
     <v-container fluid>
-        <h4 class="font-weight-medium ml-3">COVID-19 Statistics for {{ country }}</h4>
+        <h4 class="font-weight-medium ml-3 mb-5">COVID-19 Statistics for {{ country }}</h4>
         <v-autocomplete
+            dense
             v-model="selectedCountry"
             :items="countryNames"
             :loading="isLoadingCountryList"
@@ -133,11 +134,11 @@
                     <v-row class="ma-0">
                         <v-col xs="12" md="3">
                             <v-select
+                                dense
                                 :items="statusOptions"
                                 v-model="selectedStatus"
                                 label="Cases"
                                 :disabled="isLoading"
-                                dense
                             ></v-select>
                         </v-col>
                     </v-row>
