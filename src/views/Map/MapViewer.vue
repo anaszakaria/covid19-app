@@ -1,6 +1,16 @@
 <template>
     <section id="mapviewer">
         <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+        <v-card id="basemap" class="mx-auto" max-width="300" tile>
+            <div style="margin-bottom:20px;font-family:monospace">
+                Basemap
+                <select v-model="currentTiles">
+                    <option v-for="(t, i) in tiles" :key="i" :value="i">
+                        {{ t.name }}
+                    </option>
+                </select>
+            </div>
+        </v-card>
         <v-card id="legend" class="mx-auto" max-width="300" tile>
             <v-list dense disabled>
                 <v-subheader class="pl-4 subtitle-2">LEGEND</v-subheader>
@@ -24,7 +34,7 @@
             :center="center"
             style="height: 100%; width: 100%"
         >
-            <l-tile-layer :url="url" :attribution="attribution" />
+            <l-tile-layer :url="tilesUrl" :options="tilesOptions" />
             <l-geo-json v-if="showGeoJSON" :geojson="geojson" :options="options" />
         </l-map>
     </section>
@@ -47,6 +57,7 @@ export default {
             isLoading: false,
             showGeoJSON: true,
             enableTooltip: true,
+            fillOpacity: 0.7,
             zoom: 2,
             minZoom: 2,
             maxZoom: 8,
@@ -54,6 +65,93 @@ export default {
             geojson: null,
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+            currentTiles: 0,
+            tiles: [
+                {
+                    name: 'MapBox Satellite',
+                    url:
+                        'https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW5hc3pha2FyaWEiLCJhIjoiY2tiZHM0cmZsMGVxcjJubWtidzJvNnBkZCJ9.daQ2O29WJOpI7jJV1lMD3w',
+                    options: {
+                        attribution: 'Tiles &copy; Source: MapBox'
+                    }
+                },
+                {
+                    name: 'MapBox Dark',
+                    url:
+                        'https://api.mapbox.com/styles/v1/mapbox/dark-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW5hc3pha2FyaWEiLCJhIjoiY2tiZHM0cmZsMGVxcjJubWtidzJvNnBkZCJ9.daQ2O29WJOpI7jJV1lMD3w',
+                    options: {
+                        attribution: 'Tiles &copy; Source: MapBox'
+                    }
+                },
+                {
+                    name: 'MapBox Light',
+                    url:
+                        'https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW5hc3pha2FyaWEiLCJhIjoiY2tiZHM0cmZsMGVxcjJubWtidzJvNnBkZCJ9.daQ2O29WJOpI7jJV1lMD3w',
+                    options: {
+                        attribution: 'Tiles &copy; Source: MapBox'
+                    }
+                },
+                {
+                    name: 'MapBox Streets',
+                    url:
+                        'https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW5hc3pha2FyaWEiLCJhIjoiY2tiZHM0cmZsMGVxcjJubWtidzJvNnBkZCJ9.daQ2O29WJOpI7jJV1lMD3w',
+                    options: {
+                        attribution: 'Tiles &copy; Source: MapBox'
+                    }
+                },
+
+                {
+                    name: 'MapBox Outdoors',
+                    url:
+                        'https://api.mapbox.com/styles/v1/mapbox/outdoors-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYW5hc3pha2FyaWEiLCJhIjoiY2tiZHM0cmZsMGVxcjJubWtidzJvNnBkZCJ9.daQ2O29WJOpI7jJV1lMD3w',
+                    options: {
+                        attribution: 'Tiles &copy; Source: MapBox'
+                    }
+                },
+                {
+                    name: 'OpenStreetMap',
+                    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    options: {
+                        maxZoom: 19,
+                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    }
+                },
+                {
+                    name: 'OpenStreetMap Grey',
+                    url: 'http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png',
+                    options: {
+                        maxZoom: 18,
+                        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    }
+                },
+                {
+                    name: 'OpenTopoMap',
+                    url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+                    options: {
+                        maxZoom: 17,
+                        attribution:
+                            'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+                    }
+                },
+                {
+                    name: 'ArcGIS World Topo Map',
+                    url:
+                        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+                    options: {
+                        attribution:
+                            'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+                    }
+                },
+                {
+                    name: 'ArcGIS Shaded Relief',
+                    url:
+                        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}',
+                    options: {
+                        attribution: 'Tiles &copy; Esri &mdash; Source: Esri',
+                        maxZoom: 13
+                    }
+                }
+            ],
             legendItems: [
                 { text: 'Below 5K', color: '#f5f0eb' },
                 { text: '5K to 10K', color: '#f7efd4' },
@@ -86,6 +184,12 @@ export default {
         }
     },
     computed: {
+        tilesUrl() {
+            return this.tiles[this.currentTiles].url
+        },
+        tilesOptions() {
+            return this.tiles[this.currentTiles].options
+        },
         options() {
             return {
                 onEachFeature: this.onEachFeatureFunction,
@@ -97,7 +201,7 @@ export default {
                             color: '#1A237E',
                             opacity: 1,
                             fillColor: '#f5f0eb',
-                            fillOpacity: 1
+                            fillOpacity: this.fillOpacity
                         }
                     }
                     if (totalCases < 10000) {
@@ -106,7 +210,7 @@ export default {
                             color: '#1A237E',
                             opacity: 1,
                             fillColor: '#f7efd4',
-                            fillOpacity: 1
+                            fillOpacity: this.fillOpacity
                         }
                     }
                     if (totalCases < 50000) {
@@ -115,7 +219,7 @@ export default {
                             color: '#1A237E',
                             opacity: 1,
                             fillColor: '#f5eaad',
-                            fillOpacity: 1
+                            fillOpacity: this.fillOpacity
                         }
                     } else if (totalCases < 100000) {
                         return {
@@ -123,7 +227,7 @@ export default {
                             color: '#1A237E',
                             opacity: 1,
                             fillColor: '#fcd783',
-                            fillOpacity: 1
+                            fillOpacity: this.fillOpacity
                         }
                     } else if (totalCases < 500000) {
                         return {
@@ -131,7 +235,7 @@ export default {
                             color: '#1A237E',
                             opacity: 1,
                             fillColor: '#fabc70',
-                            fillOpacity: 1
+                            fillOpacity: this.fillOpacity
                         }
                     } else if (totalCases < 1000000) {
                         return {
@@ -139,7 +243,7 @@ export default {
                             color: '#1A237E',
                             opacity: 1,
                             fillColor: '#fa9247',
-                            fillOpacity: 1
+                            fillOpacity: this.fillOpacity
                         }
                     } else if (totalCases < 2000000) {
                         return {
@@ -147,7 +251,7 @@ export default {
                             color: '#1A237E',
                             opacity: 1,
                             fillColor: '#E53935',
-                            fillOpacity: 1
+                            fillOpacity: this.fillOpacity
                         }
                     } else if (totalCases > 2000000) {
                         return {
@@ -155,7 +259,7 @@ export default {
                             color: '#1A237E',
                             opacity: 1,
                             fillColor: '#B71C1C',
-                            fillOpacity: 1
+                            fillOpacity: this.fillOpacity
                         }
                     } else {
                         return {
@@ -163,7 +267,7 @@ export default {
                             color: '#ddd',
                             opacity: 1,
                             fillColor: '#ddd',
-                            fillOpacity: 0.5
+                            fillOpacity: this.fillOpacity
                         }
                     }
                 }
@@ -233,9 +337,16 @@ export default {
 }
 
 #legend {
-    position: fixed;
+    position: absolute;
     z-index: 5;
-    top: 64px;
-    right: 18px;
+    top: 14px;
+    right: 14px;
+}
+
+#basemap {
+    position: absolute;
+    z-index: 5;
+    bottom: 14px;
+    left: 14px;
 }
 </style>
