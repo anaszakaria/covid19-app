@@ -23,7 +23,7 @@
                         :items-per-page="-1"
                     >
                         <template v-slot:top>
-                            <v-row class="pt-1">
+                            <v-row class="pt-1 pb-0">
                                 <v-col sm="5">
                                     <v-autocomplete
                                         dense
