@@ -1,5 +1,6 @@
 <template>
     <v-container fluid>
+        <h4 class="font-weight-medium ml-3">COVID-19 Worldwide Latest Summary</h4>
         <v-row v-if="dashboardWidget[0].enabled" class="ma-0">
             <v-col cols="12" v-for="(status, index) in statusWidgetData" :key="index" xs="12" sm="4" md="2">
                 <StatusWidget
@@ -13,19 +14,6 @@
             </v-col>
         </v-row>
         <v-row class="ma-0">
-            <!-- DATA COMPARISON - BY COUNTRY -->
-            <!-- <v-col xs="12" md="6">
-                <v-card outlined tile>
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
-                    <HighStockMultiLineChart
-                        :activeCases="activeCases"
-                        :recovered="recovered"
-                        :deaths="deaths"
-                        :title="'Data Comparison'"
-                        :subTitle="'Data Comparison Between Active, Recovered and Death Cases'"
-                    />
-                </v-card>
-            </v-col> -->
             <!-- TOP 10 CASES -->
             <v-col cols="12" v-if="dashboardWidget[1].enabled" xs="12" sm="6" md="6">
                 <v-card outlined elevation="1">
