@@ -54,7 +54,6 @@ export default {
             try {
                 const result = await userService.getUserList()
                 this.users = result
-                console.log(this.users)
             } catch (error) {
                 console.log(response.error)
             } finally {
