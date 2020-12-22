@@ -24,7 +24,7 @@
                     >
                         <template v-slot:top>
                             <v-row class="pt-1 pb-0">
-                                <v-col sm="5">
+                                <v-col cols="12" sm="4">
                                     <v-autocomplete
                                         dense
                                         v-model="selectedCountries"

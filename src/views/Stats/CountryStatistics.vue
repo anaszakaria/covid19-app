@@ -12,7 +12,7 @@
             class="mx-0 ml-3 mr-3"
         ></v-autocomplete>
         <v-row v-if="countryStatisticWidget[0].enabled" class="ma-0">
-            <v-col xs="6" md="2">
+            <v-col cols="12" xs="6" sm="4" md="2">
                 <StatusWidget
                     :widgetColor="'orange'"
                     :total="summary.total_cases"
@@ -21,7 +21,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2">
+            <v-col cols="12" xs="6" sm="4" md="2">
                 <StatusWidget
                     :widgetColor="'orange'"
                     :total="summary.new_cases"
@@ -30,7 +30,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2">
+            <v-col cols="12" xs="6" sm="4" md="2">
                 <StatusWidget
                     :widgetColor="'darkgrey'"
                     :total="summary.active_cases"
@@ -39,7 +39,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2">
+            <v-col cols="12" xs="6" sm="4" md="2">
                 <StatusWidget
                     :widgetColor="'green'"
                     :total="summary.total_recovered"
@@ -48,7 +48,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2">
+            <v-col cols="12" xs="6" sm="4" md="2">
                 <StatusWidget
                     :widgetColor="'red darken-1'"
                     :total="summary.total_deaths"
@@ -57,7 +57,7 @@
                     :preLoader="isLoadingSummary"
                 ></StatusWidget>
             </v-col>
-            <v-col xs="6" md="2">
+            <v-col cols="12" xs="6" sm="4" md="2">
                 <StatusWidget
                     :widgetColor="'red darken-1'"
                     :total="summary.new_deaths"
@@ -69,7 +69,7 @@
         </v-row>
         <v-row class="ma-0">
             <!-- DAILY CASES -->
-            <v-col v-if="countryStatisticWidget[1].enabled" xs="12" md="6">
+            <v-col cols="12" v-if="countryStatisticWidget[1].enabled" xs="12" sm="6" md="6">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -81,7 +81,7 @@
                     />
                 </v-card>
             </v-col>
-            <v-col v-if="countryStatisticWidget[2].enabled" xs="12" md="6">
+            <v-col cols="12" v-if="countryStatisticWidget[2].enabled" xs="12" sm="6" md="6">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -94,7 +94,7 @@
                 </v-card>
             </v-col>
             <!-- PIE CHARTS -->
-            <v-col v-if="countryStatisticWidget[3].enabled" xs="12" md="4">
+            <v-col cols="12" v-if="countryStatisticWidget[3].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <PieChart
@@ -105,7 +105,7 @@
                     />
                 </v-card>
             </v-col>
-            <v-col v-if="countryStatisticWidget[4].enabled" xs="12" md="4">
+            <v-col cols="12" v-if="countryStatisticWidget[4].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <PieChart
@@ -116,7 +116,7 @@
                     />
                 </v-card>
             </v-col>
-            <v-col v-if="countryStatisticWidget[5].enabled" xs="12" md="4">
+            <v-col cols="12" v-if="countryStatisticWidget[5].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <PieChart
@@ -128,11 +128,11 @@
                 </v-card>
             </v-col>
             <!-- TOTAL CASES -->
-            <v-col v-if="countryStatisticWidget[6].enabled" xs="12" md="12">
+            <v-col cols="12" v-if="countryStatisticWidget[6].enabled" xs="12" sm="12" md="12">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <v-row class="ma-0">
-                        <v-col xs="12" md="3">
+                        <v-col xs="12" sm="6" md="3">
                             <v-select
                                 dense
                                 :items="statusOptions"

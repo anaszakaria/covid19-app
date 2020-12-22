@@ -1,7 +1,7 @@
 <template>
     <v-container fluid>
         <v-row v-if="dashboardWidget[0].enabled" class="ma-0">
-            <v-col v-for="(status, index) in statusWidgetData" :key="index" xs="6" md="2">
+            <v-col cols="12" v-for="(status, index) in statusWidgetData" :key="index" xs="12" sm="4" md="2">
                 <StatusWidget
                     :widgetColor="status.widgetColor"
                     :total="status.total"
@@ -27,7 +27,7 @@
                 </v-card>
             </v-col> -->
             <!-- TOP 10 CASES -->
-            <v-col v-if="dashboardWidget[1].enabled" xs="12" md="6">
+            <v-col cols="12" v-if="dashboardWidget[1].enabled" xs="12" sm="6" md="6">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoadingTopTenData" indeterminate></v-progress-linear>
                     <BarChart
@@ -40,7 +40,7 @@
                     />
                 </v-card>
             </v-col>
-            <v-col v-if="dashboardWidget[2].enabled" xs="12" md="6">
+            <v-col cols="12" v-if="dashboardWidget[2].enabled" xs="12" sm="6" md="6">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoadingTopTenData" indeterminate></v-progress-linear>
                     <BarChart
@@ -54,7 +54,7 @@
                 </v-card>
             </v-col>
             <!-- DATA COMPARISON - ACTIVE, RECOVERED, DEATHS -->
-            <v-col v-if="dashboardWidget[3].enabled" xs="12" md="4">
+            <v-col cols="12" v-if="dashboardWidget[3].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockMultiLineChart
@@ -67,7 +67,7 @@
                 </v-card>
             </v-col>
             <!-- PIE CHART COMPARISON - ACTIVE, RECOVERED and DEATHS -->
-            <v-col v-if="dashboardWidget[4].enabled" xs="12" md="4">
+            <v-col cols="12" v-if="dashboardWidget[4].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
                     <PieChart
@@ -79,7 +79,7 @@
                 </v-card>
             </v-col>
             <!-- CONFIRMED CASES -->
-            <v-col v-if="dashboardWidget[5].enabled" xs="12" md="4">
+            <v-col cols="12" v-if="dashboardWidget[5].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -91,7 +91,7 @@
                 </v-card>
             </v-col>
             <!-- ACTIVE CASES -->
-            <v-col v-if="dashboardWidget[6].enabled" xs="12" md="4">
+            <v-col cols="12" v-if="dashboardWidget[6].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -103,7 +103,7 @@
                 </v-card>
             </v-col>
             <!-- RECOVERED -->
-            <v-col v-if="dashboardWidget[7].enabled" xs="12" md="4">
+            <v-col cols="12" v-if="dashboardWidget[7].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
@@ -115,7 +115,7 @@
                 </v-card>
             </v-col>
             <!-- DEATHS -->
-            <v-col v-if="dashboardWidget[8].enabled" xs="12" md="4">
+            <v-col cols="12" v-if="dashboardWidget[8].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
                     <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
                     <HighStockLineChart
