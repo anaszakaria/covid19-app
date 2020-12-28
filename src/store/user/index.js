@@ -9,7 +9,8 @@ export default {
         refreshToken: null,
         loading: false,
         error: null,
-        savedCountry: 'Malaysia'
+        savedCountry: 'Malaysia',
+        selectedCountries: []
     },
     mutations: {
         setUser(state, payload) {
@@ -29,11 +30,15 @@ export default {
         },
         clearError(state) {
             state.error = null
-        }
+        },
+        SET_SELECTED_COUNTRIES: (state, payload) => (state.selectedCountries = payload)
     },
     actions: {
         setUser({ commit }, payload) {
             commit('setUser', payload)
+        },
+        async setSelectedCountries({ commit }, payload) {
+            commit('SET_SELECTED_COUNTRIES', payload)
         },
         async signUserUp({ commit, getters }, payload) {
             commit('setLoading', true)
@@ -111,6 +116,9 @@ export default {
         },
         savedCountry(state) {
             return state.savedCountry
+        },
+        selectedCountries(state) {
+            return state.selectedCountries
         },
         accessToken(state) {
             return state.accessToken

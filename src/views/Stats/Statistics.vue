@@ -24,8 +24,9 @@
                     >
                         <template v-slot:top>
                             <v-row class="pt-1 pb-0">
-                                <v-col cols="12" sm="4">
+                                <v-col cols="12" xs="12" sm="5">
                                     <v-autocomplete
+                                        @change="enableSaveButton"
                                         dense
                                         v-model="selectedCountries"
                                         :items="countryNames"
@@ -40,29 +41,15 @@
                                         class="mx-2"
                                     ></v-autocomplete>
                                 </v-col>
-                                <v-col sm="2">
-                                    <v-text-field
-                                        dense
-                                        v-model="total_cases"
-                                        type="number"
-                                        label="Total Cases (More than)"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col sm="2">
-                                    <v-text-field
-                                        dense
-                                        v-model="deaths"
-                                        type="number"
-                                        label="Total Deaths (More than)"
-                                    ></v-text-field>
-                                </v-col>
-                                <v-col sm="2">
-                                    <v-text-field
-                                        dense
-                                        v-model="active_cases"
-                                        type="number"
-                                        label="Active Cases (More than)"
-                                    ></v-text-field>
+                                <v-col cols="12" xs="12" sm="2" v-if="userIsAuthenticated">
+                                    <v-btn
+                                        small
+                                        color="primary"
+                                        elevation="0"
+                                        :disabled="disableSaveBtn"
+                                        @click="saveQuery"
+                                        >Save Query</v-btn
+                                    >
                                 </v-col>
                             </v-row>
                         </template>
@@ -113,6 +100,7 @@ export default {
     data() {
         return {
             loadDataTable: false,
+            disableSaveBtn: true,
             countries: [],
             countryNames: [],
             selectedCountries: [],
@@ -189,6 +177,14 @@ export default {
         }
     },
     methods: {
+        enableSaveButton() {
+            this.disableSaveBtn = false
+        },
+        saveQuery() {
+            console.log('Save query')
+            this.disableSaveBtn = true
+            this.$store.dispatch('setSelectedCountries', this.selectedCountries)
+        },
         resetTableHeight() {
             if (window.innerHeight < 500) {
                 return
@@ -214,6 +210,7 @@ export default {
         }
     },
     created() {
+        if (this.$store.getters.selectedCountries) this.selectedCountries = this.$store.getters.selectedCountries
         window.addEventListener('resize', this.resetTableHeight)
         this.getCountriesLatestSummary()
     },
