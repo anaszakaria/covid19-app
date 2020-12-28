@@ -38,7 +38,7 @@ export const userService = {
         return axios
             .request({
                 ...userUpdateOptions,
-                data: payload,
+                data: { savedCountry: payload },
                 url: `${USER_API}/user/savedcountry/${userId}`
             })
             .then((response) => {
@@ -49,7 +49,7 @@ export const userService = {
         return axios
             .request({
                 ...userUpdateOptions,
-                data: payload,
+                data: { selectedCountries: payload },
                 url: `${USER_API}/user/selectedcountries/${userId}`
             })
             .then((response) => {

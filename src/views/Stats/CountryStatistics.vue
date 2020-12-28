@@ -16,7 +16,13 @@
                 ></v-autocomplete>
             </v-col>
             <v-col>
-                <v-btn small color="primary" elevation="0" :disabled="disableSaveBtn" @click="saveDefaultCountry"
+                <v-btn
+                    small
+                    color="primary"
+                    elevation="0"
+                    :disabled="disableSaveBtn"
+                    :loading="savingDefaultCountry"
+                    @click="saveDefaultCountry"
                     >Set as Default</v-btn
                 >
             </v-col>
@@ -169,6 +175,7 @@
 import { EventBus } from '@/main'
 import { getUnixTime } from 'date-fns'
 import { statisticService } from '@/services/statisticService'
+import { userService } from '@/services/userService'
 import HighStockLineChart from '@/components/Charts/HighStockLineChart'
 import PieChart from '@/components/Charts/PieChart'
 import StatusWidget from '@/components/Widgets/StatusWidget'
@@ -185,6 +192,7 @@ export default {
             isLoadingSummary: false,
             isLoadingCountryList: false,
             disableSaveBtn: true,
+            savingDefaultCountry: false,
             country: this.$route.params.country,
             countryNames: [],
             selectedCountry: '',
@@ -332,10 +340,21 @@ export default {
         enableSaveButton() {
             this.disableSaveBtn = false
         },
-        saveDefaultCountry() {
+        async saveDefaultCountry() {
             this.disableSaveBtn = true
-            this.$store.dispatch('setSavedCountry', this.selectedCountry)
-            EventBus.$emit('setDefaultCountry')
+            this.savingDefaultCountry = true
+            try {
+                const result = await userService.updateUserSavedCountry(
+                    this.$store.getters.user.userId,
+                    this.selectedCountry
+                )
+                this.$store.dispatch('setSavedCountry', this.selectedCountry)
+                EventBus.$emit('setDefaultCountry')
+            } catch (error) {
+                console.log(error.response)
+            } finally {
+                this.savingDefaultCountry = false
+            }
         },
         changeRoute() {
             this.disableSaveBtn = false
