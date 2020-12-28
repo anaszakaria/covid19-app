@@ -15,7 +15,7 @@
                     class="mx-0 ml-3 mr-3"
                 ></v-autocomplete>
             </v-col>
-            <v-col>
+            <v-col v-if="userIsAuthenticated">
                 <v-btn
                     small
                     color="primary"

@@ -77,6 +77,8 @@ export default {
             commit('setUser', null)
             commit('setAccessToken', null)
             commit('setRefreshToken', null)
+            commit('SET_SELECTED_COUNTRIES', null)
+            commit('SET_SAVED_COUNTRY', null)
             commit('setError', null)
             router.push('/signin')
         },
