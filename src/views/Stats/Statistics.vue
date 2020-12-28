@@ -240,4 +240,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+a {
+    color: #1e88e5;
+}
+</style>
