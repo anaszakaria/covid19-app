@@ -86,6 +86,8 @@ export default {
                 commit('setUser', user)
                 commit('setAccessToken', user.accessToken)
                 commit('setRefreshToken', user.refreshToken)
+                commit('SET_SELECTED_COUNTRIES', user.selectedCountries)
+                commit('SET_SAVED_COUNTRY', user.savedCountry)
             }
         },
         clearError({ commit }) {
