@@ -49,7 +49,7 @@ const routes = [
     {
         path: '/statistics',
         name: 'Statistics',
-        component: () => import('@/views/Stats/Statistics.vue')
+        component: () => import('@/views/Stats/WorldStatistics.vue')
     },
     {
         path: '/countrystatistics/:country',
