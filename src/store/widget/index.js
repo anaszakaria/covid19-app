@@ -24,25 +24,19 @@ export default {
         }
     },
     mutations: {
-        setWidget(state, payload) {
-            state.widget = payload
-        },
-        setDashboardWidget(state, payload) {
-            state.widget.dashboardWidget = payload
-        },
-        setCountryStatisticWidget(state, payload) {
-            state.widget.countryStatisticWidget = payload
-        }
+        SET_WIDGET: (state, payload) => (state.widget = payload),
+        SET_DASHBOARD_WIDGET: (state, payload) => (state.widget.dashboardWidget = payload),
+        SET_COUNTRY_STATISTIC_WIDGET: (state, payload) => (state.widget.countryStatisticWidget = payload)
     },
     actions: {
         setWidget({ commit }, payload) {
-            commit('setWidget', payload)
+            commit('SET_WIDGET', payload)
         },
         setDashboardWidget({ commit }, payload) {
-            commit('setDashboardWidget', payload)
+            commit('SET_DASHBOARD_WIDGET', payload)
         },
         setCountryStatisticWidget({ commit }, payload) {
-            commit('setCountryStatisticWidget', payload)
+            commit('SET_COUNTRY_STATISTIC_WIDGET', payload)
         }
     },
     getters: {

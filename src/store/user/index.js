@@ -13,30 +13,18 @@ export default {
         selectedCountries: []
     },
     mutations: {
-        setUser(state, payload) {
-            state.user = payload
-        },
-        setAccessToken(state, payload) {
-            state.accessToken = payload
-        },
-        setRefreshToken(state, payload) {
-            state.refreshToken = payload
-        },
-        setLoading(state, payload) {
-            state.loading = payload
-        },
-        setError(state, payload) {
-            state.error = payload
-        },
-        clearError(state) {
-            state.error = null
-        },
+        SET_USER: (state, payload) => (state.user = payload),
+        SET_ACCESSTOKEN: (state, payload) => (state.accessToken = payload),
+        SET_REFRESHTOKEN: (state, payload) => (state.refreshToken = payload),
+        SET_LOADING: (state, payload) => (state.loading = payload),
+        SET_ERROR: (state, payload) => (state.error = payload),
+        CLEAR_ERROR: (state) => (state.error = null),
         SET_SELECTED_COUNTRIES: (state, payload) => (state.user.selectedCountries = payload),
         SET_SAVED_COUNTRY: (state, payload) => (state.user.savedCountry = payload)
     },
     actions: {
         setUser({ commit }, payload) {
-            commit('setUser', payload)
+            commit('SET_USER', payload)
         },
         async setSelectedCountries({ commit }, payload) {
             commit('SET_SELECTED_COUNTRIES', payload)
@@ -45,51 +33,51 @@ export default {
             commit('SET_SAVED_COUNTRY', payload)
         },
         async signUserUp({ commit, getters }, payload) {
-            commit('setLoading', true)
-            commit('clearError')
+            commit('SET_LOADING', true)
+            commit('CLEAR_ERROR')
             try {
                 await userService.signUp(payload)
                 router.push('/signin')
             } catch (error) {
-                commit('setError', error.response.data.error)
+                commit('SET_ERROR', error.response.data.error)
             } finally {
-                commit('setLoading', false)
+                commit('SET_LOADING', false)
             }
         },
         async signUserIn({ commit, getters }, payload) {
-            commit('setLoading', true)
+            commit('SET_LOADING', true)
             try {
                 const response = await userService.signIn(payload)
                 const newUser = response.data
-                commit('setUser', newUser)
-                commit('setAccessToken', newUser.accessToken)
-                commit('setRefreshToken', newUser.refreshToken)
+                commit('SET_USER', newUser)
+                commit('SET_ACCESSTOKEN', newUser.accessToken)
+                commit('SET_REFRESHTOKEN', newUser.refreshToken)
                 localStorage.setItem('user', JSON.stringify(newUser))
                 router.push('/')
             } catch (error) {
-                commit('setError', error.response.data.error)
+                commit('SET_ERROR', error.response.data.error)
             } finally {
-                commit('setLoading', false)
+                commit('SET_LOADING', false)
             }
         },
         signOut({ commit }) {
             localStorage.clear()
-            commit('setUser', null)
-            commit('setAccessToken', null)
-            commit('setRefreshToken', null)
-            commit('setError', null)
+            commit('SET_USER', null)
+            commit('SET_ACCESSTOKEN', null)
+            commit('SET_REFRESHTOKEN', null)
+            commit('SET_ERROR', null)
             router.push('/signin')
         },
         checkUserLocalStorage({ commit, getters }) {
             const user = JSON.parse(localStorage.getItem('user'))
             if (user) {
-                commit('setUser', user)
-                commit('setAccessToken', user.accessToken)
-                commit('setRefreshToken', user.refreshToken)
+                commit('SET_USER', user)
+                commit('SET_ACCESSTOKEN', user.accessToken)
+                commit('SET_REFRESHTOKEN', user.refreshToken)
             }
         },
         clearError({ commit }) {
-            commit('clearError')
+            commit('CLEAR_ERROR')
         },
         refreshToken({ state }) {
             console.log('Refresh Token')
