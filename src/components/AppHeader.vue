@@ -68,10 +68,7 @@ export default {
     data() {
         return {
             darkTheme: false,
-            menuLists: [
-                { tooltipText: 'Admin Page', icon: 'mdi-tune', url: '/admin' },
-                { tooltipText: 'App Settings', icon: 'mdi-cogs', url: '/settings' }
-            ]
+            menuLists: [{ tooltipText: 'App Settings', icon: 'mdi-cogs', url: '/settings' }]
         }
     },
     watch: {
