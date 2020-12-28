@@ -1,8 +1,14 @@
 <template>
     <section id="mapviewer">
-        <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+        <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
         <v-card id="basemap" class="mx-auto pa-3 pt-5 pb-0" max-width="240" tile>
-            <v-select dense v-model="selectedProviders" :items="providers" label="Change Basemap"></v-select>
+            <v-select
+                color="accent"
+                dense
+                v-model="selectedProviders"
+                :items="providers"
+                label="Change Basemap"
+            ></v-select>
         </v-card>
         <v-card id="legend" class="mx-auto" max-width="200" tile>
             <v-list dense disabled>

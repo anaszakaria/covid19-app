@@ -17,7 +17,7 @@
             <!-- TOP 10 CASES -->
             <v-col cols="12" v-if="dashboardWidget[1].enabled" xs="12" sm="6" md="6">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoadingTopTenData" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoadingTopTenData" color="accent" indeterminate></v-progress-linear>
                     <BarChart
                         :data="top10ConfirmedData.series"
                         :seriesName="'Total Confirmed'"
@@ -30,7 +30,7 @@
             </v-col>
             <v-col cols="12" v-if="dashboardWidget[2].enabled" xs="12" sm="6" md="6">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoadingTopTenData" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoadingTopTenData" color="accent" indeterminate></v-progress-linear>
                     <BarChart
                         :data="top10DeathsData.series"
                         :seriesName="'Total Deaths'"
@@ -44,7 +44,7 @@
             <!-- DATA COMPARISON - ACTIVE, RECOVERED, DEATHS -->
             <v-col cols="12" v-if="dashboardWidget[3].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
                     <HighStockMultiLineChart
                         :activeCases="activeCases"
                         :recovered="recovered"
@@ -57,7 +57,7 @@
             <!-- PIE CHART COMPARISON - ACTIVE, RECOVERED and DEATHS -->
             <v-col cols="12" v-if="dashboardWidget[4].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoadingSummary" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoadingSummary" color="accent" indeterminate></v-progress-linear>
                     <PieChart
                         :data="pieChartSeriesData"
                         :title="'Data Comparison'"
@@ -69,7 +69,7 @@
             <!-- CONFIRMED CASES -->
             <v-col cols="12" v-if="dashboardWidget[5].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="confirmedCases"
                         :title="'Confirmed Cases'"
@@ -81,7 +81,7 @@
             <!-- ACTIVE CASES -->
             <v-col cols="12" v-if="dashboardWidget[6].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="activeCases"
                         :title="'Active Cases'"
@@ -93,7 +93,7 @@
             <!-- RECOVERED -->
             <v-col cols="12" v-if="dashboardWidget[7].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="recovered"
                         :title="'Cases Recovered'"
@@ -105,7 +105,7 @@
             <!-- DEATHS -->
             <v-col cols="12" v-if="dashboardWidget[8].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="deaths"
                         :title="'Death Cases'"

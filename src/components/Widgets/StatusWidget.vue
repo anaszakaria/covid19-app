@@ -10,7 +10,7 @@
             {{ total | numberWithCommas }}
         </v-card-text>
         <v-card-text v-else class="text-center">
-            <v-progress-circular v-if="preLoader" indeterminate color="primary"></v-progress-circular>
+            <v-progress-circular v-if="preLoader" indeterminate color="accent"></v-progress-circular>
         </v-card-text>
     </v-card>
 </template>

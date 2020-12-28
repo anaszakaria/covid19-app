@@ -34,12 +34,6 @@ const routes = [
         component: () => import('@/views/Settings')
         // beforeEnter: AuthGuard
     },
-    {
-        path: '/admin',
-        name: 'Admin',
-        component: () => import('@/views/Admin/Admin.vue')
-        // beforeEnter: AuthGuard
-    },
     // MAPVIEWER
     {
         path: '/mapviewer',

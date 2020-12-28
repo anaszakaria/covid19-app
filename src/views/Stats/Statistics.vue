@@ -5,7 +5,6 @@
             <v-col sm="12">
                 <v-card outlined tile>
                     <v-data-table
-                        id="statistics-table"
                         :height="tableHeight"
                         fixed-header
                         :headers="headers"
@@ -26,6 +25,7 @@
                             <v-row class="pt-1 pb-0">
                                 <v-col cols="12" xs="12" sm="5">
                                     <v-autocomplete
+                                        color="accent"
                                         @change="enableSaveButton"
                                         dense
                                         v-model="selectedCountries"

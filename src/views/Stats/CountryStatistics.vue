@@ -4,6 +4,7 @@
         <v-row cols="12">
             <v-col>
                 <v-autocomplete
+                    color="accent"
                     dense
                     v-model="selectedCountry"
                     :items="countryNames"
@@ -87,7 +88,7 @@
             <!-- DAILY CASES -->
             <v-col cols="12" v-if="countryStatisticWidget[1].enabled" xs="12" sm="6" md="6">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="dailyNewCasesData"
                         :title="'Daily Confirmed'"
@@ -99,7 +100,7 @@
             </v-col>
             <v-col cols="12" v-if="countryStatisticWidget[2].enabled" xs="12" sm="6" md="6">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
                     <HighStockLineChart
                         :data="dailyDeathCasesData"
                         :title="'Daily Deaths'"
@@ -112,7 +113,7 @@
             <!-- PIE CHARTS -->
             <v-col cols="12" v-if="countryStatisticWidget[3].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
                     <PieChart
                         :data="casesPerMillion"
                         :title="'Cases per 1M'"
@@ -123,7 +124,7 @@
             </v-col>
             <v-col cols="12" v-if="countryStatisticWidget[4].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
                     <PieChart
                         :data="deathsPerMillion"
                         :title="'Deaths per 1M'"
@@ -134,7 +135,7 @@
             </v-col>
             <v-col cols="12" v-if="countryStatisticWidget[5].enabled" xs="12" sm="6" md="4">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
                     <PieChart
                         :data="testPerMillion"
                         :title="'Tests per 1M'"
@@ -146,10 +147,11 @@
             <!-- TOTAL CASES -->
             <v-col cols="12" v-if="countryStatisticWidget[6].enabled" xs="12" sm="12" md="12">
                 <v-card outlined elevation="1">
-                    <v-progress-linear v-if="isLoading" indeterminate></v-progress-linear>
+                    <v-progress-linear v-if="isLoading" color="accent" indeterminate></v-progress-linear>
                     <v-row class="ma-0">
                         <v-col xs="12" sm="6" md="3">
                             <v-select
+                                color="accent"
                                 dense
                                 :items="statusOptions"
                                 v-model="selectedStatus"
