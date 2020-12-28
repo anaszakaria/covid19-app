@@ -31,7 +31,8 @@ export default {
         clearError(state) {
             state.error = null
         },
-        SET_SELECTED_COUNTRIES: (state, payload) => (state.selectedCountries = payload)
+        SET_SELECTED_COUNTRIES: (state, payload) => (state.selectedCountries = payload),
+        SET_SAVED_COUNTRY: (state, payload) => (state.savedCountry = payload)
     },
     actions: {
         setUser({ commit }, payload) {
@@ -39,6 +40,9 @@ export default {
         },
         async setSelectedCountries({ commit }, payload) {
             commit('SET_SELECTED_COUNTRIES', payload)
+        },
+        async setSavedCountry({ commit }, payload) {
+            commit('SET_SAVED_COUNTRY', payload)
         },
         async signUserUp({ commit, getters }, payload) {
             commit('setLoading', true)

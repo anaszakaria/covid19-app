@@ -1,16 +1,26 @@
 <template>
     <v-container fluid>
-        <h4 class="font-weight-medium ml-3 mb-5">COVID-19 Statistics for {{ country }}</h4>
-        <v-autocomplete
-            dense
-            v-model="selectedCountry"
-            :items="countryNames"
-            :loading="isLoadingCountryList"
-            @change="changeRoute()"
-            label="Search Country"
-            hide-no-data
-            class="mx-0 ml-3 mr-3"
-        ></v-autocomplete>
+        <h4 class="font-weight-medium ml-3 mb-0">COVID-19 Statistics for {{ country }}</h4>
+        <v-row cols="12">
+            <v-col>
+                <v-autocomplete
+                    dense
+                    v-model="selectedCountry"
+                    :items="countryNames"
+                    :loading="isLoadingCountryList"
+                    @change="changeRoute()"
+                    label="Search Country"
+                    hide-no-data
+                    hide-details
+                    class="mx-0 ml-3 mr-3"
+                ></v-autocomplete>
+            </v-col>
+            <v-col>
+                <v-btn small color="primary" elevation="0" :disabled="disableSaveBtn" @click="saveDefaultCountry"
+                    >Set as Default</v-btn
+                >
+            </v-col>
+        </v-row>
         <v-row v-if="countryStatisticWidget[0].enabled" class="ma-0">
             <v-col cols="12" xs="6" sm="4" md="2">
                 <StatusWidget
@@ -156,6 +166,7 @@
 </template>
 
 <script>
+import { EventBus } from '@/main'
 import { getUnixTime } from 'date-fns'
 import { statisticService } from '@/services/statisticService'
 import HighStockLineChart from '@/components/Charts/HighStockLineChart'
@@ -173,6 +184,7 @@ export default {
             isLoading: false,
             isLoadingSummary: false,
             isLoadingCountryList: false,
+            disableSaveBtn: true,
             country: this.$route.params.country,
             countryNames: [],
             selectedCountry: '',
@@ -317,7 +329,16 @@ export default {
         }
     },
     methods: {
+        enableSaveButton() {
+            this.disableSaveBtn = false
+        },
+        saveDefaultCountry() {
+            this.disableSaveBtn = true
+            this.$store.dispatch('setSavedCountry', this.selectedCountry)
+            EventBus.$emit('setDefaultCountry')
+        },
         changeRoute() {
+            this.disableSaveBtn = false
             this.gotoPage(this.selectedCountry)
         },
         formatDailyCasesData(array, category, subsection) {

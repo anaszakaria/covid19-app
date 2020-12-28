@@ -45,15 +45,21 @@ export default {
     methods: {
         toggleLeftPanel() {
             this.leftPanel = !this.leftPanel
+        },
+        setDefaultCountry() {
+            this.savedCountry = this.$store.getters.savedCountry
+            this.pageList[3].text = `Statistics: ${this.savedCountry}`
+            this.pageList[3].url = `/countrystatistics/${this.savedCountry}`
         }
     },
     computed: {},
     created() {
-        this.savedCountry = this.$store.getters.savedCountry
-        this.pageList[3].text = `Statistics: ${this.savedCountry}`
-        this.pageList[3].url = `/countrystatistics/${this.savedCountry}`
+        this.setDefaultCountry()
         EventBus.$on('toggleLeftPanel', (payload) => {
             this.toggleLeftPanel()
+        })
+        EventBus.$on('setDefaultCountry', (payload) => {
+            this.setDefaultCountry()
         })
     }
 }
