@@ -7,9 +7,6 @@ export default {
         gotoPage(url) {
             this.$router.push({ path: url })
         },
-        // getImgURL(img) {
-        //     return require('img/' + img)
-        // },
         stringToList(val) {
             if (val == null) return ''
             return val.split('\n')
@@ -40,9 +37,6 @@ export default {
     computed: {
         userIsAuthenticated() {
             return this.$store.getters.user !== null && this.$store.getters.user !== undefined
-        },
-        userIsAdmin() {
-            return this.$store.getters.userRoles.includes('ROLE_ADMIN')
         }
     }
 }
