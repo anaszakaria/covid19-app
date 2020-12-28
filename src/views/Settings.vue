@@ -1,6 +1,6 @@
 <template>
     <v-container fluid>
-        <h4 class="font-weight-medium ml-3">App Settings</h4>
+        <h4 class="font-weight-medium ml-3">App Settings - Toggle to Show and Hide Widget</h4>
         <v-row class="ma-0">
             <v-col sm="12">
                 <v-card outlined elevation="1">

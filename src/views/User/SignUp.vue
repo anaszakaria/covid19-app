@@ -23,6 +23,16 @@
                                 </v-layout>
                                 <v-layout row>
                                     <v-flex xs12>
+                                        <v-select
+                                            v-model="selectedCountry"
+                                            :items="countries"
+                                            :loading="isLoadingCountryList"
+                                            label="Country"
+                                        ></v-select>
+                                    </v-flex>
+                                </v-layout>
+                                <v-layout row>
+                                    <v-flex xs12>
                                         <v-text-field
                                             id="email"
                                             name="email"
@@ -75,6 +85,8 @@
 </template>
 
 <script>
+import { statisticService } from '@/services/statisticService'
+
 export default {
     data() {
         return {
@@ -82,7 +94,10 @@ export default {
             email: '',
             password: '',
             confirmPassword: '',
-            passwordValidated: false
+            passwordValidated: false,
+            selectedCountry: 'Malaysia',
+            countries: [],
+            isLoadingCountryList: false
         }
     },
     methods: {
@@ -95,12 +110,23 @@ export default {
                 email: this.email,
                 password: this.password,
                 savedCountry: 'Malaysia',
+                selectedCountries: [],
                 widget: this.$store.getters.widget
             })
         },
         onDismissed() {
             console.log('Dismiss Alert')
             this.$store.dispatch('clearError')
+        },
+        async getCountryList() {
+            this.isLoadingCountryList = true
+            try {
+                this.countries = await statisticService.getCountryList()
+            } catch (error) {
+                console.log(error.response)
+            } finally {
+                this.isLoadingCountryList = false
+            }
         }
     },
     computed: {
@@ -128,6 +154,9 @@ export default {
                 this.$router.push('/')
             }
         }
+    },
+    created() {
+        this.getCountryList()
     }
 }
 </script>
