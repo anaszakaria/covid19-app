@@ -47,6 +47,7 @@
                                         color="primary"
                                         elevation="0"
                                         :disabled="disableSaveBtn"
+                                        :loading="savingSelectedCountries"
                                         @click="saveQuery"
                                         >Save Query</v-btn
                                     >
@@ -95,12 +96,14 @@
 <script>
 import { toDate, format, fromUnixTime } from 'date-fns'
 import { statisticService } from '@/services/statisticService'
+import { userService } from '@/services/userService'
 
 export default {
     data() {
         return {
             loadDataTable: false,
             disableSaveBtn: true,
+            savingSelectedCountries: false,
             countries: [],
             countryNames: [],
             selectedCountries: [],
@@ -180,10 +183,21 @@ export default {
         enableSaveButton() {
             this.disableSaveBtn = false
         },
-        saveQuery() {
-            console.log('Save query')
+        async saveQuery() {
             this.disableSaveBtn = true
-            this.$store.dispatch('setSelectedCountries', this.selectedCountries)
+            this.savingSelectedCountries = true
+            try {
+                const result = await userService.updateUserSelectedCountries(
+                    this.$store.getters.user.userId,
+                    this.selectedCountries
+                )
+                this.$store.dispatch('setSelectedCountries', this.selectedCountries)
+                console.log(result)
+            } catch (error) {
+                console.log(error.response)
+            } finally {
+                this.savingSelectedCountries = false
+            }
         },
         resetTableHeight() {
             if (window.innerHeight < 500) {

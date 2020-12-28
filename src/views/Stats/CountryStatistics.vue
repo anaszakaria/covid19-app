@@ -350,6 +350,7 @@ export default {
                 )
                 this.$store.dispatch('setSavedCountry', this.selectedCountry)
                 EventBus.$emit('setDefaultCountry')
+                console.log(result)
             } catch (error) {
                 console.log(error.response)
             } finally {
