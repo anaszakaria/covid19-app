@@ -55,5 +55,16 @@ export const userService = {
             .then((response) => {
                 return response.data
             })
+    },
+    async saveWidget(userId, payload) {
+        return axios
+            .request({
+                ...userUpdateOptions,
+                data: { widget: payload },
+                url: `${USER_API}/user/widget/${userId}`
+            })
+            .then((response) => {
+                return response.data
+            })
     }
 }
