@@ -192,6 +192,7 @@ export default {
                     this.selectedCountries
                 )
                 this.$store.dispatch('setSelectedCountries', this.selectedCountries)
+                localStorage.setItem('user', JSON.stringify(this.$store.getters.user))
                 console.log(result)
             } catch (error) {
                 console.log(error.response)
@@ -224,7 +225,9 @@ export default {
         }
     },
     created() {
-        if (this.$store.getters.selectedCountries) this.selectedCountries = this.$store.getters.selectedCountries
+        if (this.$store.getters.user) {
+            this.selectedCountries = this.$store.getters.user.selectedCountries
+        }
         window.addEventListener('resize', this.resetTableHeight)
         this.getCountriesLatestSummary()
     },

@@ -31,8 +31,8 @@ export default {
         clearError(state) {
             state.error = null
         },
-        SET_SELECTED_COUNTRIES: (state, payload) => (state.selectedCountries = payload),
-        SET_SAVED_COUNTRY: (state, payload) => (state.savedCountry = payload)
+        SET_SELECTED_COUNTRIES: (state, payload) => (state.user.selectedCountries = payload),
+        SET_SAVED_COUNTRY: (state, payload) => (state.user.savedCountry = payload)
     },
     actions: {
         setUser({ commit }, payload) {
@@ -123,10 +123,10 @@ export default {
             return state.user
         },
         savedCountry(state) {
-            return state.savedCountry
+            return state.user.savedCountry
         },
         selectedCountries(state) {
-            return state.selectedCountries
+            return state.user.selectedCountries
         },
         accessToken(state) {
             return state.accessToken

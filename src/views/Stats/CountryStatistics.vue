@@ -349,6 +349,7 @@ export default {
                     this.selectedCountry
                 )
                 this.$store.dispatch('setSavedCountry', this.selectedCountry)
+                localStorage.setItem('user', JSON.stringify(this.$store.getters.user))
                 EventBus.$emit('setDefaultCountry')
                 console.log(result)
             } catch (error) {

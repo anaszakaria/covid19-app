@@ -47,7 +47,11 @@ export default {
             this.leftPanel = !this.leftPanel
         },
         setDefaultCountry() {
-            this.savedCountry = this.$store.getters.savedCountry
+            if (this.$store.getters.user) {
+                this.savedCountry = this.$store.getters.user.savedCountry
+            } else {
+                this.savedCountry = 'Malaysia'
+            }
             this.pageList[3].text = `Statistics: ${this.savedCountry}`
             this.pageList[3].url = `/countrystatistics/${this.savedCountry}`
         }
