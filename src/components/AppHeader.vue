@@ -7,10 +7,11 @@
             >COVID-19 Global Stats and Monitoring</v-toolbar-title
         >
         <v-spacer></v-spacer>
+        <v-switch dark color="white" v-model="darkTheme" label="Dark Theme" hide-details></v-switch>
         <template v-if="userIsAuthenticated">
             <v-tooltip v-for="list in menuLists" :key="list.toolTipText" bottom nudge-bottom="-10">
                 <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on" @click="appBarAction(list.url, list.icon)">
+                    <v-btn icon v-on="on" @click="gotoPage(list.url)">
                         <v-icon color="white">{{ list.icon }}</v-icon>
                     </v-btn>
                 </template>
@@ -18,7 +19,7 @@
             </v-tooltip>
         </template>
         <template v-else>
-            <v-btn small color="accent" @click="gotoPage('/signin')"
+            <v-btn small class="ml-4" color="accent" @click="gotoPage('/signin')"
                 ><v-icon small left>mdi-account</v-icon>Sign In</v-btn
             >
         </template>
@@ -66,17 +67,24 @@ import { EventBus } from '@/main'
 export default {
     data() {
         return {
+            darkTheme: false,
             menuLists: [
                 { tooltipText: 'Admin Page', icon: 'mdi-tune', url: '/admin' },
-                { tooltipText: 'App Settings', icon: 'mdi-cogs', url: null }
+                { tooltipText: 'App Settings', icon: 'mdi-cogs', url: '/settings' }
             ]
+        }
+    },
+    watch: {
+        darkTheme(value) {
+            this.toggleTheme()
         }
     },
     methods: {
         signOut() {
-            // EventBus.$emit('hideLeftPanel')
-            // EventBus.$emit('hideRightPanel')
             this.$store.dispatch('signOut')
+        },
+        toggleTheme() {
+            this.$vuetify.theme.isDark = !this.$vuetify.theme.isDark
         },
         toggleLeftPanel() {
             EventBus.$emit('toggleLeftPanel')
