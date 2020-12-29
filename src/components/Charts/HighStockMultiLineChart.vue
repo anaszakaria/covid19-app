@@ -6,7 +6,9 @@
 import Highcharts from 'highcharts'
 import { genComponent } from 'vue-highcharts'
 import loadStock from 'highcharts/modules/stock.js'
+import exporting from 'highcharts/modules/exporting.js'
 
+exporting(Highcharts)
 loadStock(Highcharts)
 
 export default {

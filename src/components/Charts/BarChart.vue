@@ -5,6 +5,9 @@
 <script>
 import Highcharts from 'highcharts'
 import { genComponent } from 'vue-highcharts'
+import exporting from 'highcharts/modules/exporting.js'
+
+exporting(Highcharts)
 
 export default {
     components: {
