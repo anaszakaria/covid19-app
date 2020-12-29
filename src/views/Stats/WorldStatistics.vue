@@ -90,6 +90,9 @@
                 </v-card>
             </v-col>
         </v-row>
+        <v-snackbar color="accent" v-model="snackbar" timeout="1000">
+            {{ snackbarMsg }}
+        </v-snackbar>
     </v-container>
 </template>
 
@@ -103,6 +106,8 @@ export default {
         return {
             loadDataTable: false,
             disableSaveBtn: true,
+            snackbar: false,
+            snackbarMsg: '',
             savingSelectedCountries: false,
             countries: [],
             countryNames: [],
@@ -193,7 +198,8 @@ export default {
                 )
                 this.$store.dispatch('setSelectedCountries', this.selectedCountries)
                 localStorage.setItem('user', JSON.stringify(this.$store.getters.user))
-                console.log(result)
+                this.snackbar = true
+                this.snackbarMsg = result.message
             } catch (error) {
                 console.log(error.response)
             } finally {

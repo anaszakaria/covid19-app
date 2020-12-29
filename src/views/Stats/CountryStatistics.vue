@@ -170,6 +170,9 @@
                 </v-card>
             </v-col>
         </v-row>
+        <v-snackbar color="accent" v-model="snackbar" timeout="1000">
+            {{ snackbarMsg }}
+        </v-snackbar>
     </v-container>
 </template>
 
@@ -193,6 +196,8 @@ export default {
             isLoading: false,
             isLoadingSummary: false,
             isLoadingCountryList: false,
+            snackbar: false,
+            snackbarMsg: '',
             disableSaveBtn: true,
             savingDefaultCountry: false,
             country: this.$route.params.country,
@@ -353,7 +358,8 @@ export default {
                 this.$store.dispatch('setSavedCountry', this.selectedCountry)
                 localStorage.setItem('user', JSON.stringify(this.$store.getters.user))
                 EventBus.$emit('setDefaultCountry')
-                console.log(result)
+                this.snackbar = true
+                this.snackbarMsg = result.message
             } catch (error) {
                 console.log(error.response)
             } finally {
