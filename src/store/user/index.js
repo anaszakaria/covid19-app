@@ -52,7 +52,10 @@ export default {
                 commit('SET_USER', newUser)
                 commit('SET_ACCESSTOKEN', newUser.accessToken)
                 commit('SET_REFRESHTOKEN', newUser.refreshToken)
+                commit('SET_WIDGET', newUser.widget)
                 localStorage.setItem('user', JSON.stringify(newUser))
+                localStorage.setItem('dashboardWidget', JSON.stringify(newUser.widget.dashboardWidget))
+                localStorage.setItem('countryStatisticWidget', JSON.stringify(newUser.widget.countryStatisticWidget))
                 router.push('/')
             } catch (error) {
                 commit('SET_ERROR', error.response.data.error)
@@ -60,12 +63,18 @@ export default {
                 commit('SET_LOADING', false)
             }
         },
-        signOut({ commit }) {
+        signOut({ commit, getters }) {
             localStorage.clear()
             commit('SET_USER', null)
             commit('SET_ACCESSTOKEN', null)
             commit('SET_REFRESHTOKEN', null)
             commit('SET_ERROR', null)
+            const widget = getters.widget
+            widget.dashboardWidget.forEach((item) => (item.enabled = true))
+            widget.countryStatisticWidget.forEach((item) => (item.enabled = true))
+            commit('RESET_WIDGET', widget)
+            localStorage.setItem('dashboardWidget', JSON.stringify(widget.dashboardWidget))
+            localStorage.setItem('countryStatisticWidget', JSON.stringify(widget.countryStatisticWidget))
             router.push('/signin')
         },
         checkUserLocalStorage({ commit, getters }) {

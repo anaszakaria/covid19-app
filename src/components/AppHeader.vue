@@ -8,17 +8,15 @@
         >
         <v-spacer></v-spacer>
         <v-switch dark color="white" v-model="darkTheme" label="Dark Theme" hide-details></v-switch>
-        <template v-if="userIsAuthenticated">
-            <v-tooltip v-for="list in menuLists" :key="list.toolTipText" bottom nudge-bottom="-10">
-                <template v-slot:activator="{ on }">
-                    <v-btn icon v-on="on" @click="gotoPage(list.url)">
-                        <v-icon color="white">{{ list.icon }}</v-icon>
-                    </v-btn>
-                </template>
-                <span>{{ list.tooltipText }}</span>
-            </v-tooltip>
-        </template>
-        <template v-else>
+        <v-tooltip v-for="list in menuLists" :key="list.toolTipText" bottom nudge-bottom="-10">
+            <template v-slot:activator="{ on }">
+                <v-btn icon v-on="on" @click="gotoPage(list.url)">
+                    <v-icon color="white">{{ list.icon }}</v-icon>
+                </v-btn>
+            </template>
+            <span>{{ list.tooltipText }}</span>
+        </v-tooltip>
+        <template v-if="!userIsAuthenticated">
             <v-btn small class="ml-4" color="accent" @click="gotoPage('/signin')"
                 ><v-icon small left>mdi-account</v-icon>Sign In</v-btn
             >

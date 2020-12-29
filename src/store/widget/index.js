@@ -26,7 +26,8 @@ export default {
     mutations: {
         SET_WIDGET: (state, payload) => (state.widget = payload),
         SET_DASHBOARD_WIDGET: (state, payload) => (state.widget.dashboardWidget = payload),
-        SET_COUNTRY_STATISTIC_WIDGET: (state, payload) => (state.widget.countryStatisticWidget = payload)
+        SET_COUNTRY_STATISTIC_WIDGET: (state, payload) => (state.widget.countryStatisticWidget = payload),
+        RESET_WIDGET: (state, payload) => (state.widget = payload)
     },
     actions: {
         setWidget({ commit }, payload) {
@@ -37,6 +38,9 @@ export default {
         },
         setCountryStatisticWidget({ commit }, payload) {
             commit('SET_COUNTRY_STATISTIC_WIDGET', payload)
+        },
+        resetWidget({ commit }, payload) {
+            commit('RESET_WIDGET', payload)
         }
     },
     getters: {

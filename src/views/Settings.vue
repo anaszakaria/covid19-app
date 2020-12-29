@@ -36,38 +36,37 @@ export default {
     watch: {
         dashboardWidget: {
             async handler(value) {
-                console.log(value)
-                const widgetObj = {
-                    widget: {
-                        dashboardWidget: this.dashboardWidget,
-                        countryStatisticWidget: this.countryStatisticWidget
+                const widget = {
+                    dashboardWidget: this.dashboardWidget,
+                    countryStatisticWidget: this.countryStatisticWidget
+                }
+                if (this.$store.getters.user) {
+                    try {
+                        await userService.saveWidget(this.$store.getters.user.userId, widget)
+                    } catch (error) {
+                        console.log(error.response)
                     }
                 }
-                try {
-                    // const result = await userService.saveWidget(this.$store.getters.user.userId, widgetObj)
-                    this.$store.dispatch('setDashboardWidget', value)
-                    localStorage.setItem('dashboardWidget', JSON.stringify(value))
-                } catch (error) {
-                    console.log(error.response)
-                }
+                this.$store.dispatch('setDashboardWidget', value)
+                localStorage.setItem('dashboardWidget', JSON.stringify(value))
             },
             deep: true
         },
         countryStatisticWidget: {
             async handler(value) {
-                const widgetObj = {
-                    widget: {
-                        dashboardWidget: this.dashboardWidget,
-                        countryStatisticWidget: this.countryStatisticWidget
+                const widget = {
+                    dashboardWidget: this.dashboardWidget,
+                    countryStatisticWidget: this.countryStatisticWidget
+                }
+                if (this.$store.getters.user) {
+                    try {
+                        await userService.saveWidget(this.$store.getters.user.userId, widget)
+                    } catch (error) {
+                        console.log(error.response)
                     }
                 }
-                try {
-                    // const result = await userService.saveWidget(this.$store.getters.user.userId, widgetObj)
-                    this.$store.dispatch('setCountryStatisticWidget', value)
-                    localStorage.setItem('countryStatisticWidget', JSON.stringify(value))
-                } catch (error) {
-                    console.log(error.response)
-                }
+                this.$store.dispatch('setCountryStatisticWidget', value)
+                localStorage.setItem('countryStatisticWidget', JSON.stringify(value))
             },
             deep: true
         }
