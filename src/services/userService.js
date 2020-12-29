@@ -57,6 +57,7 @@ export const userService = {
             })
     },
     async saveWidget(userId, payload) {
+        console.log('Saving Widget')
         return axios
             .request({
                 ...userUpdateOptions,

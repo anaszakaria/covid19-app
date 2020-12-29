@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { userService } from '@/services/userService'
 import WidgetList from '@/components/Widgets/WidgetList'
 
 export default {
@@ -34,19 +35,58 @@ export default {
     },
     watch: {
         dashboardWidget: {
-            handler(value) {
-                this.$store.dispatch('setDashboardWidget', value)
+            async handler(value) {
+                console.log(value)
+                const widgetObj = {
+                    widget: {
+                        dashboardWidget: this.dashboardWidget,
+                        countryStatisticWidget: this.countryStatisticWidget
+                    }
+                }
+                try {
+                    // const result = await userService.saveWidget(this.$store.getters.user.userId, widgetObj)
+                    this.$store.dispatch('setDashboardWidget', value)
+                    localStorage.setItem('dashboardWidget', JSON.stringify(value))
+                } catch (error) {
+                    console.log(error.response)
+                }
             },
             deep: true
         },
         countryStatisticWidget: {
-            handler(value) {
-                this.$store.dispatch('setCountryStatisticWidget', value)
+            async handler(value) {
+                const widgetObj = {
+                    widget: {
+                        dashboardWidget: this.dashboardWidget,
+                        countryStatisticWidget: this.countryStatisticWidget
+                    }
+                }
+                try {
+                    // const result = await userService.saveWidget(this.$store.getters.user.userId, widgetObj)
+                    this.$store.dispatch('setCountryStatisticWidget', value)
+                    localStorage.setItem('countryStatisticWidget', JSON.stringify(value))
+                } catch (error) {
+                    console.log(error.response)
+                }
             },
             deep: true
         }
     },
-    created() {},
+    computed: {},
+    created() {
+        const dashboardWidgetList = JSON.parse(localStorage.getItem('dashboardWidget'))
+        if (dashboardWidgetList) {
+            this.dashboardWidget = dashboardWidgetList
+        } else {
+            this.dashboardWidget = this.$store.getters.dashboardWidget
+        }
+        const countryStatisticWidgetList = JSON.parse(localStorage.getItem('countryStatisticWidget'))
+        if (countryStatisticWidgetList) {
+            this.countryStatisticWidget = countryStatisticWidgetList
+        } else {
+            this.countryStatisticWidget = this.$store.getters.countryStatisticWidget
+        }
+    },
     mounted() {}
 }
 </script>
