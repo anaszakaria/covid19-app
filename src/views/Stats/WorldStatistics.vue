@@ -23,13 +23,13 @@
                     >
                         <template v-slot:top>
                             <v-row class="pt-1 pb-0">
-                                <v-col cols="12" xs="12" sm="5">
+                                <v-col cols="12" xs="12" sm="10">
                                     <v-autocomplete
                                         color="accent"
                                         @change="enableSaveButton"
                                         dense
                                         v-model="selectedCountries"
-                                        :items="countryNames"
+                                        :items="sortedCountryNames"
                                         :loading="loadDataTable"
                                         chips
                                         small-chips
@@ -182,6 +182,9 @@ export default {
                     return this.selectedCountries.includes(country.name)
                 })
             }
+        },
+        sortedCountryNames() {
+            return this.countryNames.sort()
         }
     },
     methods: {
